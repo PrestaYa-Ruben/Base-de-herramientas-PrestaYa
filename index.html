@@ -2888,18 +2888,40 @@ function respaldoFormatoFecha(iso){
   }catch(e){ return ''; }
 }
 
-document.getElementById('btnExportarTodo').addEventListener('click', () => {
+document.getElementById('btnExportarTodo').addEventListener('click', async () => {
   const datos = {};
   RESPALDO_LLAVES.forEach(k => {
     const v = localStorage.getItem(k);
     if(v !== null) datos[k] = v;
   });
   const paquete = { app: 'Central - PrestaYa', version: 1, fecha: new Date().toISOString(), datos: datos };
-  const blob = new Blob([JSON.stringify(paquete, null, 2)], { type: 'application/json' });
+  const contenido = JSON.stringify(paquete, null, 2);
+  const nombreArchivo = 'central-respaldo-' + respaldoFechaArchivo() + '.json';
+
+  // Si el navegador permite elegir carpeta de destino (disponible en
+  // Chrome/Edge de computador y en algunos Android), se usa ese cuadro nativo.
+  if(window.showSaveFilePicker){
+    try{
+      const handle = await window.showSaveFilePicker({
+        suggestedName: nombreArchivo,
+        types: [{ description: 'Copia de seguridad JSON', accept: { 'application/json': ['.json'] } }]
+      });
+      const writable = await handle.createWritable();
+      await writable.write(contenido);
+      await writable.close();
+      mostrarToast('Copia de seguridad guardada');
+      return;
+    }catch(err){
+      if(err && err.name === 'AbortError') return; // el usuario canceló el cuadro
+      // cualquier otro error: sigue con la descarga normal de respaldo
+    }
+  }
+
+  const blob = new Blob([contenido], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'central-respaldo-' + respaldoFechaArchivo() + '.json';
+  a.download = nombreArchivo;
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
