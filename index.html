@@ -6810,7 +6810,6 @@ function docEnvolverParrafo(ctx, palabras, anchoMax){
 // ---------- Compartir como imagen (esquinas apenas curvas, fondo
 // transparente afuera, alta resolución, sin margen exterior sobrante) ----------
 async function docGenerarImagen(){
-  const nombre = document.getElementById('docNombre').value.trim() || 'Documento';
   const escala = 5;
   const ancho = 480;
   const padding = 26;
@@ -6848,11 +6847,16 @@ async function docGenerarImagen(){
   ctx.clip();
 
   let y = padding;
-  ctx.fillStyle = '#16213E';
-  ctx.font = '800 21px -apple-system, sans-serif';
+  // Logo de PrestaYa (dibujado, no imagen externa) en vez del nombre del
+  // documento — el nombre solo se usa para identificarlo en la lista.
   ctx.textAlign = 'left';
   ctx.textBaseline = 'alphabetic';
-  ctx.fillText(nombre, padding, y + 20);
+  ctx.font = '800 22px -apple-system, sans-serif';
+  ctx.fillStyle = '#16213E';
+  ctx.fillText('Presta', padding, y + 20);
+  const anchoPresta = ctx.measureText('Presta').width;
+  ctx.fillStyle = '#008F53';
+  ctx.fillText('Ya', padding + anchoPresta, y + 20);
   y += altoTitulo - 6;
   ctx.strokeStyle = '#E2E6EC';
   ctx.lineWidth = 1;
