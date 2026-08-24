@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrestaYa - Registro de cliente</title>
+<meta name="description" content="Completa tus datos para tu solicitud de crédito con PrestaYa.">
+<meta name="theme-color" content="#002D62">
+<meta property="og:title" content="PrestaYa - Registro de cliente">
+<meta property="og:description" content="Completa tus datos para tu solicitud de crédito con PrestaYa.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --azul:#002D62;
+    --verde:#008F53;
+    --verde-hover:#00753F;
+    --gris-bg:#F3F5F8;
+    --gris-borde:#E2E6EC;
+    --gris-texto:#5B6472;
+    --texto-oscuro:#1E2530;
+    --rojo:#D64545;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    font-family:'Poppins', sans-serif;
+    background:var(--gris-bg);
+    color:var(--texto-oscuro);
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:24px 14px;
+  }
+
+  .card{
+    width:100%;
+    max-width:460px;
+    background:#fff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 10px 30px rgba(0,45,98,0.12);
+  }
+
+  /* HEADER */
+  .header{
+    background:var(--azul);
+    padding:20px 22px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+  }
+
+  .logo-block{
+    display:flex;
+    flex-direction:column;
+    gap:2px;
+  }
+
+  .logo{
+    font-size:22px;
+    font-weight:800;
+    letter-spacing:0.2px;
+    line-height:1;
+  }
+  .logo .presta{ color:#FFFFFF; }
+  .logo .ya{ color:#5CE0A0; }
+
+  .tagline{
+    font-size:10.5px;
+    color:#B9C7DD;
+    font-weight:500;
+  }
+
+  .header-right{
+    display:flex;
+    align-items:center;
+    gap:7px;
+    color:#fff;
+  }
+
+  .header-right svg{
+    width:18px;
+    height:18px;
+    flex-shrink:0;
+  }
+
+  .header-title{
+    font-size:12.5px;
+    font-weight:600;
+    text-align:right;
+    line-height:1.25;
+    max-width:110px;
+  }
+
+  /* BODY */
+  .body{
+    padding:22px 22px 24px;
+  }
+
+  .form-title{
+    font-size:17px;
+    font-weight:700;
+    color:var(--azul);
+    margin-bottom:4px;
+  }
+
+  .form-subtitle{
+    font-size:12.5px;
+    color:var(--gris-texto);
+    margin-bottom:20px;
+    line-height:1.4;
+  }
+
+  .field{
+    margin-bottom:16px;
+  }
+
+  .field-row{
+    display:flex;
+    gap:12px;
+  }
+  .field-row .field{ flex:1; min-width:0; }
+
+  label{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    font-weight:600;
+    color:var(--texto-oscuro);
+    margin-bottom:7px;
+  }
+
+  label svg{
+    width:14px;
+    height:14px;
+    color:var(--verde);
+    flex-shrink:0;
+  }
+
+  input{
+    width:100%;
+    padding:11px 13px;
+    border:1.5px solid var(--gris-borde);
+    border-radius:9px;
+    font-family:'Poppins', sans-serif;
+    font-size:14px;
+    color:var(--texto-oscuro);
+    background:#fff;
+    transition:border-color .15s ease, box-shadow .15s ease;
+  }
+
+  input::placeholder{ color:#A6AEBA; font-weight:400; }
+
+  input:focus{
+    outline:none;
+    border-color:var(--verde);
+    box-shadow:0 0 0 3px rgba(0,143,83,0.12);
+  }
+
+  input.error{
+    border-color:var(--rojo);
+    box-shadow:0 0 0 3px rgba(214,69,69,0.10);
+  }
+
+  .msg{
+    margin-top:14px;
+    padding:11px 13px;
+    border-radius:9px;
+    font-size:12.5px;
+    font-weight:500;
+    display:none;
+    align-items:center;
+    gap:8px;
+  }
+  .msg svg{ width:16px; height:16px; flex-shrink:0; }
+
+  .msg.show{ display:flex; }
+
+  .msg.error-msg{
+    background:#FCEAEA;
+    color:var(--rojo);
+  }
+
+  .msg.success-msg{
+    background:#E4F5EC;
+    color:var(--verde-hover);
+  }
+
+  .consent{
+    display:flex;
+    align-items:flex-start;
+    gap:10px;
+    padding:13px 14px;
+    border:1.5px solid var(--gris-borde);
+    border-radius:10px;
+    margin-top:6px;
+    transition:border-color .15s ease, background .15s ease;
+    cursor:pointer;
+  }
+
+  .consent.checked{
+    border-color:var(--verde);
+    background:#F0FAF5;
+  }
+
+  .consent.error{
+    border-color:var(--rojo);
+    background:#FDF1F1;
+  }
+
+  .consent input[type="checkbox"]{
+    width:19px;
+    height:19px;
+    margin-top:1px;
+    accent-color:var(--verde);
+    flex-shrink:0;
+    cursor:pointer;
+  }
+
+  .consent-text{
+    font-size:12.5px;
+    line-height:1.45;
+    color:var(--texto-oscuro);
+    font-weight:500;
+  }
+
+  .consent-text .required-asterisk{
+    color:var(--rojo);
+    font-weight:700;
+  }
+
+  button{
+    width:100%;
+    margin-top:18px;
+    padding:14px;
+    border:none;
+    border-radius:10px;
+    background:var(--verde);
+    color:#fff;
+    font-family:'Poppins', sans-serif;
+    font-size:14.5px;
+    font-weight:700;
+    letter-spacing:0.4px;
+    cursor:pointer;
+    transition:background .15s ease, transform .1s ease;
+    box-shadow:0 6px 16px rgba(0,143,83,0.28);
+  }
+
+  button:hover{ background:var(--verde-hover); }
+  button:active{ transform:scale(0.98); }
+
+  .btn-text{
+    text-shadow:0 1px 3px rgba(0,0,0,0.35);
+    letter-spacing:1px;
+  }
+
+  .footer{
+    border-top:1px solid var(--gris-borde);
+    padding:12px 22px;
+    text-align:center;
+    background:#FAFBFC;
+  }
+
+  .footer span{
+    font-size:10.5px;
+    color:#9AA3B0;
+    font-weight:500;
+  }
+
+  @media (max-width:380px){
+    .field-row{ flex-direction:column; gap:0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="header">
+    <div class="logo-block">
+      <div class="logo"><span class="presta">Presta</span><span class="ya">Ya</span></div>
+      <div class="tagline">Préstamos de bajo monto</div>
+    </div>
+    <div class="header-right">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      <div class="header-title">Registro de cliente</div>
+    </div>
+  </div>
+
+  <div class="body">
+    <div class="form-title">Datos básicos</div>
+    <div class="form-subtitle">Diligencia la siguiente información. Todos los campos son obligatorios.</div>
+
+    <form id="clientForm" novalidate>
+
+      <div class="field">
+        <label for="nombre">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Nombre completo
+        </label>
+        <input type="text" id="nombre" placeholder="Ej. Laura Gómez Ríos" autocomplete="name">
+      </div>
+
+      <div class="field">
+        <label for="cedula">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><circle cx="8" cy="12" r="2"/><path d="M14 10h4M14 14h4"/></svg>
+          Número de cédula
+        </label>
+        <input type="text" id="cedula" inputmode="numeric" placeholder="Ej. 1.020.345.678">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="telefono">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            Teléfono
+          </label>
+          <input type="tel" id="telefono" inputmode="numeric" placeholder="Ej. 3001234567" autocomplete="tel">
+        </div>
+        <div class="field">
+          <label for="whatsapp">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            Teléfono WhatsApp
+          </label>
+          <input type="tel" id="whatsapp" inputmode="numeric" placeholder="Ej. 3001234567" autocomplete="tel">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="direccion">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+          Dirección
+        </label>
+        <input type="text" id="direccion" placeholder="Ej. Cra 45 #12-30" autocomplete="street-address">
+      </div>
+
+      <div class="field-row">
+        <div class="field">
+          <label for="barrio">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/><path d="M9 22V12h6v10"/></svg>
+            Barrio
+          </label>
+          <input type="text" id="barrio" placeholder="Ej. El Poblado">
+        </div>
+        <div class="field">
+          <label for="ciudad">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 22V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v18"/><path d="M14 9h5a1 1 0 0 1 1 1v12"/><path d="M10 6h.01M10 10h.01M10 14h.01M10 18h.01"/></svg>
+            Ciudad
+          </label>
+          <input type="text" id="ciudad" placeholder="Ej. Medellín">
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="empresa">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Empresa o lugar de trabajo
+        </label>
+        <input type="text" id="empresa" placeholder="Ej. Almacenes Éxito">
+      </div>
+
+      <label class="consent" id="consentBox" for="recordatorio">
+        <input type="checkbox" id="recordatorio">
+        <span class="consent-text">Acepto recibir un mensaje de recordatorio 1 o 2 días antes del vencimiento de la cuota. <span class="required-asterisk">*</span></span>
+      </label>
+
+      <div class="msg error-msg" id="errorMsg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span id="errorText"></span>
+      </div>
+
+      <div class="msg success-msg" id="successMsg">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
+        <span>Datos enviados por WhatsApp correctamente.</span>
+      </div>
+
+      <button type="submit"><span class="btn-text">ENVIAR DATOS</span></button>
+    </form>
+  </div>
+
+  <div class="footer">
+    <span>PrestaYa · Registro de clientes</span>
+  </div>
+
+</div>
+
+<script>
+  const form = document.getElementById('clientForm');
+  const errorMsg = document.getElementById('errorMsg');
+  const errorText = document.getElementById('errorText');
+  const successMsg = document.getElementById('successMsg');
+
+  const cedulaInput = document.getElementById('cedula');
+  cedulaInput.addEventListener('input', () => {
+    let raw = cedulaInput.value.replace(/\D/g, '');
+    cedulaInput.value = raw.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  });
+
+  const telefonoInput = document.getElementById('telefono');
+  telefonoInput.addEventListener('input', () => {
+    telefonoInput.value = telefonoInput.value.replace(/\D/g, '');
+  });
+
+  const whatsappInput = document.getElementById('whatsapp');
+  whatsappInput.addEventListener('input', () => {
+    whatsappInput.value = whatsappInput.value.replace(/\D/g, '');
+  });
+
+  const consentBox = document.getElementById('consentBox');
+  const recordatorioCheckbox = document.getElementById('recordatorio');
+  recordatorioCheckbox.addEventListener('change', () => {
+    consentBox.classList.remove('error');
+    consentBox.classList.toggle('checked', recordatorioCheckbox.checked);
+  });
+
+  const fields = [
+    { id: 'nombre', label: 'Nombre completo' },
+    { id: 'cedula', label: 'Número de cédula' },
+    { id: 'telefono', label: 'Teléfono' },
+    { id: 'whatsapp', label: 'Teléfono WhatsApp' },
+    { id: 'direccion', label: 'Dirección' },
+    { id: 'barrio', label: 'Barrio' },
+    { id: 'ciudad', label: 'Ciudad' },
+    { id: 'empresa', label: 'Empresa o lugar de trabajo' },
+  ];
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    successMsg.classList.remove('show');
+    errorMsg.classList.remove('show');
+    fields.forEach(f => document.getElementById(f.id).classList.remove('error'));
+    consentBox.classList.remove('error');
+
+    for (const f of fields) {
+      const el = document.getElementById(f.id);
+      if (!el.value.trim()) {
+        el.classList.add('error');
+        errorText.textContent = `Por favor completa el campo "${f.label}".`;
+        errorMsg.classList.add('show');
+        el.focus();
+        return;
+      }
+    }
+
+    if (!recordatorioCheckbox.checked) {
+      consentBox.classList.add('error');
+      errorText.textContent = 'Debes aceptar recibir el recordatorio de pago para continuar.';
+      errorMsg.classList.add('show');
+      consentBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const nombre = document.getElementById('nombre').value.trim();
+    const cedula = document.getElementById('cedula').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const whatsapp = document.getElementById('whatsapp').value.trim();
+    const direccion = document.getElementById('direccion').value.trim();
+    const barrio = document.getElementById('barrio').value.trim();
+    const ciudad = document.getElementById('ciudad').value.trim();
+    const empresa = document.getElementById('empresa').value.trim();
+
+    // Se arma el mensaje con saltos de línea reales y se codifica completo al
+    // final (encodeURIComponent) para que nombres con tildes, ñ, etc. nunca
+    // rompan el enlace de WhatsApp.
+    const mensaje =
+      `*Nuevo registro de cliente - PrestaYa*\n\n` +
+      `*Nombre:* ${nombre}\n` +
+      `*Cédula:* ${cedula}\n` +
+      `*Teléfono:* ${telefono}\n` +
+      `*WhatsApp:* ${whatsapp}\n` +
+      `*Dirección:* ${direccion}\n` +
+      `*Barrio:* ${barrio}\n` +
+      `*Ciudad:* ${ciudad}\n` +
+      `*Empresa o lugar de trabajo:* ${empresa}\n\n` +
+      `Acepta recordatorio de pago 1-2 días antes del vencimiento: Sí`;
+
+    successMsg.classList.add('show');
+    consentBox.classList.remove('checked');
+
+    window.open(`https://wa.me/573162685282?text=${encodeURIComponent(mensaje)}`, '_blank');
+
+    form.reset();
+  });
+</script>
+
+</body>
+</html>
