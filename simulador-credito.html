@@ -244,7 +244,7 @@
               class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
             <p class="field-error-msg" data-for="nombre">Ingresa tu nombre completo.</p>
           </div>
-          <div>
+          <div id="campoCedula">
             <label for="cedula" class="block text-sm font-medium text-slate-600 mb-1.5">Número de cédula</label>
             <input type="text" inputmode="numeric" id="cedula" name="cedula" placeholder="Ej. 1.020.304.050"
               class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
@@ -280,7 +280,7 @@
       </fieldset>
 
       <!-- Datos comerciales / laborales -->
-      <fieldset>
+      <fieldset id="fieldsetLaboral">
         <legend class="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-3">
           <svg class="w-4 h-4 text-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
           Información laboral
@@ -306,7 +306,7 @@
       </fieldset>
 
       <!-- Recomendado@ por -->
-      <fieldset>
+      <fieldset id="fieldsetReferencia">
         <legend class="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-3">
           <svg class="w-4 h-4 text-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
           Recomendado@ por
@@ -610,7 +610,9 @@ let REQUIRED_FIELDS = [
 ];
 
 if (!profileConfig.camposPersonalesCompletos) {
-  REQUIRED_FIELDS = REQUIRED_FIELDS.filter(f => f.id !== 'barrio' && f.id !== 'ciudad');
+  // Perfiles "estandar" y "alto": formulario reducido, solo Nombre, Celular y Dirección.
+  const CAMPOS_REDUCIDOS = ['nombre', 'celular', 'direccion'];
+  REQUIRED_FIELDS = REQUIRED_FIELDS.filter(f => CAMPOS_REDUCIDOS.includes(f.id));
 }
 
 function clearFieldError(id){
@@ -677,26 +679,37 @@ function buildWhatsAppMessage(){
     '',
     '👤 *Datos personales*',
     `🙋 Nombre: ${f.nombre}`,
-    `🪪 Cédula: ${f.cedula}`,
+  ];
+
+  if (profileConfig.camposPersonalesCompletos) {
+    lines.push(`🪪 Cédula: ${f.cedula}`);
+  }
+
+  lines.push(
     `📱 Celular/WhatsApp: ${f.celular}`,
     `📍 Dirección: ${f.direccion}`,
-  ];
+  );
 
   if (profileConfig.camposPersonalesCompletos) {
     lines.push(`🏘️ Barrio: ${f.barrio}`);
     lines.push(`🏙️ Ciudad: ${f.ciudad}`);
   }
 
+  if (profileConfig.camposPersonalesCompletos) {
+    lines.push(
+      '',
+      '💼 *Información laboral*',
+      `🛠️ Ocupación: ${f.ocupacion}`,
+      `🏢 Empresa o lugar de trabajo: ${f.empresa}`,
+      '',
+      '👥 *Recomendado@ por*',
+      `🙋 Nombre: ${f.refNombre}`,
+      `👪 Parentesco: ${f.refParentesco}`,
+      `📞 Celular: ${f.refCelular}`
+    );
+  }
+
   lines.push(
-    '',
-    '💼 *Información laboral*',
-    `🛠️ Ocupación: ${f.ocupacion}`,
-    `🏢 Empresa o lugar de trabajo: ${f.empresa}`,
-    '',
-    '👥 *Recomendado@ por*',
-    `🙋 Nombre: ${f.refNombre}`,
-    `👪 Parentesco: ${f.refParentesco}`,
-    `📞 Celular: ${f.refCelular}`,
     '',
     'Quedo atento(a) a la respuesta. ¡Gracias! 🙏'
   );
@@ -771,12 +784,21 @@ document.getElementById('montoMinLabel').textContent = formatCOP(CONFIG.montoMin
 document.getElementById('montoMaxLabel').textContent = formatCOP(CONFIG.montoMax);
 
 const camposUbicacionExtra = document.getElementById('camposUbicacionExtra');
+const campoCedula = document.getElementById('campoCedula');
+const fieldsetLaboral = document.getElementById('fieldsetLaboral');
+const fieldsetReferencia = document.getElementById('fieldsetReferencia');
 if (profileConfig.camposPersonalesCompletos) {
   camposUbicacionExtra.classList.add('contents');
   camposUbicacionExtra.classList.remove('hidden');
+  campoCedula.classList.remove('hidden');
+  fieldsetLaboral.classList.remove('hidden');
+  fieldsetReferencia.classList.remove('hidden');
 } else {
   camposUbicacionExtra.classList.add('hidden');
   camposUbicacionExtra.classList.remove('contents');
+  campoCedula.classList.add('hidden');
+  fieldsetLaboral.classList.add('hidden');
+  fieldsetReferencia.classList.add('hidden');
 }
 
 renderPlazoButtons();
