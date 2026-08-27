@@ -107,13 +107,6 @@
   .chevron{ transition: transform .2s ease; }
   .chevron.open{ transform: rotate(180deg); }
 
-  /* ---------- Sticky mobile bar ---------- */
-  #stickyBar{
-    transform: translateY(100%);
-    transition: transform .28s ease;
-  }
-  #stickyBar.show{ transform: translateY(0); }
-
   /* ---------- Field error state ---------- */
   .field-error{ border-color: #DC2626 !important; background-color: #FEF2F2; }
   .field-error-msg{ color: #DC2626; font-size: 0.75rem; margin-top: 0.25rem; display: none; }
@@ -164,7 +157,7 @@
         <label for="montoRange" class="text-sm font-medium text-slate-600">¿Cuánto necesitas?</label>
         <span id="montoDisplay" class="font-display font-bold text-navy text-xl">$150.000</span>
       </div>
-      <input type="range" id="montoRange" min="100000" max="1000000" step="50000" value="150000" aria-describedby="montoMinMax">
+      <input type="range" id="montoRange" min="100000" max="1000000" step="10000" value="150000" aria-describedby="montoMinMax">
       <div id="montoMinMax" class="flex justify-between text-xs text-slate-400 mt-1.5">
         <span id="montoMinLabel">$100.000</span>
         <span id="montoMaxLabel">$1.000.000</span>
@@ -368,19 +361,6 @@
 </main>
 
 <!-- ===================== BARRA FLOTANTE MÓVIL ===================== -->
-<div id="stickyBar" class="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-navy text-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
-  <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
-    <div>
-      <p class="text-[10px] text-white/60 leading-none mb-1">Tu cuota</p>
-      <p id="stickyCuota" class="font-display font-bold text-lg leading-none">$0<span id="stickyFrecuencia" class="text-xs font-normal text-white/70"> / semana</span></p>
-    </div>
-    <button type="button" onclick="scrollToForm()" class="bg-green hover:bg-green-light text-white text-sm font-semibold rounded-xl px-4 py-2.5 flex items-center gap-1.5 shrink-0 transition">
-      Solicitar
-      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-    </button>
-  </div>
-</div>
-
 <script>
 /* =========================================================================
    CONFIGURACIÓN — edita estos valores según tu negocio
@@ -394,7 +374,7 @@ const CONFIG = {
   },
   montoMin: 100000,
   montoMax: 1000000,
-  montoStep: 50000,
+  montoStep: 10000,
   plazos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
   diasSemana: 7,
   diasQuincena: 15,
@@ -560,11 +540,9 @@ function updateSimulator(){
 
   const freqTxt = state.modalidad === 'semanal' ? '/ semana' : '/ quincena';
   document.getElementById('frecuenciaLabel').textContent = freqTxt;
-  document.getElementById('stickyFrecuencia').textContent = ' ' + freqTxt;
 
   animateNumber(document.getElementById('cuotaDisplay'), prevCuota, cuota);
   document.getElementById('totalDisplay').textContent = formatCOP(totalPagar);
-  document.getElementById('stickyCuota').childNodes[0].textContent = formatCOP(cuota);
 
   renderDots(state.plazo);
 
@@ -781,20 +759,6 @@ document.getElementById('creditForm').addEventListener('submit', (e) => {
   banner.classList.remove('flex');
   openWhatsApp();
 });
-
-// Barra flotante móvil: aparece al pasar el simulador
-const heroSection = document.querySelector('main > section');
-const stickyBar = document.getElementById('stickyBar');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.boundingClientRect.top < 0 && !entry.isIntersecting){
-      stickyBar.classList.add('show');
-    } else if (entry.isIntersecting){
-      stickyBar.classList.remove('show');
-    }
-  });
-}, { threshold: 0 });
-observer.observe(heroSection);
 
 /* =========================================================================
    INICIALIZACIÓN
