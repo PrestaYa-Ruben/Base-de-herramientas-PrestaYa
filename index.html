@@ -1902,13 +1902,10 @@
     <div class="panel">
       <p class="panel-titulo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
-        Compartir enlace general
+        Compartir con cualquier contacto
       </p>
-      <p class="panel-sub">Comparte este enlace donde quieras (WhatsApp, redes sociales, etc.), sin necesidad de elegir un cliente. Usa el perfil "Estándar" por defecto.</p>
-      <button class="btn btn-primario" id="saBtnCompartirGeneral" style="width:100%;">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
-        Compartir enlace del simulador
-      </button>
+      <p class="panel-sub">Elige el perfil correcto y se abre el menú para compartir por WhatsApp (o donde quieras), dejándote escoger a cualquier contacto — sin necesidad de tenerlo registrado en Central.</p>
+      <div id="saListaPerfilesGeneral"></div>
     </div>
 
     <div class="buscador">
@@ -7092,6 +7089,7 @@ function saAjustarNumeroWhatsApp(numero){
 function saAbrirModulo(){
   saBusqueda = '';
   document.getElementById('saBuscador').value = '';
+  saRenderPerfilesGeneral();
   saRenderLista();
 }
 function saRenderLista(){
@@ -7236,22 +7234,38 @@ document.getElementById('saBtnEnviarWhatsapp').addEventListener('click', () => {
   mostrarToast('Abriendo WhatsApp...');
 });
 
-// ---------- Compartir enlace general (sin cliente específico) ----------
-document.getElementById('saBtnCompartirGeneral').addEventListener('click', async () => {
-  const link = new URL(SA_ARCHIVO, location.href).href;
+// ---------- Compartir con cualquier contacto (sin cliente registrado) ----------
+function saRenderPerfilesGeneral(){
+  document.getElementById('saListaPerfilesGeneral').innerHTML = SA_PERFILES.map(p =>
+    '<button type="button" class="mj-plantilla-btn" onclick="saCompartirGeneral(\'' + p.id + '\')">' +
+      '<span class="mj-plantilla-icono" style="background:' + p.colorSuave + '">' + p.icono + '</span>' +
+      '<span class="mj-plantilla-info">' +
+        '<p class="titulo">' + p.titulo + '</p>' +
+        '<p class="subtitulo">Hasta ' + simFormatMoneda(p.montoMax) + ' · ' + p.cuotasMax + ' cuotas · ' + p.formulario + '</p>' +
+      '</span>' +
+    '</button>'
+  ).join('');
+}
+async function saCompartirGeneral(perfilId){
+  const perfil = saPerfilPorId(perfilId);
+  if(!perfil) return;
+  const base = new URL(SA_ARCHIVO, location.href).href;
+  const link = base + '?perfil=' + perfil.id;
+  const mensaje = 'Hola, aquí puedes simular tu crédito con PrestaYa y solicitarlo directamente: ' + link;
+
   if(navigator.share){
     try{
-      await navigator.share({ title: 'Simulador de Crédito PrestaYa', text: 'Simula tu crédito con PrestaYa:', url: link });
+      await navigator.share({ title: 'Simulador PrestaYa — ' + perfil.titulo, text: mensaje });
       return;
     }catch(e){ return; }
   }
   try{
-    await navigator.clipboard.writeText(link);
-    mostrarToast('Enlace copiado al portapapeles');
+    await navigator.clipboard.writeText(mensaje);
+    mostrarToast('Mensaje copiado al portapapeles');
   }catch(e){
     mostrarToast('No se pudo copiar automáticamente');
   }
-});
+}
 
 saCargar();
 
