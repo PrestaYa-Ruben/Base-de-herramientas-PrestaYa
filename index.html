@@ -1050,6 +1050,22 @@
       <p>Pega, guarda y comparte cualquier texto</p>
     </button>
 
+    <!-- Módulo: Simulador Automático -->
+    <button class="tarjeta-modulo" data-modulo="simauto" style="--tab-color:#1D6FA5; --tab-soft:#DCEBF3" onclick="manejarTarjetaClick('simauto', event)">
+      <span class="cinta"></span>
+      <span class="manija-arrastre">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+      </span>
+      <span class="manija-eliminar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+      </span>
+      <div class="icono-modulo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+      </div>
+      <h3>Simulador Automático</h3>
+      <p>Envía el enlace correcto a cada cliente</p>
+    </button>
+
     <!-- Espacio reservado para la próxima herramienta -->
     <div class="tarjeta-modulo fantasma">
       <div class="icono-modulo">
@@ -1871,6 +1887,84 @@
   </div>
 </section>
 
+<!-- ================= MÓDULO: SIMULADOR AUTOMÁTICO ================= -->
+<section class="pantalla-modulo" id="pantallaSimauto">
+  <div class="modulo-header">
+    <button class="btn-icono" onclick="cerrarModulo('simauto')" aria-label="Volver">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <h2>Simulador Automático</h2>
+  </div>
+  <div class="modulo-contenido">
+
+    <p class="panel-sub" style="margin-top:0;">Elige un cliente, escoge el perfil que le corresponde y arma el enlace del simulador con un toque, listo para enviarle por WhatsApp.</p>
+
+    <div class="panel">
+      <p class="panel-titulo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
+        Compartir enlace general
+      </p>
+      <p class="panel-sub">Comparte este enlace donde quieras (WhatsApp, redes sociales, etc.), sin necesidad de elegir un cliente. Usa el perfil "Estándar" por defecto.</p>
+      <button class="btn btn-primario" id="saBtnCompartirGeneral" style="width:100%;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
+        Compartir enlace del simulador
+      </button>
+    </div>
+
+    <div class="buscador">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input type="text" id="saBuscador" placeholder="Buscar cliente...">
+    </div>
+
+    <div id="saLista"></div>
+    <div class="estado-vacio" id="saEstadoVacio" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+      <p id="saEstadoVacioTexto">Sin resultados para tu búsqueda.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- Hoja: elegir perfil para el cliente -->
+<div class="hoja-fondo" id="saHojaElegir" onclick="if(event.target===this) saCerrarElegir()">
+  <div class="hoja">
+    <div class="hoja-manija"></div>
+    <h3 id="saElegirNombre">Cliente</h3>
+    <p class="panel-sub" style="margin-top:-8px;">¿Qué perfil de simulador le corresponde?</p>
+    <div id="saListaPerfiles"></div>
+
+    <div id="saHistorialWrap" style="margin-top:18px;">
+      <div class="seccion-titulo" style="margin:0 0 8px 2px;">Enlaces enviados antes</div>
+      <div id="saHistorialLista"></div>
+    </div>
+
+    <button class="btn btn-secundario" style="width:100%; margin-top:14px;" onclick="saCerrarElegir()">Cerrar</button>
+  </div>
+</div>
+
+<!-- Hoja: enlace listo para enviar -->
+<div class="hoja-fondo" id="saHojaEnviar" onclick="if(event.target===this) saCerrarEnviar()">
+  <div class="hoja">
+    <div class="hoja-manija"></div>
+    <h3 id="saEnviarTitulo">Enlace listo</h3>
+
+    <div class="campo">
+      <label>Enlace generado</label>
+      <input type="text" id="saLinkGenerado" readonly style="font-size:12.5px;">
+    </div>
+    <div class="campo">
+      <label>Mensaje que se enviará</label>
+      <div class="mj-preview-texto" id="saMensajePreview"></div>
+    </div>
+
+    <div class="fila-botones">
+      <button class="btn-cancelar" id="saBtnCopiarLink">Copiar enlace</button>
+      <button class="btn-guardar" id="saBtnEnviarWhatsapp">Enviar por WhatsApp</button>
+    </div>
+    <button class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="saCerrarEnviar()">Cerrar</button>
+  </div>
+</div>
+
 <!-- Hoja: editor de documento -->
 <div class="hoja-fondo" id="docHojaEditor" onclick="if(event.target===this) docCerrarEditor()">
   <div class="hoja" style="max-height:94vh;">
@@ -2610,6 +2704,7 @@ function abrirModulo(nombre){
   if(nombre === 'mensajes') mjAbrirModulo();
   if(nombre === 'tarjetas') tpAbrirModulo();
   if(nombre === 'documentos') docAbrirModulo();
+  if(nombre === 'simauto') saAbrirModulo();
 }
 function cerrarModulo(nombre){
   document.getElementById('pantalla' + capitalizar(nombre)).classList.remove('activa');
@@ -2835,6 +2930,8 @@ window.addEventListener('popstate', () => {
   tpCerrarPreviewImagen(true);
   docCerrarEditor(true);
   docCerrarPreviewImagen(true);
+  saCerrarElegir(true);
+  saCerrarEnviar(true);
   pgCerrarPreviewImagen(true);
   pgCerrarEditarPlantilla(true);
   mjCerrarGestionPlantillas(true);
@@ -6939,6 +7036,224 @@ document.getElementById('docBtnCerrarPreviewImagen').addEventListener('click', (
 document.getElementById('docBtnCompartirPreviewImagen').addEventListener('click', docCompartirImagen);
 
 docCargar();
+
+// =========================================================
+// Simulador Automático — arma el enlace del simulador de crédito externo
+// (simulador-credito.html, alojado junto a Central) con el parámetro
+// ?perfil= correcto para cada cliente, y lo envía por WhatsApp directamente
+// al número del CLIENTE (no al del negocio, a diferencia de "Formulario de
+// Cliente"). Guarda un historial liviano de qué perfil se le envió a quién.
+// =========================================================
+const SA_LLAVE = 'simuladorAutomaticoEnvios_v1';
+const SA_ARCHIVO = 'simulador-credito.html';
+const SA_PERFILES = [
+  { id: 'nuevo', icono: '🌱', titulo: 'Cliente Nuevo', colorSuave: '#D9F0E6',
+    montoMax: 400000, cuotasMax: 8, formulario: 'Completo (incluye Barrio y Ciudad)' },
+  { id: 'estandar', icono: '📈', titulo: 'Estándar', colorSuave: '#DCEBF3',
+    montoMax: 1000000, cuotasMax: 10, formulario: 'Reducido (Nombre, Cédula, Celular, Dirección)' },
+  { id: 'alto', icono: '💎', titulo: 'Monto Alto', colorSuave: '#F3E7CC',
+    montoMax: 2500000, cuotasMax: 10, formulario: 'Reducido (igual que Estándar)' }
+];
+
+let saEnvios = [];
+let saBusqueda = '';
+let saClienteActivoId = null;
+let saPerfilActivo = null;
+let saLinkActual = '';
+let saMensajeActual = '';
+
+function saCargar(){
+  try{ saEnvios = JSON.parse(localStorage.getItem(SA_LLAVE)) || []; }catch(e){ saEnvios = []; }
+}
+function saGuardarStorage(){
+  localStorage.setItem(SA_LLAVE, JSON.stringify(saEnvios));
+}
+function saHistorialCliente(clienteId){
+  return saEnvios.filter(e => e.clienteId === clienteId).sort((a, b) => b.fecha.localeCompare(a.fecha));
+}
+function saFormatoFecha(iso){
+  const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  const d = new Date(iso);
+  return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear();
+}
+function saPerfilPorId(id){
+  return SA_PERFILES.find(p => p.id === id);
+}
+// Números colombianos típicos vienen guardados a 10 dígitos (sin indicativo);
+// wa.me necesita el indicativo de país pegado adelante, sin "+".
+function saAjustarNumeroWhatsApp(numero){
+  const limpio = (numero || '').replace(/\D/g, '');
+  if(!limpio) return '';
+  if(limpio.length === 10) return '57' + limpio;
+  return limpio;
+}
+
+// ---------- Pantalla principal: lista de clientes ----------
+function saAbrirModulo(){
+  saBusqueda = '';
+  document.getElementById('saBuscador').value = '';
+  saRenderLista();
+}
+function saRenderLista(){
+  const filtro = saBusqueda.trim().toLowerCase();
+  const lista = rcClientes.filter(c => !filtro || c.nombre.toLowerCase().indexOf(filtro) !== -1);
+  const listaEl = document.getElementById('saLista');
+  const vacioEl = document.getElementById('saEstadoVacio');
+  const vacioTexto = document.getElementById('saEstadoVacioTexto');
+
+  if(rcClientes.length === 0){
+    listaEl.innerHTML = '';
+    vacioTexto.textContent = 'Registra un cliente en "Registro de Clientes" para poder enviarle el simulador.';
+    vacioEl.style.display = 'block';
+    return;
+  }
+  if(lista.length === 0){
+    listaEl.innerHTML = '';
+    vacioTexto.textContent = 'Sin resultados para tu búsqueda.';
+    vacioEl.style.display = 'block';
+    return;
+  }
+  vacioEl.style.display = 'none';
+  listaEl.innerHTML = lista.map(c => {
+    const hist = saHistorialCliente(c.id);
+    let subtitulo;
+    if(hist.length === 0){
+      subtitulo = 'Sin envíos todavía';
+    } else {
+      const p = saPerfilPorId(hist[0].perfil);
+      subtitulo = 'Último: ' + (p ? p.titulo : hist[0].perfil) + ' · ' + saFormatoFecha(hist[0].fecha);
+    }
+    return '<div class="item-lista" data-id="' + c.id + '">' +
+      '<div class="avatar-circulo">' + rcInicial(c.nombre) + '</div>' +
+      '<div class="item-info">' +
+        '<p class="titulo">' + escaparHTML(c.nombre) + '</p>' +
+        '<p class="subtitulo">' + escaparHTML(subtitulo) + '</p>' +
+      '</div>' +
+      '<svg class="chevron-item" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>' +
+    '</div>';
+  }).join('');
+}
+document.getElementById('saBuscador').addEventListener('input', (e) => { saBusqueda = e.target.value; saRenderLista(); });
+document.getElementById('saLista').addEventListener('click', (e) => {
+  const card = e.target.closest('.item-lista');
+  if(!card) return;
+  saAbrirElegir(card.getAttribute('data-id'));
+});
+
+// ---------- Elegir perfil para el cliente ----------
+function saAbrirElegir(clienteId){
+  const c = rcClientes.find(x => x.id === clienteId);
+  if(!c) return;
+  saClienteActivoId = clienteId;
+  document.getElementById('saElegirNombre').textContent = c.nombre;
+  document.getElementById('saListaPerfiles').innerHTML = SA_PERFILES.map(p =>
+    '<button type="button" class="mj-plantilla-btn" onclick="saElegirPerfil(\'' + p.id + '\')">' +
+      '<span class="mj-plantilla-icono" style="background:' + p.colorSuave + '">' + p.icono + '</span>' +
+      '<span class="mj-plantilla-info">' +
+        '<p class="titulo">' + p.titulo + '</p>' +
+        '<p class="subtitulo">Hasta ' + simFormatMoneda(p.montoMax) + ' · ' + p.cuotasMax + ' cuotas · ' + p.formulario + '</p>' +
+      '</span>' +
+    '</button>'
+  ).join('');
+  saRenderHistorialElegir();
+  document.getElementById('saHojaElegir').classList.add('activa');
+}
+function saCerrarElegir(silencioso){
+  document.getElementById('saHojaElegir').classList.remove('activa');
+}
+function saRenderHistorialElegir(){
+  const hist = saHistorialCliente(saClienteActivoId);
+  const cont = document.getElementById('saHistorialLista');
+  if(hist.length === 0){
+    cont.innerHTML = '<p style="font-size:12.5px; color:var(--muted); margin:4px 0 0;">Aún no le has enviado ningún enlace a este cliente.</p>';
+    return;
+  }
+  cont.innerHTML = hist.map(e => {
+    const p = saPerfilPorId(e.perfil);
+    return '<div class="fila-historial-pagare">' +
+      '<div><span class="fecha-historial">' + (p ? p.titulo : e.perfil) + ' · ' + saFormatoFecha(e.fecha) + '</span></div>' +
+      '<button class="btn-eliminar-historial" onclick="saEliminarEnvio(\'' + e.id + '\')" aria-label="Eliminar del historial">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>' +
+      '</button>' +
+    '</div>';
+  }).join('');
+}
+function saEliminarEnvio(id){
+  saEnvios = saEnvios.filter(e => e.id !== id);
+  saGuardarStorage();
+  saRenderHistorialElegir();
+  saRenderLista();
+  mostrarToast('Registro eliminado del historial');
+}
+
+// ---------- Armar el enlace + enviar por WhatsApp ----------
+function saElegirPerfil(perfilId){
+  const perfil = saPerfilPorId(perfilId);
+  const c = rcClientes.find(x => x.id === saClienteActivoId);
+  if(!perfil || !c) return;
+  saPerfilActivo = perfil;
+
+  const base = new URL(SA_ARCHIVO, location.href).href;
+  saLinkActual = base + '?perfil=' + perfil.id;
+  saMensajeActual = 'Hola ' + c.nombre + ', aquí puedes simular tu crédito con PrestaYa y solicitarlo directamente: ' + saLinkActual;
+
+  document.getElementById('saHojaElegir').classList.remove('activa');
+  document.getElementById('saEnviarTitulo').textContent = perfil.titulo + ' — ' + c.nombre;
+  document.getElementById('saLinkGenerado').value = saLinkActual;
+  document.getElementById('saMensajePreview').textContent = saMensajeActual;
+  document.getElementById('saHojaEnviar').classList.add('activa');
+}
+function saCerrarEnviar(silencioso){
+  document.getElementById('saHojaEnviar').classList.remove('activa');
+}
+document.getElementById('saBtnCopiarLink').addEventListener('click', async () => {
+  try{
+    await navigator.clipboard.writeText(saLinkActual);
+    mostrarToast('Enlace copiado al portapapeles');
+  }catch(e){
+    mostrarToast('No se pudo copiar automáticamente');
+  }
+});
+document.getElementById('saBtnEnviarWhatsapp').addEventListener('click', () => {
+  const c = rcClientes.find(x => x.id === saClienteActivoId);
+  if(!c) return;
+  const numero = saAjustarNumeroWhatsApp(c.whatsapp || c.telefono);
+  if(!numero){
+    mostrarToast('Este cliente no tiene un número de celular registrado');
+    return;
+  }
+  const registro = {
+    id: 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    clienteId: saClienteActivoId,
+    perfil: saPerfilActivo.id,
+    fecha: new Date().toISOString()
+  };
+  saEnvios.unshift(registro);
+  saGuardarStorage();
+  window.open('https://wa.me/' + numero + '?text=' + encodeURIComponent(saMensajeActual), '_blank');
+  saCerrarEnviar();
+  saRenderLista();
+  mostrarToast('Abriendo WhatsApp...');
+});
+
+// ---------- Compartir enlace general (sin cliente específico) ----------
+document.getElementById('saBtnCompartirGeneral').addEventListener('click', async () => {
+  const link = new URL(SA_ARCHIVO, location.href).href;
+  if(navigator.share){
+    try{
+      await navigator.share({ title: 'Simulador de Crédito PrestaYa', text: 'Simula tu crédito con PrestaYa:', url: link });
+      return;
+    }catch(e){ return; }
+  }
+  try{
+    await navigator.clipboard.writeText(link);
+    mostrarToast('Enlace copiado al portapapeles');
+  }catch(e){
+    mostrarToast('No se pudo copiar automáticamente');
+  }
+});
+
+saCargar();
 
 // =========================================================
 // Estado de conexión (funciona con internet, wifi, datos débiles o sin nada)

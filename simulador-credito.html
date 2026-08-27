@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>PrestaYa · Simulador y Solicitud de Crédito</title>
+<meta name="description" content="Simula tu crédito y solicítalo por WhatsApp en minutos.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          navy:  { DEFAULT: '#002D62', light: '#0A4A8F', dark: '#001A3D' },
+          green: { DEFAULT: '#008F53', light: '#00B368', dark: '#00693D' },
+          whatsapp: '#25D366',
+        },
+        fontFamily: {
+          display: ['Poppins', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+        boxShadow: {
+          soft: '0 2px 10px -2px rgba(0,45,98,0.08), 0 8px 24px -8px rgba(0,45,98,0.10)',
+          softLg: '0 4px 16px -4px rgba(0,45,98,0.10), 0 16px 40px -12px rgba(0,45,98,0.16)',
+          card: '0 1px 0 rgba(0,45,98,0.05), 0 2px 6px rgba(0,45,98,0.10), 0 30px 50px -22px rgba(0,45,98,0.35)',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  :root{
+    --navy: #002D62;
+    --green: #008F53;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { -webkit-tap-highlight-color: transparent; }
+
+  /* ---------- Slider ---------- */
+  input[type="range"]{
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 8px;
+    border-radius: 9999px;
+    background: linear-gradient(to right, var(--navy) 0%, var(--green) var(--range-progress, 50%), #E2E8F0 var(--range-progress, 50%), #E2E8F0 100%);
+    outline: none;
+  }
+  input[type="range"]::-webkit-slider-thumb{
+    -webkit-appearance: none;
+    width: 26px; height: 26px;
+    border-radius: 9999px;
+    background: #fff;
+    border: 3px solid var(--navy);
+    box-shadow: 0 2px 8px rgba(0,45,98,0.35);
+    cursor: pointer;
+    transition: transform .15s ease;
+  }
+  input[type="range"]:active::-webkit-slider-thumb{ transform: scale(1.12); }
+  input[type="range"]::-moz-range-thumb{
+    width: 26px; height: 26px;
+    border-radius: 9999px;
+    background: #fff;
+    border: 3px solid var(--navy);
+    box-shadow: 0 2px 8px rgba(0,45,98,0.35);
+    cursor: pointer;
+    transition: transform .15s ease;
+  }
+  input[type="range"]:active::-moz-range-thumb{ transform: scale(1.12); }
+  input[type="range"]::-moz-range-track{ background: transparent; }
+
+  /* ---------- Focus visibility ---------- */
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 2px solid var(--green);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* ---------- Segmented buttons ---------- */
+  .seg-btn[aria-pressed="true"]{
+    background-color: var(--navy);
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,45,98,0.25);
+  }
+
+  /* ---------- Glow border on result card ---------- */
+  .glow-wrap{ position: relative; border-radius: 1rem; padding: 2px; overflow: hidden; }
+  .glow-wrap::before{
+    content: "";
+    position: absolute;
+    inset: -60%;
+    background: conic-gradient(from 0deg, transparent 0%, var(--green) 8%, transparent 22%, transparent 100%);
+    animation: spin 3.4s linear infinite;
+  }
+  .glow-wrap.glow-off::before{ display: none; }
+  .glow-inner{ position: relative; background: #fff; border-radius: calc(1rem - 2px); }
+  @keyframes spin{ to { transform: rotate(360deg); } }
+
+  /* ---------- Chevron rotate ---------- */
+  .chevron{ transition: transform .2s ease; }
+  .chevron.open{ transform: rotate(180deg); }
+
+  /* ---------- Sticky mobile bar ---------- */
+  #stickyBar{
+    transform: translateY(100%);
+    transition: transform .28s ease;
+  }
+  #stickyBar.show{ transform: translateY(0); }
+
+  /* ---------- Field error state ---------- */
+  .field-error{ border-color: #DC2626 !important; background-color: #FEF2F2; }
+  .field-error-msg{ color: #DC2626; font-size: 0.75rem; margin-top: 0.25rem; display: none; }
+  .field-error-msg.show{ display: block; }
+
+  /* ---------- Reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    .glow-wrap::before{ animation: none; }
+    *{ transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+  }
+
+  ::selection{ background: var(--green); color: #fff; }
+</style>
+</head>
+
+<body class="font-sans bg-slate-100 text-slate-800 antialiased">
+
+<!-- ===================== HEADER ===================== -->
+<header class="bg-navy text-white">
+  <div class="max-w-2xl mx-auto px-5 py-5 flex items-center justify-between">
+    <div>
+      <div class="font-display font-bold text-2xl leading-none">
+        <span class="text-white">Presta</span><span class="text-green-light">Ya</span>
+      </div>
+      <p class="text-[11px] sm:text-xs text-white/60 mt-1">Préstamos de bajo monto, sin vueltas</p>
+    </div>
+    <div class="hidden sm:flex items-center gap-2 bg-white/10 rounded-full px-3 py-1.5 text-xs text-white/80">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+      Respuesta en minutos
+    </div>
+  </div>
+</header>
+
+<main class="max-w-2xl mx-auto px-4 sm:px-5 py-6 space-y-5 pb-28 lg:pb-10">
+
+  <!-- ===================== PASO 1 · SIMULADOR ===================== -->
+  <section class="bg-white rounded-2xl border border-slate-200 border-b-4 border-b-slate-300/60 shadow-card p-5 sm:p-7">
+    <div class="flex items-center gap-2 mb-1">
+      <span class="w-6 h-6 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center shrink-0">1</span>
+      <h2 class="font-display font-semibold text-navy text-lg">Simula tu crédito</h2>
+    </div>
+    <p class="text-sm text-slate-500 mb-6 ml-8">Mueve el monto y elige tu plan de pago ideal.</p>
+
+    <!-- Monto -->
+    <div class="mb-6">
+      <div class="flex items-end justify-between mb-2">
+        <label for="montoRange" class="text-sm font-medium text-slate-600">¿Cuánto necesitas?</label>
+        <span id="montoDisplay" class="font-display font-bold text-navy text-xl">$150.000</span>
+      </div>
+      <input type="range" id="montoRange" min="100000" max="1000000" step="50000" value="150000" aria-describedby="montoMinMax">
+      <div id="montoMinMax" class="flex justify-between text-xs text-slate-400 mt-1.5">
+        <span id="montoMinLabel">$100.000</span>
+        <span id="montoMaxLabel">$1.000.000</span>
+      </div>
+    </div>
+
+    <!-- Modalidad -->
+    <div class="mb-6">
+      <p class="text-sm font-medium text-slate-600 mb-2">Frecuencia de pago</p>
+      <div class="grid grid-cols-2 gap-2" role="group" aria-label="Frecuencia de pago">
+        <button type="button" class="seg-btn py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 transition" data-modalidad="semanal" aria-pressed="true" onclick="setModalidad('semanal')">Semanal</button>
+        <button type="button" class="seg-btn py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 transition" data-modalidad="quincenal" aria-pressed="false" onclick="setModalidad('quincenal')">Quincenal</button>
+      </div>
+    </div>
+
+    <!-- Plazo -->
+    <div class="mb-6">
+      <p class="text-sm font-medium text-slate-600 mb-2">Número de cuotas</p>
+      <div class="grid grid-cols-5 gap-2" role="group" aria-label="Número de cuotas" id="plazoGroup">
+        <!-- generado por JS -->
+      </div>
+    </div>
+
+    <!-- Resultado -->
+    <div class="glow-wrap" id="glowWrap">
+      <div class="glow-inner bg-slate-50 border border-slate-200 rounded-2xl px-5 py-6 text-center">
+        <p class="text-xs uppercase tracking-wide text-slate-400 font-medium mb-1">Tu cuota estimada</p>
+        <div class="flex items-baseline justify-center gap-1.5">
+          <span id="cuotaDisplay" class="font-display font-extrabold text-navy text-3xl sm:text-4xl">$0</span>
+          <span id="frecuenciaLabel" class="text-sm text-slate-500">/ semana</span>
+        </div>
+
+        <!-- Dots del plan de pagos -->
+        <div id="dotsRow" class="flex items-center justify-center flex-wrap gap-0 mt-4" aria-hidden="true"></div>
+
+        <div class="flex items-center justify-center gap-2 text-sm text-slate-500 mt-4 pt-4 border-t border-slate-200">
+          <span>Total a pagar:</span>
+          <span id="totalDisplay" class="font-display font-bold text-green">$0</span>
+        </div>
+
+        <button type="button" id="toggleDetalle" onclick="toggleDetalle()" class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-navy hover:text-green transition">
+          Ver plan de pagos
+          <svg class="chevron w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+
+        <div id="detalleTablaWrap" class="hidden mt-4 text-left">
+          <div class="rounded-xl border border-slate-200 overflow-hidden">
+            <table class="w-full text-sm">
+              <thead class="bg-slate-100 text-slate-500">
+                <tr>
+                  <th class="py-2 px-3 text-left font-medium">Cuota</th>
+                  <th class="py-2 px-3 text-left font-medium">Fecha estimada</th>
+                  <th class="py-2 px-3 text-right font-medium">Valor</th>
+                </tr>
+              </thead>
+              <tbody id="detalleTablaBody" class="divide-y divide-slate-100"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PASO 2 · FORMULARIO ===================== -->
+  <section class="bg-white rounded-2xl border border-slate-200 border-b-4 border-b-slate-300/60 shadow-card p-5 sm:p-7" id="solicitud">
+    <div class="flex items-center gap-2 mb-1">
+      <span class="w-6 h-6 rounded-full bg-navy text-white text-xs font-bold flex items-center justify-center shrink-0">2</span>
+      <h2 class="font-display font-semibold text-navy text-lg">Completa tu solicitud</h2>
+    </div>
+    <p class="text-sm text-slate-500 mb-6 ml-8">Solo toma un minuto. Tus datos viajan directo a nuestro equipo por WhatsApp.</p>
+
+    <form id="creditForm" novalidate class="space-y-6">
+
+      <!-- Datos personales -->
+      <fieldset>
+        <legend class="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-3">
+          <svg class="w-4 h-4 text-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Datos personales
+        </legend>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label for="nombre" class="block text-sm font-medium text-slate-600 mb-1.5">Nombre completo</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Ej. María Fernanda Gómez"
+              class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+            <p class="field-error-msg" data-for="nombre">Ingresa tu nombre completo.</p>
+          </div>
+          <div>
+            <label for="cedula" class="block text-sm font-medium text-slate-600 mb-1.5">Número de cédula</label>
+            <input type="text" inputmode="numeric" id="cedula" name="cedula" placeholder="Ej. 1.020.304.050"
+              class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+            <p class="field-error-msg" data-for="cedula">Ingresa tu número de cédula.</p>
+          </div>
+          <div>
+            <label for="celular" class="block text-sm font-medium text-slate-600 mb-1.5">Celular / WhatsApp</label>
+            <input type="tel" inputmode="numeric" id="celular" name="celular" placeholder="Ej. 300 123 4567"
+              class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+            <p class="field-error-msg" data-for="celular">Ingresa tu número de celular.</p>
+          </div>
+          <div class="sm:col-span-2">
+            <label for="direccion" class="block text-sm font-medium text-slate-600 mb-1.5">Dirección</label>
+            <input type="text" id="direccion" name="direccion" placeholder="Ej. Cra 5 # 12-34"
+              class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+            <p class="field-error-msg" data-for="direccion">Ingresa tu dirección.</p>
+          </div>
+          <div id="camposUbicacionExtra" class="contents">
+            <div>
+              <label for="barrio" class="block text-sm font-medium text-slate-600 mb-1.5">Barrio</label>
+              <input type="text" id="barrio" name="barrio" placeholder="Ej. El Recreo"
+                class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+              <p class="field-error-msg" data-for="barrio">Ingresa tu barrio.</p>
+            </div>
+            <div>
+              <label for="ciudad" class="block text-sm font-medium text-slate-600 mb-1.5">Ciudad o municipio</label>
+              <input type="text" id="ciudad" name="ciudad" placeholder="Ej. Ibagué, Tolima"
+                class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+              <p class="field-error-msg" data-for="ciudad">Ingresa tu ciudad o municipio.</p>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Datos comerciales / laborales -->
+      <fieldset>
+        <legend class="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-3">
+          <svg class="w-4 h-4 text-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Información laboral
+        </legend>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="ocupacion" class="block text-sm font-medium text-slate-600 mb-1.5">Ocupación</label>
+            <select id="ocupacion" name="ocupacion" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm bg-white focus:border-navy transition">
+              <option value="">Selecciona...</option>
+              <option value="Empleado">Empleado</option>
+              <option value="Independiente">Independiente</option>
+              <option value="Comercio">Comercio</option>
+            </select>
+            <p class="field-error-msg" data-for="ocupacion">Selecciona tu ocupación.</p>
+          </div>
+          <div>
+            <label for="empresa" class="block text-sm font-medium text-slate-600 mb-1.5">Empresa o lugar de trabajo</label>
+            <input type="text" id="empresa" name="empresa" placeholder="Ej. Comercial Los Andes"
+              class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+            <p class="field-error-msg" data-for="empresa">Ingresa tu empresa o lugar de trabajo.</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Recomendado@ por -->
+      <fieldset>
+        <legend class="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-3">
+          <svg class="w-4 h-4 text-green" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Recomendado@ por
+        </legend>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="sm:col-span-2">
+            <label for="refNombre" class="block text-sm font-medium text-slate-600 mb-1.5">Nombre completo</label>
+            <input type="text" id="refNombre" name="refNombre" placeholder="Ej. Carlos Andrés Ruiz"
+              class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+            <p class="field-error-msg" data-for="refNombre">Ingresa el nombre de tu referencia.</p>
+          </div>
+          <div>
+            <label for="refParentesco" class="block text-sm font-medium text-slate-600 mb-1.5">Parentesco</label>
+            <select id="refParentesco" name="refParentesco" class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm bg-white focus:border-navy transition">
+              <option value="">Selecciona...</option>
+              <option value="Padre / Madre">Padre / Madre</option>
+              <option value="Hermano(a)">Hermano(a)</option>
+              <option value="Cónyuge / Pareja">Cónyuge / Pareja</option>
+              <option value="Hijo(a)">Hijo(a)</option>
+              <option value="Amigo(a)">Amigo(a)</option>
+              <option value="Otro">Otro</option>
+            </select>
+            <p class="field-error-msg" data-for="refParentesco">Selecciona el parentesco.</p>
+          </div>
+          <div>
+            <label for="refCelular" class="block text-sm font-medium text-slate-600 mb-1.5">Celular de contacto</label>
+            <input type="tel" inputmode="numeric" id="refCelular" name="refCelular" placeholder="Ej. 300 123 4567"
+              class="w-full rounded-xl border border-slate-300 px-4 py-2.5 text-sm focus:border-navy transition">
+            <p class="field-error-msg" data-for="refCelular">Ingresa el celular de tu referencia.</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Banner de error general -->
+      <div id="formErrorBanner" class="hidden items-center gap-2 bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl px-4 py-3" role="alert" aria-live="polite">
+        <svg class="w-4 h-4 shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+        <span>Revisa los campos marcados en rojo antes de continuar.</span>
+      </div>
+
+      <!-- CTA WhatsApp -->
+      <button type="submit" id="ctaWhatsapp"
+        class="w-full flex items-center justify-center gap-2.5 bg-whatsapp hover:brightness-95 active:scale-[0.99] text-white font-display font-semibold text-base rounded-2xl py-4 shadow-softLg transition">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor"><path d="M16.001 3C9.383 3 4 8.383 4 15c0 2.29.633 4.43 1.734 6.256L4 29l7.938-1.68A11.94 11.94 0 0 0 16 27c6.617 0 12-5.383 12-12S22.618 3 16.001 3zm0 21.6a9.55 9.55 0 0 1-4.87-1.34l-.35-.207-3.62.766.77-3.53-.23-.362A9.56 9.56 0 0 1 6.4 15c0-5.294 4.307-9.6 9.601-9.6 5.293 0 9.6 4.306 9.6 9.6 0 5.294-4.307 9.6-9.6 9.6zm5.264-7.19c-.288-.144-1.702-.84-1.966-.936-.264-.096-.456-.144-.648.144-.192.288-.744.936-.912 1.128-.168.192-.336.216-.624.072-.288-.144-1.215-.448-2.314-1.428-.856-.763-1.434-1.706-1.602-1.994-.168-.288-.018-.444.126-.588.13-.129.288-.336.432-.504.144-.168.192-.288.288-.48.096-.192.048-.36-.024-.504-.072-.144-.648-1.562-.888-2.14-.234-.562-.472-.486-.648-.495-.168-.008-.36-.01-.552-.01-.192 0-.504.072-.768.36-.264.288-1.008.984-1.008 2.4 0 1.416 1.032 2.784 1.176 2.976.144.192 2.03 3.1 4.92 4.347.688.297 1.224.474 1.643.606.69.22 1.318.189 1.814.115.553-.083 1.702-.696 1.942-1.368.24-.672.24-1.248.168-1.368-.072-.12-.264-.192-.552-.336z"/></svg>
+        Solicitar Crédito por WhatsApp
+      </button>
+    </form>
+  </section>
+
+  <footer class="text-center text-xs text-slate-400 pt-2 pb-4">
+    © <span id="year"></span> PrestaYa · Tus datos se envían de forma segura por WhatsApp.
+  </footer>
+</main>
+
+<!-- ===================== BARRA FLOTANTE MÓVIL ===================== -->
+<div id="stickyBar" class="fixed bottom-0 inset-x-0 z-40 lg:hidden bg-navy text-white shadow-[0_-4px_20px_rgba(0,0,0,0.15)]">
+  <div class="max-w-2xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+    <div>
+      <p class="text-[10px] text-white/60 leading-none mb-1">Tu cuota</p>
+      <p id="stickyCuota" class="font-display font-bold text-lg leading-none">$0<span id="stickyFrecuencia" class="text-xs font-normal text-white/70"> / semana</span></p>
+    </div>
+    <button type="button" onclick="scrollToForm()" class="bg-green hover:bg-green-light text-white text-sm font-semibold rounded-xl px-4 py-2.5 flex items-center gap-1.5 shrink-0 transition">
+      Solicitar
+      <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   CONFIGURACIÓN — edita estos valores según tu negocio
+   ========================================================================= */
+const CONFIG = {
+  whatsappNumber: '573162685282',   // número de WhatsApp del negocio (sin '+', formato 57XXXXXXXXXX)
+  tasaMensual: 0.10,                // interés fijo: 10% por cada mes (1 mes=10%, 2 meses=20%, ...)
+  cuotasPorMes: {                   // cuántas cuotas equivalen a 1 mes, según la frecuencia
+    semanal: 4,                     // 4 cuotas semanales = 1 mes
+    quincenal: 2,                   // 2 cuotas quincenales = 1 mes
+  },
+  montoMin: 100000,
+  montoMax: 1000000,
+  montoStep: 50000,
+  plazos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+  diasSemana: 7,
+  diasQuincena: 15,
+};
+
+/* =========================================================================
+   PERFILES — variantes del simulador según el tipo de cliente
+   Se activan agregando ?perfil=nuevo | estandar | alto a la URL del archivo
+   (si no se indica perfil, o no es válido, se usa "estandar" por defecto)
+   ========================================================================= */
+const PROFILES = {
+  nuevo: {
+    label: 'Cliente nuevo',
+    montoMax: 400000,
+    plazos: [1, 2, 3, 4, 5, 6, 7, 8],
+    camposPersonalesCompletos: true,   // pide también Barrio y Ciudad
+  },
+  estandar: {
+    label: 'Estándar',
+    montoMax: 1000000,
+    plazos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    camposPersonalesCompletos: false,  // solo Nombre, Cédula, Celular, Dirección
+  },
+  alto: {
+    label: 'Monto alto',
+    montoMax: 2500000,
+    plazos: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    camposPersonalesCompletos: false,
+  },
+};
+
+const perfilParam = new URLSearchParams(window.location.search).get('perfil');
+const profileConfig = PROFILES[perfilParam] || PROFILES.estandar;
+
+CONFIG.montoMax = profileConfig.montoMax;
+CONFIG.plazos = profileConfig.plazos;
+
+/* =========================================================================
+   ESTADO
+   ========================================================================= */
+const state = {
+  monto: 150000,
+  modalidad: 'semanal',
+  plazo: CONFIG.plazos[0],
+  cuota: 0,
+  totalPagar: 0,
+};
+
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* =========================================================================
+   HELPERS
+   ========================================================================= */
+function formatCOP(n){
+  return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(n || 0);
+}
+
+function formatThousands(digitsStr){
+  if (!digitsStr) return '';
+  return new Intl.NumberFormat('es-CO').format(parseInt(digitsStr, 10));
+}
+
+function onlyDigits(str){
+  return (str || '').replace(/\D/g, '');
+}
+
+function calcularMeses(modalidad, plazo){
+  const cuotasPorMes = CONFIG.cuotasPorMes[modalidad];
+  return Math.ceil(plazo / cuotasPorMes);
+}
+
+function calcularPlan(monto, modalidad, plazo){
+  const meses = calcularMeses(modalidad, plazo);
+  const totalConInteres = monto * (1 + CONFIG.tasaMensual * meses);
+  const cuota = Math.ceil((totalConInteres / plazo) / 1000) * 1000;
+  const totalPagar = cuota * plazo;
+  return { cuota, totalPagar };
+}
+
+function addPeriod(date, modalidad, count){
+  const d = new Date(date);
+  const dias = modalidad === 'semanal' ? CONFIG.diasSemana : CONFIG.diasQuincena;
+  d.setDate(d.getDate() + dias * count);
+  return d;
+}
+
+function formatFecha(date){
+  return date.toLocaleDateString('es-CO', { day: '2-digit', month: 'short' });
+}
+
+/* =========================================================================
+   RENDER — Simulador
+   ========================================================================= */
+function renderPlazoButtons(){
+  const wrap = document.getElementById('plazoGroup');
+  wrap.innerHTML = '';
+  CONFIG.plazos.forEach(p => {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = p;
+    btn.setAttribute('aria-pressed', p === state.plazo ? 'true' : 'false');
+    btn.className = 'seg-btn py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 transition';
+    btn.addEventListener('click', () => setPlazo(p));
+    wrap.appendChild(btn);
+  });
+}
+
+function renderDots(plazo){
+  const row = document.getElementById('dotsRow');
+  row.innerHTML = '';
+  for (let i = 0; i < plazo; i++){
+    const dot = document.createElement('span');
+    dot.className = 'inline-block w-2.5 h-2.5 rounded-full bg-green';
+    row.appendChild(dot);
+    if (i < plazo - 1){
+      const line = document.createElement('span');
+      line.className = 'inline-block w-4 sm:w-6 h-0.5 bg-slate-200 mx-0.5';
+      row.appendChild(line);
+    }
+  }
+}
+
+function animateNumber(el, from, to){
+  if (prefersReducedMotion){ el.textContent = formatCOP(to); return; }
+  const duration = 350;
+  const startTime = performance.now();
+  function step(now){
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.round(from + (to - from) * eased);
+    el.textContent = formatCOP(current);
+    if (progress < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+function renderDetalleTabla(){
+  const body = document.getElementById('detalleTablaBody');
+  body.innerHTML = '';
+  const hoy = new Date();
+  for (let i = 1; i <= state.plazo; i++){
+    const fecha = addPeriod(hoy, state.modalidad, i);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td class="py-2 px-3 text-slate-600">${i}</td>
+      <td class="py-2 px-3 text-slate-600">${formatFecha(fecha)}</td>
+      <td class="py-2 px-3 text-right font-medium text-slate-700">${formatCOP(state.cuota)}</td>
+    `;
+    body.appendChild(tr);
+  }
+}
+
+function updateSimulator(){
+  const prevCuota = state.cuota;
+  const { cuota, totalPagar } = calcularPlan(state.monto, state.modalidad, state.plazo);
+  state.cuota = cuota;
+  state.totalPagar = totalPagar;
+
+  document.getElementById('montoDisplay').textContent = formatCOP(state.monto);
+
+  const pct = ((state.monto - CONFIG.montoMin) / (CONFIG.montoMax - CONFIG.montoMin)) * 100;
+  document.getElementById('montoRange').style.setProperty('--range-progress', pct + '%');
+
+  const freqTxt = state.modalidad === 'semanal' ? '/ semana' : '/ quincena';
+  document.getElementById('frecuenciaLabel').textContent = freqTxt;
+  document.getElementById('stickyFrecuencia').textContent = ' ' + freqTxt;
+
+  animateNumber(document.getElementById('cuotaDisplay'), prevCuota, cuota);
+  document.getElementById('totalDisplay').textContent = formatCOP(totalPagar);
+  document.getElementById('stickyCuota').childNodes[0].textContent = formatCOP(cuota);
+
+  renderDots(state.plazo);
+
+  if (!document.getElementById('detalleTablaWrap').classList.contains('hidden')){
+    renderDetalleTabla();
+  }
+
+  // Glow solo una vez que hay un monto/plan calculado (siempre hay uno por defecto,
+  // así que se activa tras la primera interacción real del usuario)
+  document.getElementById('glowWrap').classList.remove('glow-off');
+}
+
+function setModalidad(modalidad){
+  state.modalidad = modalidad;
+  document.querySelectorAll('[data-modalidad]').forEach(btn => {
+    btn.setAttribute('aria-pressed', btn.dataset.modalidad === modalidad ? 'true' : 'false');
+  });
+  updateSimulator();
+}
+
+function setPlazo(plazo){
+  state.plazo = plazo;
+  document.querySelectorAll('#plazoGroup button').forEach(btn => {
+    btn.setAttribute('aria-pressed', parseInt(btn.textContent, 10) === plazo ? 'true' : 'false');
+  });
+  updateSimulator();
+}
+
+function toggleDetalle(){
+  const wrap = document.getElementById('detalleTablaWrap');
+  const btn = document.getElementById('toggleDetalle');
+  const chevron = btn.querySelector('.chevron');
+  const isHidden = wrap.classList.contains('hidden');
+  if (isHidden){
+    renderDetalleTabla();
+    wrap.classList.remove('hidden');
+    chevron.classList.add('open');
+    btn.childNodes[0].textContent = 'Ocultar plan de pagos ';
+  } else {
+    wrap.classList.add('hidden');
+    chevron.classList.remove('open');
+    btn.childNodes[0].textContent = 'Ver plan de pagos ';
+  }
+}
+
+function scrollToForm(){
+  document.getElementById('solicitud').scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+}
+
+/* =========================================================================
+   VALIDACIÓN DEL FORMULARIO
+   ========================================================================= */
+let REQUIRED_FIELDS = [
+  { id: 'nombre', label: 'Nombre completo' },
+  { id: 'cedula', label: 'Número de cédula' },
+  { id: 'celular', label: 'Celular / WhatsApp' },
+  { id: 'direccion', label: 'Dirección' },
+  { id: 'barrio', label: 'Barrio' },
+  { id: 'ciudad', label: 'Ciudad o municipio' },
+  { id: 'ocupacion', label: 'Ocupación' },
+  { id: 'empresa', label: 'Empresa o lugar de trabajo' },
+  { id: 'refNombre', label: 'Nombre de la referencia' },
+  { id: 'refParentesco', label: 'Parentesco de la referencia' },
+  { id: 'refCelular', label: 'Celular de la referencia' },
+];
+
+if (!profileConfig.camposPersonalesCompletos) {
+  REQUIRED_FIELDS = REQUIRED_FIELDS.filter(f => f.id !== 'barrio' && f.id !== 'ciudad');
+}
+
+function clearFieldError(id){
+  const el = document.getElementById(id);
+  el.classList.remove('field-error');
+  const msg = document.querySelector(`.field-error-msg[data-for="${id}"]`);
+  if (msg) msg.classList.remove('show');
+}
+
+function setFieldError(id){
+  const el = document.getElementById(id);
+  el.classList.add('field-error');
+  const msg = document.querySelector(`.field-error-msg[data-for="${id}"]`);
+  if (msg) msg.classList.add('show');
+}
+
+function validateForm(){
+  let firstInvalidId = null;
+  REQUIRED_FIELDS.forEach(({ id }) => {
+    const el = document.getElementById(id);
+    const value = (el.value || '').trim();
+    if (!value){
+      setFieldError(id);
+      if (!firstInvalidId) firstInvalidId = id;
+    } else {
+      clearFieldError(id);
+    }
+  });
+  return firstInvalidId;
+}
+
+function getFormValues(){
+  return {
+    nombre: document.getElementById('nombre').value.trim(),
+    cedula: document.getElementById('cedula').value.trim(),
+    celular: document.getElementById('celular').value.trim(),
+    direccion: document.getElementById('direccion').value.trim(),
+    barrio: document.getElementById('barrio').value.trim(),
+    ciudad: document.getElementById('ciudad').value.trim(),
+    ocupacion: document.getElementById('ocupacion').value,
+    empresa: document.getElementById('empresa').value.trim(),
+    refNombre: document.getElementById('refNombre').value.trim(),
+    refParentesco: document.getElementById('refParentesco').value,
+    refCelular: document.getElementById('refCelular').value.trim(),
+  };
+}
+
+/* =========================================================================
+   MENSAJE DE WHATSAPP
+   ========================================================================= */
+function buildWhatsAppMessage(){
+  const f = getFormValues();
+  const modalidadLabel = state.modalidad === 'semanal' ? 'Semanal' : 'Quincenal';
+
+  const lines = [
+    '👋 ¡Hola! Quiero solicitar un crédito con PrestaYa.',
+    '',
+    '💰 *Datos del crédito*',
+    `📌 Monto solicitado: ${formatCOP(state.monto)}`,
+    `🔁 Modalidad: ${modalidadLabel}`,
+    `📅 Plazo: ${state.plazo} cuotas`,
+    `💵 Valor por cuota: ${formatCOP(state.cuota)}`,
+    `🧾 Total a pagar: ${formatCOP(state.totalPagar)}`,
+    '',
+    '👤 *Datos personales*',
+    `🙋 Nombre: ${f.nombre}`,
+    `🪪 Cédula: ${f.cedula}`,
+    `📱 Celular/WhatsApp: ${f.celular}`,
+    `📍 Dirección: ${f.direccion}`,
+  ];
+
+  if (profileConfig.camposPersonalesCompletos) {
+    lines.push(`🏘️ Barrio: ${f.barrio}`);
+    lines.push(`🏙️ Ciudad: ${f.ciudad}`);
+  }
+
+  lines.push(
+    '',
+    '💼 *Información laboral*',
+    `🛠️ Ocupación: ${f.ocupacion}`,
+    `🏢 Empresa o lugar de trabajo: ${f.empresa}`,
+    '',
+    '👥 *Recomendado@ por*',
+    `🙋 Nombre: ${f.refNombre}`,
+    `👪 Parentesco: ${f.refParentesco}`,
+    `📞 Celular: ${f.refCelular}`,
+    '',
+    'Quedo atento(a) a la respuesta. ¡Gracias! 🙏'
+  );
+
+  return lines.join('\n');
+}
+
+function openWhatsApp(){
+  const message = buildWhatsAppMessage();
+  const url = `https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
+  window.open(url, '_blank');
+}
+
+/* =========================================================================
+   EVENTOS
+   ========================================================================= */
+document.getElementById('montoRange').addEventListener('input', (e) => {
+  state.monto = parseInt(e.target.value, 10);
+  updateSimulator();
+});
+
+// Formateo en vivo con separador de miles para cédula
+['cedula'].forEach(id => {
+  const input = document.getElementById(id);
+  input.addEventListener('input', (e) => {
+    const digits = onlyDigits(e.target.value);
+    e.target.value = formatThousands(digits);
+  });
+});
+
+// Limita celulares a solo dígitos
+['celular', 'refCelular'].forEach(id => {
+  const input = document.getElementById(id);
+  input.addEventListener('input', (e) => {
+    e.target.value = onlyDigits(e.target.value).slice(0, 10);
+  });
+});
+
+// Limpia el error de un campo apenas el usuario empieza a corregirlo
+REQUIRED_FIELDS.forEach(({ id }) => {
+  document.getElementById(id).addEventListener('input', () => clearFieldError(id));
+  document.getElementById(id).addEventListener('change', () => clearFieldError(id));
+});
+
+document.getElementById('creditForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const firstInvalidId = validateForm();
+  const banner = document.getElementById('formErrorBanner');
+
+  if (firstInvalidId){
+    banner.classList.remove('hidden');
+    banner.classList.add('flex');
+    const el = document.getElementById(firstInvalidId);
+    el.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'center' });
+    el.focus({ preventScroll: true });
+    return;
+  }
+
+  banner.classList.add('hidden');
+  banner.classList.remove('flex');
+  openWhatsApp();
+});
+
+// Barra flotante móvil: aparece al pasar el simulador
+const heroSection = document.querySelector('main > section');
+const stickyBar = document.getElementById('stickyBar');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.boundingClientRect.top < 0 && !entry.isIntersecting){
+      stickyBar.classList.add('show');
+    } else if (entry.isIntersecting){
+      stickyBar.classList.remove('show');
+    }
+  });
+}, { threshold: 0 });
+observer.observe(heroSection);
+
+/* =========================================================================
+   INICIALIZACIÓN
+   ========================================================================= */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+// Aplicar el perfil activo (nuevo / estandar / alto) a los elementos del DOM
+document.getElementById('montoRange').max = CONFIG.montoMax;
+document.getElementById('montoMinLabel').textContent = formatCOP(CONFIG.montoMin);
+document.getElementById('montoMaxLabel').textContent = formatCOP(CONFIG.montoMax);
+
+const camposUbicacionExtra = document.getElementById('camposUbicacionExtra');
+if (profileConfig.camposPersonalesCompletos) {
+  camposUbicacionExtra.classList.add('contents');
+  camposUbicacionExtra.classList.remove('hidden');
+} else {
+  camposUbicacionExtra.classList.add('hidden');
+  camposUbicacionExtra.classList.remove('contents');
+}
+
+renderPlazoButtons();
+updateSimulator();
+</script>
+</body>
+</html>
