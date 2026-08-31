@@ -252,24 +252,6 @@
   .modulo-header h2{margin:0; font-size:17px; font-weight:700; flex:1;}
   .modulo-contenido{flex:1; overflow-y:auto; padding:16px; padding-bottom:110px;}
 
-  /* ---------- Módulo: Notas Rápidas ---------- */
-  .lista-notas{display:flex; flex-direction:column; gap:10px;}
-  .nota{
-    background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm);
-    padding:13px 14px; box-shadow:var(--shadow);
-    display:flex; flex-direction:column; gap:4px;
-  }
-  .nota h4{margin:0; font-size:14.5px; font-weight:700;}
-  .nota p{margin:0; font-size:13px; color:var(--muted); white-space:pre-wrap; line-height:1.45;}
-  .nota .meta{display:flex; justify-content:space-between; align-items:center; margin-top:6px;}
-  .nota .fecha{font-size:11px; color:var(--muted);}
-  .nota .acciones{display:flex; gap:8px;}
-  .nota .acciones button{
-    background:none; border:none; padding:4px; color:var(--muted); display:flex;
-  }
-  .nota .acciones button svg{width:16px; height:16px;}
-  .nota .acciones button.borrar:active{color:var(--danger);}
-
   .estado-vacio{
     text-align:center; padding:48px 20px; color:var(--muted);
   }
@@ -463,6 +445,10 @@
   .sub-factura.vencido-texto{color:var(--danger); font-weight:700;}
   .monto-factura{margin-left:auto; text-align:right; font-size:16px; font-weight:800; color:var(--ink); flex-shrink:0;}
   .pill-estado{display:inline-block; margin-top:9px; font-size:10px; font-weight:700; letter-spacing:0.2px; padding:3px 10px; border-radius:999px;}
+  .nota-factura{
+    margin-top:8px; padding:7px 10px; background:var(--bg); border-radius:8px;
+    font-size:11.5px; color:var(--muted); line-height:1.4; word-break:break-word;
+  }
   .pill-estado.vencida{background:var(--danger-soft); color:var(--danger);}
   .pill-estado.pendiente{background:#EAF0FF; color:#2F6BFF;}
   .pill-estado.pagada{background:var(--success-soft); color:var(--success);}
@@ -479,14 +465,6 @@
     opacity:0.85; pointer-events:none; text-transform:uppercase;
     background:rgba(255,255,255,0.7);
   }
-
-  /* ---------- Calendario de día de vencimiento (Facturas) ---------- */
-  .calendario-dias-header{display:grid; grid-template-columns:repeat(7,1fr); gap:6px; margin-bottom:6px;}
-  .calendario-dias-header span{text-align:center; font-size:9.5px; font-weight:700; color:var(--muted); text-transform:uppercase;}
-  .grid-calendario-dias{display:grid; grid-template-columns:repeat(7,1fr); gap:6px;}
-  .dia-calendario{padding:8px 0; text-align:center; border-radius:8px; background:var(--bg); font-size:12.5px; font-weight:700; border:1.5px solid transparent; color:var(--ink);}
-  .dia-calendario.activo{background:var(--accent-soft); border-color:var(--accent); color:var(--ink);}
-  .dia-calendario.vacia{background:transparent; pointer-events:none;}
 
   /* ---------- Saldos Nequi ---------- */
   .barra-consolidada{height:14px; border-radius:999px; overflow:hidden; display:flex; background:var(--bg); margin:10px 0 14px;}
@@ -573,14 +551,9 @@
   .btn-eliminar-historial{color:var(--muted); background:none; border:none; padding:4px; flex-shrink:0;}
   .btn-eliminar-historial svg{width:15px; height:15px;}
 
-  /* ---------- Módulo: Generador de Pagaré ---------- */
+  /* ---------- Historial compartido (usado por Recibos y Simulador Automático) ---------- */
   .fila-historial-pagare{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 0; border-bottom:1px solid var(--border);}
   .fila-historial-pagare:last-child{border-bottom:none;}
-  .documento-pagare{
-    white-space:pre-wrap; font-family:Georgia,'Times New Roman',serif; font-size:12.5px; line-height:1.65;
-    color:var(--ink); background:var(--bg); border:1px solid var(--border); border-radius:var(--radius-sm);
-    padding:14px; max-height:48vh; overflow-y:auto;
-  }
 
   /* ---------- Módulo: Recibos de Pago ---------- */
   .stat-factura.recibos .punto{background:#002D62;}
@@ -758,7 +731,7 @@
     .fc-field-row{flex-direction:column; gap:0;}
   }
 
-  /* ---------- Módulo: Mensajes Rápidos ---------- */
+  /* ---------- Filas de opciones reutilizables (usadas por Simulador Automático) ---------- */
   .mj-plantilla-btn{
     display:flex; align-items:center; gap:12px; width:100%; text-align:left;
     background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm);
@@ -772,14 +745,6 @@
     white-space:pre-wrap; font-size:13px; line-height:1.6; color:var(--ink); background:var(--bg);
     border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px;
   }
-  .mj-swatch{
-    width:34px; height:34px; border-radius:50%; border:3px solid transparent; padding:0; cursor:pointer;
-    flex-shrink:0;
-  }
-  .mj-swatch.selected{border-color:var(--ink);}
-  .mj-fila-swatches{display:flex; gap:10px; flex-wrap:wrap; margin-top:4px;}
-  .mj-fila-toggle{display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:var(--ink); margin:10px 0;}
-  .mj-fila-toggle input[type="checkbox"]{width:18px; height:18px; accent-color:var(--accent);}
 
   /* ---------- Módulo: Documentos ---------- */
   .doc-barra-herramientas{display:flex; align-items:center; gap:8px; margin:8px 0 10px; flex-wrap:wrap;}
@@ -842,22 +807,6 @@
     <button onclick="toggleModoEliminar()">Listo</button>
   </div>
   <div class="grid-modulos" id="gridModulos">
-    <!-- Módulo funcional: Notas Rápidas -->
-    <button class="tarjeta-modulo" data-modulo="notas" style="--tab-color:#C9971F; --tab-soft:#F3E7CC" onclick="manejarTarjetaClick('notas', event)">
-      <span class="cinta"></span>
-      <span class="manija-arrastre">
-        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
-      </span>
-      <span class="manija-eliminar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-      </span>
-      <div class="icono-modulo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/><path d="M9 13h6"/><path d="M9 17h6"/></svg>
-      </div>
-      <h3>Notas Rápidas</h3>
-      <p>Apuntes y recordatorios sueltos de tu negocio</p>
-    </button>
-
     <!-- Módulo: Registro de Clientes -->
     <button class="tarjeta-modulo" data-modulo="clientes" style="--tab-color:#3B6DF0; --tab-soft:#E9EFFE" onclick="manejarTarjetaClick('clientes', event)">
       <span class="cinta"></span>
@@ -954,22 +903,6 @@
       <p>Decide con datos antes de prestar</p>
     </button>
 
-    <!-- Módulo: Generador de Pagaré -->
-    <button class="tarjeta-modulo" data-modulo="pagare" style="--tab-color:#8B5E34; --tab-soft:#F1E7DA" onclick="manejarTarjetaClick('pagare', event)">
-      <span class="cinta"></span>
-      <span class="manija-arrastre">
-        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
-      </span>
-      <span class="manija-eliminar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-      </span>
-      <div class="icono-modulo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h13l3 3v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M7 16c1.3-1.3 2.6-1.3 3.9 0s2.6 1.3 3.9 0"/></svg>
-      </div>
-      <h3>Pagaré y Paz y Salvo</h3>
-      <p>Respaldo legal para cada préstamo</p>
-    </button>
-
     <!-- Módulo: Recibos de Pago -->
     <button class="tarjeta-modulo" data-modulo="recibos" style="--tab-color:#002D62; --tab-soft:#E3E9F5" onclick="manejarTarjetaClick('recibos', event)">
       <span class="cinta"></span>
@@ -1000,38 +933,6 @@
       </div>
       <h3>Formulario de Cliente</h3>
       <p>Compártelo o llénalo tú mismo</p>
-    </button>
-
-    <!-- Módulo: Mensajes Rápidos -->
-    <button class="tarjeta-modulo" data-modulo="mensajes" style="--tab-color:#2E90D9; --tab-soft:#DCEEFB" onclick="manejarTarjetaClick('mensajes', event)">
-      <span class="cinta"></span>
-      <span class="manija-arrastre">
-        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
-      </span>
-      <span class="manija-eliminar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-      </span>
-      <div class="icono-modulo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
-      </div>
-      <h3>Mensajes Rápidos</h3>
-      <p>Plantillas listas para enviar</p>
-    </button>
-
-    <!-- Módulo: Tarjetas Personalizadas -->
-    <button class="tarjeta-modulo" data-modulo="tarjetas" style="--tab-color:#D9714E; --tab-soft:#FBE6DC" onclick="manejarTarjetaClick('tarjetas', event)">
-      <span class="cinta"></span>
-      <span class="manija-arrastre">
-        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
-      </span>
-      <span class="manija-eliminar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-      </span>
-      <div class="icono-modulo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-      </div>
-      <h3>Tarjetas Personalizadas</h3>
-      <p>Libres, sin depender de tus clientes</p>
     </button>
 
     <!-- Módulo: Documentos -->
@@ -1105,26 +1006,6 @@
     <input type="file" id="inputImportarTodo" accept="application/json,.json" style="display:none;">
   </div>
 </main>
-
-<!-- ================= MÓDULO: NOTAS RÁPIDAS ================= -->
-<section class="pantalla-modulo" id="pantallaNotas">
-  <div class="modulo-header">
-    <button class="btn-icono" onclick="cerrarModulo('notas')" aria-label="Volver">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-    </button>
-    <h2>Notas Rápidas</h2>
-  </div>
-  <div class="modulo-contenido">
-    <div class="lista-notas" id="listaNotas"></div>
-    <div class="estado-vacio" id="estadoVacioNotas" style="display:none;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2Z"/></svg>
-      <p>Todavía no tienes notas.<br>Toca el botón + para crear la primera.</p>
-    </div>
-  </div>
-  <button class="fab" id="fabNotas" onclick="abrirFormularioNota()" aria-label="Nueva nota">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-  </button>
-</section>
 
 <!-- ================= MÓDULO: REGISTRO DE CLIENTES ================= -->
 <section class="pantalla-modulo" id="pantallaClientes">
@@ -1406,18 +1287,14 @@
       <label for="facValor">Valor de este mes</label>
       <input type="text" id="facValor" placeholder="0" inputmode="numeric">
     </div>
-    <div class="campo-pildora" style="margin-bottom:14px;">
-      <label>Día de vencimiento</label>
-      <button type="button" class="pildora-boton" id="facBtnDia">
-        <span id="facDiaTexto">Elegir día</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
-      </button>
-      <div class="desplegable-inline" id="facPanelDia">
-        <div class="calendario-dias-header">
-          <span>L</span><span>M</span><span>X</span><span>J</span><span>V</span><span>S</span><span>D</span>
-        </div>
-        <div class="grid-calendario-dias" id="facGridDias"></div>
-      </div>
+    <div class="campo" style="margin-bottom:4px;">
+      <label for="facFecha">Día de vencimiento</label>
+      <input type="date" id="facFecha">
+    </div>
+    <p style="font-size:11.5px; color:var(--muted); margin:0 0 14px;">Solo se usa el día del mes que elijas — la factura se repite automáticamente cada mes en ese día.</p>
+    <div class="campo">
+      <label for="facNota">Nota (opcional)</label>
+      <textarea id="facNota" placeholder="Ej: cuenta a nombre de mi hermano, clave del portal, etc." style="min-height:70px;"></textarea>
     </div>
     <div class="fila-botones">
       <button class="btn-cancelar" onclick="facCerrarForm()">Cancelar</button>
@@ -1572,55 +1449,6 @@
     <div class="estado-vacio" id="rgEstadoVacio" style="display:none;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
       <p id="rgEstadoVacioTexto">Sin resultados para tu búsqueda.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- ================= MÓDULO: GENERADOR DE PAGARÉ ================= -->
-<section class="pantalla-modulo" id="pantallaPagare">
-  <div class="modulo-header">
-    <button class="btn-icono" onclick="cerrarModulo('pagare')" aria-label="Volver">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-    </button>
-    <h2>Pagaré y Paz y Salvo</h2>
-  </div>
-  <div class="modulo-contenido">
-
-    <div class="panel">
-      <p class="panel-titulo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h13l3 3v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M7 16c1.3-1.3 2.6-1.3 3.9 0s2.6 1.3 3.9 0"/></svg>
-        Resumen
-      </p>
-      <div class="grid-resumen-facturas">
-        <div class="stat-factura docpagare">
-          <div class="etiqueta-stat"><span class="punto"></span>Pagarés</div>
-          <div class="valor-stat" id="pgStatPagares">0</div>
-        </div>
-        <div class="stat-factura docpaz">
-          <div class="etiqueta-stat"><span class="punto"></span>Paz y salvo</div>
-          <div class="valor-stat" id="pgStatPazYSalvo">0</div>
-        </div>
-        <div class="stat-factura total">
-          <div class="etiqueta-stat"><span class="punto"></span>Clientes</div>
-          <div class="valor-stat" id="pgStatClientes">0</div>
-        </div>
-        <div class="stat-factura total">
-          <div class="etiqueta-stat"><span class="punto"></span>Respaldado</div>
-          <div class="valor-stat" id="pgStatMonto">$0</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="buscador">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" id="pgBuscador" placeholder="Buscar cliente...">
-    </div>
-
-    <div id="pgLista"></div>
-    <div class="estado-vacio" id="pgEstadoVacio" style="display:none;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h13l3 3v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M7 16c1.3-1.3 2.6-1.3 3.9 0s2.6 1.3 3.9 0"/></svg>
-      <p id="pgEstadoVacioTexto">Sin resultados para tu búsqueda.</p>
     </div>
 
   </div>
@@ -1806,61 +1634,6 @@
   </div>
 </section>
 
-<!-- ================= MÓDULO: MENSAJES RÁPIDOS ================= -->
-<section class="pantalla-modulo" id="pantallaMensajes">
-  <div class="modulo-header">
-    <button class="btn-icono" onclick="cerrarModulo('mensajes')" aria-label="Volver">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-    </button>
-    <h2>Mensajes Rápidos</h2>
-  </div>
-  <div class="modulo-contenido">
-
-    <button type="button" class="btn btn-secundario" id="mjBtnGestionPlantillas" style="width:100%; margin-bottom:14px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-      Editar plantillas de mensajes
-    </button>
-
-    <div class="buscador">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" id="mjBuscador" placeholder="Buscar cliente...">
-    </div>
-
-    <div id="mjLista"></div>
-    <div class="estado-vacio" id="mjEstadoVacio" style="display:none;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg>
-      <p id="mjEstadoVacioTexto">Sin resultados para tu búsqueda.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- ================= MÓDULO: TARJETAS PERSONALIZADAS (independiente) ================= -->
-<section class="pantalla-modulo" id="pantallaTarjetas">
-  <div class="modulo-header">
-    <button class="btn-icono" onclick="cerrarModulo('tarjetas')" aria-label="Volver">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-    </button>
-    <h2>Tarjetas Personalizadas</h2>
-  </div>
-  <div class="modulo-contenido">
-
-    <p class="panel-sub" style="margin-top:0;">Tarjetas de mensaje totalmente libres: tú escribes cada dato a mano, no dependen de tu Registro de Clientes.</p>
-
-    <button type="button" class="btn btn-primario" id="tpBtnNuevaPlantilla" style="width:100%; justify-content:center; margin-bottom:14px;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-      Nueva plantilla
-    </button>
-
-    <div id="tpLista"></div>
-    <div class="estado-vacio" id="tpEstadoVacio" style="display:none;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="m21 15-5-5L5 21"/></svg>
-      <p>Aún no tienes plantillas. Crea la primera con el botón de arriba.</p>
-    </div>
-
-  </div>
-</section>
-
 <!-- ================= MÓDULO: DOCUMENTOS (independiente) ================= -->
 <section class="pantalla-modulo" id="pantallaDocumentos">
   <div class="modulo-header">
@@ -2008,100 +1781,6 @@
   </div>
 </div>
 
-<!-- Hoja: crear/editar plantilla de tarjeta -->
-<div class="hoja-fondo" id="tpHojaEditarPlantilla" onclick="if(event.target===this) tpCerrarEditarPlantilla()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3 id="tpEditarPlantillaTitulo">Nueva plantilla</h3>
-
-    <div class="campo">
-      <label for="tpPTitulo">Título</label>
-      <input type="text" id="tpPTitulo" placeholder="Ej: Aviso de vencimiento" maxlength="40">
-    </div>
-    <div class="campo">
-      <label for="tpPDescripcion">Descripción corta</label>
-      <input type="text" id="tpPDescripcion" placeholder="Ej: Un día antes de la fecha límite" maxlength="60">
-    </div>
-    <div class="campo-fila">
-      <div class="campo">
-        <label for="tpPIcono">Ícono (emoji)</label>
-        <input type="text" id="tpPIcono" placeholder="🔔" maxlength="4">
-      </div>
-      <div class="campo" style="flex:2;">
-        <label>Color</label>
-        <div class="mj-fila-swatches" id="tpFilaSwatches"></div>
-      </div>
-    </div>
-    <label class="mj-fila-toggle"><input type="checkbox" id="tpPUsaNombre"> Este mensaje usa un nombre</label>
-    <label class="mj-fila-toggle" style="margin-top:0;"><input type="checkbox" id="tpPUsaMonto"> Este mensaje usa un monto</label>
-    <label class="mj-fila-toggle" style="margin-top:0;"><input type="checkbox" id="tpPUsaFecha"> Este mensaje usa una fecha</label>
-    <label class="mj-fila-toggle" style="margin-top:0;"><input type="checkbox" id="tpPUsaDetalle"> Este mensaje usa un detalle libre</label>
-    <div class="campo">
-      <label for="tpPTexto">Texto del mensaje</label>
-      <textarea id="tpPTexto" style="min-height:100px;" placeholder="Escribe tu mensaje. Puedes usar {nombre}, {monto}, {fecha} y {detalle}, y se reemplazan solos."></textarea>
-    </div>
-
-    <div class="fila-botones">
-      <button class="btn-cancelar" onclick="tpCerrarEditarPlantilla()">Cancelar</button>
-      <button class="btn-guardar" id="tpBtnGuardarPlantilla">Guardar</button>
-    </div>
-    <button type="button" class="btn btn-secundario" style="width:100%; margin-top:10px; color:var(--danger); display:none;" id="tpBtnEliminarPlantilla">Eliminar plantilla</button>
-  </div>
-</div>
-
-<!-- Hoja: componer tarjeta (llenar datos a mano) -->
-<div class="hoja-fondo" id="tpHojaComponer" onclick="if(event.target===this) tpCerrarComponer()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3 id="tpComponerTitulo">Mensaje</h3>
-
-    <div class="campo" id="tpCampoNombre">
-      <label for="tpNombre">Nombre</label>
-      <input type="text" id="tpNombre" placeholder="Nombre de la persona" maxlength="60">
-    </div>
-    <div class="campo-fila">
-      <div class="campo" id="tpCampoMonto">
-        <label for="tpMonto">Monto</label>
-        <input type="text" id="tpMonto" inputmode="numeric" placeholder="$0" oninput="saldosFormatearInputSaldo(this)">
-      </div>
-      <div class="campo" id="tpCampoFecha">
-        <label for="tpFecha">Fecha</label>
-        <input type="date" id="tpFecha">
-      </div>
-    </div>
-    <div class="campo" id="tpCampoDetalle">
-      <label for="tpDetalle">Detalle</label>
-      <input type="text" id="tpDetalle" placeholder="Cualquier otro dato" maxlength="120">
-    </div>
-
-    <div class="campo">
-      <label>Vista previa</label>
-      <div class="mj-preview-texto" id="tpPreviewTexto"></div>
-    </div>
-
-    <div class="fila-botones">
-      <button class="btn-cancelar" id="tpBtnCompartirTexto">Compartir texto</button>
-      <button class="btn-guardar" id="tpBtnCompartirImagen">Compartir imagen</button>
-    </div>
-    <button type="button" class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="tpCerrarComponer()">Cerrar</button>
-  </div>
-</div>
-
-<!-- Hoja: vista previa de la imagen de la tarjeta -->
-<div class="hoja-fondo" id="tpHojaPreviewImagen" onclick="if(event.target===this) tpCerrarPreviewImagen()">
-  <div class="hoja">
-    <div class="hoja-manija"></div>
-    <h3>Vista previa</h3>
-    <div style="text-align:center; margin:6px 0 16px;">
-      <img id="tpImgPreview" style="max-width:100%; border-radius:14px; box-shadow:var(--shadow-lift);" alt="Tarjeta de mensaje">
-    </div>
-    <div class="fila-btns">
-      <button class="btn btn-secundario" id="tpBtnCerrarPreviewImagen">Cerrar</button>
-      <button class="btn btn-primario" id="tpBtnCompartirPreviewImagen">Compartir</button>
-    </div>
-  </div>
-</div>
-
 <!-- Hoja: nueva cuenta de topes -->
 <div class="hoja-fondo" id="topesHojaForm" onclick="if(event.target===this) topesCerrarForm()">
   <div class="hoja">
@@ -2114,25 +1793,6 @@
     <div class="fila-botones">
       <button class="btn-cancelar" onclick="topesCerrarForm()">Cancelar</button>
       <button class="btn-guardar" onclick="topesGuardarForm()">Guardar</button>
-    </div>
-  </div>
-</div>
-
-<!-- Hoja: formulario de nota -->
-<div class="hoja-fondo" id="hojaNota" onclick="if(event.target===this) cerrarFormularioNota()">
-  <div class="hoja">
-    <h3 id="tituloHojaNota">Nueva nota</h3>
-    <div class="campo">
-      <label for="notaTitulo">Título</label>
-      <input type="text" id="notaTitulo" placeholder="Ej: Recordar depósito" maxlength="60">
-    </div>
-    <div class="campo">
-      <label for="notaTexto">Nota</label>
-      <textarea id="notaTexto" placeholder="Escribe aquí..."></textarea>
-    </div>
-    <div class="fila-botones">
-      <button class="btn-cancelar" onclick="cerrarFormularioNota()">Cancelar</button>
-      <button class="btn-guardar" onclick="guardarNota()">Guardar</button>
     </div>
   </div>
 </div>
@@ -2232,194 +1892,6 @@
     <div id="rgHistorialWrap" style="margin-top:18px;">
       <div class="seccion-titulo" style="margin:0 0 8px 2px;">Historial de este cliente</div>
       <div id="rgHistorialLista"></div>
-    </div>
-  </div>
-</div>
-
-<!-- Hoja: elegir tipo de documento -->
-<div class="hoja-fondo" id="pgHojaElegirTipo" onclick="if(event.target===this) pgCerrarElegirTipo()">
-  <div class="hoja">
-    <div class="hoja-manija"></div>
-    <h3 id="pgElegirTipoNombre">Cliente</h3>
-    <p class="panel-sub" style="margin-top:-8px;">¿Qué documento quieres generar?</p>
-    <div style="display:flex; flex-direction:column; gap:10px;">
-      <button class="btn btn-primario" style="width:100%; justify-content:center;" onclick="pgAbrirFormPagare()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 3h13l3 3v15a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/><path d="M7 16c1.3-1.3 2.6-1.3 3.9 0s2.6 1.3 3.9 0"/></svg>
-        Nuevo pagaré
-      </button>
-      <button class="btn btn-secundario" style="width:100%; justify-content:center;" onclick="pgAbrirFormPazYSalvo()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 8.5 8 10 4.5-1.5 8-5 8-10V6l-8-4Z"/><path d="m9 12 2 2 4-4"/></svg>
-        Nuevo paz y salvo
-      </button>
-    </div>
-
-    <div id="pgHistorialWrap" style="margin-top:18px;">
-      <div class="seccion-titulo" style="margin:0 0 8px 2px;">Documentos anteriores</div>
-      <div id="pgHistorialLista"></div>
-    </div>
-
-    <button class="btn btn-secundario" style="width:100%; margin-top:14px;" onclick="pgCerrarElegirTipo()">Cerrar</button>
-  </div>
-</div>
-
-<!-- Hoja: generar pagaré -->
-<div class="hoja-fondo" id="pgHojaGenerar" onclick="if(event.target===this) pgCerrarHoja()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3 id="pgHojaNombre">Nuevo pagaré</h3>
-
-    <div class="campo-fila">
-      <div class="campo">
-        <label for="pgLugar">Lugar de expedición</label>
-        <input type="text" id="pgLugar" placeholder="Ej: Medellín" maxlength="40">
-      </div>
-      <div class="campo">
-        <label for="pgFecha">Fecha</label>
-        <input type="date" id="pgFecha">
-      </div>
-    </div>
-    <div class="campo">
-      <label for="pgAcreedor">Nombre del acreedor / negocio</label>
-      <input type="text" id="pgAcreedor" placeholder="PrestaYa" maxlength="60">
-    </div>
-    <div class="campo-fila">
-      <div class="campo">
-        <label for="pgMonto">Monto del préstamo</label>
-        <input type="text" id="pgMonto" inputmode="numeric" placeholder="$0" oninput="saldosFormatearInputSaldo(this)">
-      </div>
-      <div class="campo">
-        <label for="pgCuotas">N.° de cuotas</label>
-        <input type="text" id="pgCuotas" inputmode="numeric" placeholder="Ej: 10">
-      </div>
-    </div>
-    <div class="campo">
-      <label>Frecuencia de pago</label>
-      <div class="lista-frecuencia" id="pgListaFrecuencias">
-        <button type="button" class="opcion-frecuencia" onclick="pgSeleccionarFrecuencia('Diario', this)">Diario</button>
-        <button type="button" class="opcion-frecuencia" onclick="pgSeleccionarFrecuencia('Semanal', this)">Semanal</button>
-        <button type="button" class="opcion-frecuencia" onclick="pgSeleccionarFrecuencia('Quincenal', this)">Quincenal</button>
-        <button type="button" class="opcion-frecuencia" onclick="pgSeleccionarFrecuencia('Mensual', this)">Mensual</button>
-      </div>
-    </div>
-    <div class="campo">
-      <label for="pgFechaPrimeraCuota">Fecha primera cuota (opcional)</label>
-      <input type="date" id="pgFechaPrimeraCuota">
-    </div>
-    <div class="campo-fila">
-      <div class="campo">
-        <label for="pgCodeudorNombre">Codeudor / aval (opcional)</label>
-        <input type="text" id="pgCodeudorNombre" placeholder="Nombre completo" maxlength="60">
-      </div>
-      <div class="campo">
-        <label for="pgCodeudorCedula">Cédula del codeudor</label>
-        <input type="text" id="pgCodeudorCedula" inputmode="numeric" placeholder="C.C." maxlength="20">
-      </div>
-    </div>
-
-    <div class="fila-botones">
-      <button class="btn-cancelar" onclick="pgCerrarHoja()">Cancelar</button>
-      <button class="btn-guardar" id="pgBtnGenerar">Generar pagaré</button>
-    </div>
-    <button type="button" class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="pgAbrirEditarPlantilla('pagare')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-      Personalizar texto del pagaré
-    </button>
-  </div>
-</div>
-
-<!-- Hoja: generar paz y salvo -->
-<div class="hoja-fondo" id="pgHojaPazYSalvo" onclick="if(event.target===this) pgCerrarFormPaz()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3 id="pgPazHojaNombre">Nuevo paz y salvo</h3>
-
-    <div class="campo-fila">
-      <div class="campo">
-        <label for="pgPazLugar">Lugar de expedición</label>
-        <input type="text" id="pgPazLugar" placeholder="Ej: Medellín" maxlength="40">
-      </div>
-      <div class="campo">
-        <label for="pgPazFecha">Fecha</label>
-        <input type="date" id="pgPazFecha">
-      </div>
-    </div>
-    <div class="campo">
-      <label for="pgPazAcreedor">Nombre del acreedor / negocio</label>
-      <input type="text" id="pgPazAcreedor" placeholder="PrestaYa" maxlength="60">
-    </div>
-    <div class="campo-fila">
-      <div class="campo">
-        <label for="pgPazMonto">Monto cancelado</label>
-        <input type="text" id="pgPazMonto" inputmode="numeric" placeholder="$0" oninput="saldosFormatearInputSaldo(this)">
-      </div>
-      <div class="campo">
-        <label for="pgPazRef">Pagaré relacionado (opcional)</label>
-        <input type="text" id="pgPazRef" placeholder="N.°">
-      </div>
-    </div>
-    <div class="campo">
-      <label for="pgPazNota">Nota adicional (opcional)</label>
-      <textarea id="pgPazNota" placeholder="Ej: Se certifica que el cliente canceló la totalidad de sus obligaciones." style="min-height:70px;"></textarea>
-    </div>
-
-    <div class="fila-botones">
-      <button class="btn-cancelar" onclick="pgCerrarFormPaz()">Cancelar</button>
-      <button class="btn-guardar" id="pgBtnGenerarPaz">Generar paz y salvo</button>
-    </div>
-    <button type="button" class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="pgAbrirEditarPlantilla('pazysalvo')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-      Personalizar texto del paz y salvo
-    </button>
-  </div>
-</div>
-
-<!-- Hoja: vista previa del pagaré -->
-<div class="hoja-fondo" id="pgHojaPreview" onclick="if(event.target===this) pgCerrarPreview()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3 id="pgPreviewTitulo">Pagaré</h3>
-    <div class="documento-pagare" id="pgPreviewTexto"></div>
-    <div class="nota-simulador" style="margin-top:12px;">Plantilla general de referencia. Revísala con un abogado para asegurar que cumple la normativa vigente de tu país antes de firmarla.</div>
-    <div class="fila-botones" style="margin-top:12px;">
-      <button class="btn-cancelar" onclick="pgCerrarPreview()">Cerrar</button>
-      <button class="btn-guardar" onclick="pgCompartir()">Compartir texto</button>
-    </div>
-    <button class="btn btn-primario" style="width:100%; margin-top:10px;" onclick="pgAbrirPreviewImagen()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
-      Compartir imagen
-    </button>
-    <button class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="pgCopiarTexto()">Copiar texto</button>
-  </div>
-</div>
-
-<!-- Hoja: personalizar texto del pagaré / paz y salvo -->
-<div class="hoja-fondo" id="pgHojaEditarPlantilla" onclick="if(event.target===this) pgCerrarEditarPlantilla()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3 id="pgEditarPlantillaTitulo">Personalizar texto</h3>
-    <p class="panel-sub" style="margin-top:-8px;">Puedes usar estas palabras clave y se reemplazan solas: <strong>{folio} {lugar} {fecha} {nombre} {acreedor} {monto} {montoLetras} {cuotas} {frecuencia} {valorCuota}</strong> — y las cláusulas automáticas <strong>{clausulaCedula} {clausulaDireccion} {clausulaPrimeraCuota} {clausulaCodeudor} {clausulaFirmaCedula} {bloqueFirmaCodeudor} {clausulaPagareRef} {clausulaNota}</strong>, que se llenan solas u omiten según el caso.</p>
-    <div class="campo" style="margin-bottom:0;">
-      <textarea id="pgPlantillaTexto" style="min-height:260px; font-family:Georgia,'Times New Roman',serif; font-size:13px;"></textarea>
-    </div>
-    <div class="fila-botones" style="margin-top:12px;">
-      <button class="btn-cancelar" id="pgBtnRestaurarPlantilla">Restaurar original</button>
-      <button class="btn-guardar" id="pgBtnGuardarPlantilla">Guardar</button>
-    </div>
-    <button type="button" class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="pgCerrarEditarPlantilla()">Cerrar sin guardar</button>
-  </div>
-</div>
-
-<!-- Hoja: vista previa de la imagen del documento -->
-<div class="hoja-fondo" id="pgHojaPreviewImagen" onclick="if(event.target===this) pgCerrarPreviewImagen()">
-  <div class="hoja">
-    <div class="hoja-manija"></div>
-    <h3>Vista previa</h3>
-    <div style="text-align:center; margin:6px 0 16px;">
-      <img id="pgImgPreview" style="max-width:100%; border-radius:14px; box-shadow:var(--shadow-lift);" alt="Documento PrestaYa">
-    </div>
-    <div class="fila-btns">
-      <button class="btn btn-secundario" id="pgBtnCerrarPreviewImagen">Cerrar</button>
-      <button class="btn btn-primario" id="pgBtnCompartirPreviewImagen">Compartir</button>
     </div>
   </div>
 </div>
@@ -2549,120 +2021,6 @@
   </div>
 </div>
 
-<!-- Hoja: elegir plantilla de mensaje -->
-<div class="hoja-fondo" id="mjHojaPlantillas" onclick="if(event.target===this) mjCerrarPlantillas()">
-  <div class="hoja">
-    <div class="hoja-manija"></div>
-    <h3 id="mjPlantillasNombre">Cliente</h3>
-    <p class="panel-sub" style="margin-top:-8px;">Elige qué mensaje quieres enviar</p>
-    <div id="mjListaPlantillas"></div>
-    <button class="btn btn-secundario" style="width:100%; margin-top:6px;" onclick="mjCerrarPlantillas()">Cerrar</button>
-  </div>
-</div>
-
-<!-- Hoja: gestionar plantillas (editar/eliminar/crear) -->
-<div class="hoja-fondo" id="mjHojaGestionPlantillas" onclick="if(event.target===this) mjCerrarGestionPlantillas()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3>Plantillas de mensajes</h3>
-    <button type="button" class="btn btn-primario" style="width:100%; justify-content:center; margin-bottom:14px;" onclick="mjAbrirNuevaPlantilla()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-      Nueva plantilla
-    </button>
-    <div id="mjListaGestionPlantillas"></div>
-    <button class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="mjCerrarGestionPlantillas()">Cerrar</button>
-  </div>
-</div>
-
-<!-- Hoja: crear/editar una plantilla -->
-<div class="hoja-fondo" id="mjHojaEditarPlantilla2" onclick="if(event.target===this) mjCerrarEditarPlantilla2()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3 id="mjEditarPlantillaTitulo2">Nueva plantilla</h3>
-
-    <div class="campo">
-      <label for="mjPTitulo">Título</label>
-      <input type="text" id="mjPTitulo" placeholder="Ej: Aviso de vencimiento" maxlength="40">
-    </div>
-    <div class="campo">
-      <label for="mjPDescripcion">Descripción corta</label>
-      <input type="text" id="mjPDescripcion" placeholder="Ej: Un día antes de la fecha límite" maxlength="60">
-    </div>
-    <div class="campo-fila">
-      <div class="campo">
-        <label for="mjPIcono">Ícono (emoji)</label>
-        <input type="text" id="mjPIcono" placeholder="🔔" maxlength="4">
-      </div>
-      <div class="campo" style="flex:2;">
-        <label>Color</label>
-        <div class="mj-fila-swatches" id="mjFilaSwatches"></div>
-      </div>
-    </div>
-    <label class="mj-fila-toggle"><input type="checkbox" id="mjPUsaMonto"> Este mensaje usa un monto</label>
-    <label class="mj-fila-toggle" style="margin-top:0;"><input type="checkbox" id="mjPUsaFecha"> Este mensaje usa una fecha</label>
-    <div class="campo">
-      <label for="mjPTexto">Texto del mensaje</label>
-      <textarea id="mjPTexto" style="min-height:100px;" placeholder="Escribe tu mensaje. Puedes usar {nombre}, {monto} y {fecha} y se reemplazan solos."></textarea>
-    </div>
-
-    <div class="fila-botones">
-      <button class="btn-cancelar" onclick="mjCerrarEditarPlantilla2()">Cancelar</button>
-      <button class="btn-guardar" id="mjBtnGuardarPlantilla">Guardar</button>
-    </div>
-    <button type="button" class="btn btn-secundario" style="width:100%; margin-top:10px; color:var(--danger); display:none;" id="mjBtnEliminarPlantilla">Eliminar plantilla</button>
-  </div>
-</div>
-
-<!-- Hoja: editor de mensaje -->
-<div class="hoja-fondo" id="mjHojaEditor" onclick="if(event.target===this) mjCerrarEditor()">
-  <div class="hoja" style="max-height:92vh;">
-    <div class="hoja-manija"></div>
-    <h3 id="mjEditorTitulo">Mensaje</h3>
-
-    <div class="campo">
-      <label for="mjNombreCliente">Nombre del cliente</label>
-      <input type="text" id="mjNombreCliente" placeholder="Nombre del cliente" maxlength="60">
-    </div>
-
-    <div class="campo-fila" id="mjFilaVariables">
-      <div class="campo" id="mjCampoMonto">
-        <label for="mjMonto">Monto</label>
-        <input type="text" id="mjMonto" inputmode="numeric" placeholder="$0" oninput="saldosFormatearInputSaldo(this)">
-      </div>
-      <div class="campo" id="mjCampoFecha">
-        <label for="mjFecha">Fecha</label>
-        <input type="date" id="mjFecha">
-      </div>
-    </div>
-
-    <div class="campo">
-      <label>Vista previa</label>
-      <div class="mj-preview-texto" id="mjPreviewTexto"></div>
-    </div>
-
-    <div class="fila-botones">
-      <button class="btn-cancelar" id="mjBtnCompartirTexto">Compartir texto</button>
-      <button class="btn-guardar" id="mjBtnCompartirImagen">Compartir imagen</button>
-    </div>
-    <button class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="mjCerrarEditor()">Cerrar</button>
-  </div>
-</div>
-
-<!-- Hoja: vista previa de la imagen del mensaje -->
-<div class="hoja-fondo" id="mjHojaPreviewImagen" onclick="if(event.target===this) mjCerrarPreviewImagen()">
-  <div class="hoja">
-    <div class="hoja-manija"></div>
-    <h3>Vista previa</h3>
-    <div style="text-align:center; margin:6px 0 16px;">
-      <img id="mjImgPreview" style="max-width:100%; border-radius:14px; box-shadow:var(--shadow-lift);" alt="Tarjeta del mensaje">
-    </div>
-    <div class="fila-btns">
-      <button class="btn btn-secundario" id="mjBtnCerrarPreviewImagen">Cerrar</button>
-      <button class="btn btn-primario" id="mjBtnCompartirPreviewImagen">Compartir</button>
-    </div>
-  </div>
-</div>
-
 <div class="toast" id="toast">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
   <span id="toastTexto">Guardado</span>
@@ -2672,7 +2030,7 @@
 /* =========================================================
    CENTRAL — Sistema principal
    Reglas para agregar nuevos módulos en el futuro:
-   1) Agregar una tarjeta en #gridModulos (copiar el patrón de "Notas Rápidas",
+   1) Agregar una tarjeta en #gridModulos (copiar el patrón de "Registro de Clientes",
       cambiando --tab-color / --tab-soft, ícono, título y descripción).
    2) Crear una <section class="pantalla-modulo" id="pantalla<Nombre>"> con su
       propio modulo-header y modulo-contenido.
@@ -2688,18 +2046,14 @@ function abrirModulo(nombre){
   document.getElementById('pantalla' + capitalizar(nombre)).classList.add('activa');
   pantallaActiva = nombre;
   history.pushState({pantalla: nombre}, '');
-  if(nombre === 'notas') renderizarNotas();
   if(nombre === 'clientes') rcRenderLista();
   if(nombre === 'simulador') simInicializar();
   if(nombre === 'facturas') facAbrirModulo();
   if(nombre === 'saldos') saldosRenderizar();
   if(nombre === 'topes') topesAbrirModulo();
   if(nombre === 'riesgo') rgAbrirModulo();
-  if(nombre === 'pagare') pgAbrirModulo();
   if(nombre === 'recibos') rbAbrirModulo();
   if(nombre === 'formcliente') fcAbrirModulo();
-  if(nombre === 'mensajes') mjAbrirModulo();
-  if(nombre === 'tarjetas') tpAbrirModulo();
   if(nombre === 'documentos') docAbrirModulo();
   if(nombre === 'simauto') saAbrirModulo();
 }
@@ -2901,7 +2255,6 @@ window.addEventListener('popstate', () => {
     document.getElementById('pantalla' + capitalizar(pantallaActiva)).classList.remove('activa');
     pantallaActiva = null;
   }
-  cerrarFormularioNota(true);
   cerrarAcercaDe(true);
   cerrarDetalleCliente(true);
   cancelarImportacionClientes(true);
@@ -2913,26 +2266,12 @@ window.addEventListener('popstate', () => {
   saldosCerrarConfirmarLimpiar(true);
   topesCerrarForm(true);
   rgCerrarHoja(true);
-  pgCerrarHoja(true);
-  pgCerrarPreview(true);
-  pgCerrarElegirTipo(true);
-  pgCerrarFormPaz(true);
   rbCerrarElegir(true);
   rbCerrarEditor(true);
-  mjCerrarPlantillas(true);
-  mjCerrarEditor(true);
-  mjCerrarPreviewImagen(true);
-  tpCerrarEditarPlantilla(true);
-  tpCerrarComponer(true);
-  tpCerrarPreviewImagen(true);
   docCerrarEditor(true);
   docCerrarPreviewImagen(true);
   saCerrarElegir(true);
   saCerrarEnviar(true);
-  pgCerrarPreviewImagen(true);
-  pgCerrarEditarPlantilla(true);
-  mjCerrarGestionPlantillas(true);
-  mjCerrarEditarPlantilla2(true);
 });
 
 // ---------- Toast ----------
@@ -2948,26 +2287,20 @@ function mostrarToast(texto){
 // ---------- Acerca de ----------
 // =========================================================
 // Copia de seguridad completa — exporta/importa TODAS las llaves de
-// localStorage que usa Central (cliente, riesgo, pagarés, recibos, saldos,
-// topes, facturas, notas, plantillas, orden del panel) en un solo archivo.
+// localStorage que usa Central (clientes, riesgo, recibos, saldos, topes,
+// facturas, orden del panel) en un solo archivo.
 // =========================================================
 const RESPALDO_LLAVES = [
   'central_orden_modulos',
   'central_modulos_ocultos',
-  'central_notas_v1',
   'registroClientes_v1',
   'central_facturas_v1',
   'central_saldos_v1',
   'central_topes_v1',
   'evaluacionesRiesgo_v1',
-  'pagaresPrestaYa_v1',
-  'pagaresPrestaYa_folio_v1',
-  'pagaresPrestaYa_folioPazYSalvo_v1',
-  'pagarePlantillaTexto_v1',
-  'pagarePlantillaTextoPaz_v1',
   'recibosPrestaYa_v1',
-  'mensajesPlantillas_v1',
-  'tarjetasPlantillas_v1'
+  'documentosPrestaYa_v1',
+  'simuladorAutomaticoEnvios_v1'
 ];
 
 function respaldoFechaArchivo(){
@@ -3071,120 +2404,6 @@ function abrirAcercaDe(){
 }
 function cerrarAcercaDe(silencioso){
   document.getElementById('hojaAcercaDe').classList.remove('activa');
-}
-
-// =========================================================
-// MÓDULO: NOTAS RÁPIDAS (primer módulo, sirve como ejemplo del sistema)
-// =========================================================
-const LLAVE_NOTAS = 'central_notas_v1';
-let notaEditandoId = null;
-
-function obtenerNotas(){
-  try{
-    return JSON.parse(localStorage.getItem(LLAVE_NOTAS)) || [];
-  }catch(e){ return []; }
-}
-function guardarNotasEnStorage(notas){
-  localStorage.setItem(LLAVE_NOTAS, JSON.stringify(notas));
-}
-
-function renderizarNotas(){
-  const notas = obtenerNotas().sort((a,b) => b.fecha - a.fecha);
-  const lista = document.getElementById('listaNotas');
-  const vacio = document.getElementById('estadoVacioNotas');
-  lista.innerHTML = '';
-
-  if(notas.length === 0){
-    vacio.style.display = 'block';
-    return;
-  }
-  vacio.style.display = 'none';
-
-  notas.forEach(nota => {
-    const el = document.createElement('div');
-    el.className = 'nota';
-    const fecha = new Date(nota.fecha);
-    const fechaTexto = fecha.toLocaleDateString('es-CO', {day:'2-digit', month:'short', year:'numeric'});
-    el.innerHTML = `
-      <h4>${escaparHTML(nota.titulo)}</h4>
-      <p>${escaparHTML(nota.texto)}</p>
-      <div class="meta">
-        <span class="fecha">${fechaTexto}</span>
-        <div class="acciones">
-          <button onclick="editarNota('${nota.id}')" aria-label="Editar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
-          </button>
-          <button class="borrar" onclick="borrarNota('${nota.id}')" aria-label="Eliminar">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-          </button>
-        </div>
-      </div>
-    `;
-    lista.appendChild(el);
-  });
-}
-
-function escaparHTML(str){
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-function abrirFormularioNota(){
-  notaEditandoId = null;
-  document.getElementById('tituloHojaNota').textContent = 'Nueva nota';
-  document.getElementById('notaTitulo').value = '';
-  document.getElementById('notaTexto').value = '';
-  document.getElementById('hojaNota').classList.add('activa');
-  document.getElementById('fabNotas').classList.add('oculto');
-}
-function editarNota(id){
-  const nota = obtenerNotas().find(n => n.id === id);
-  if(!nota) return;
-  notaEditandoId = id;
-  document.getElementById('tituloHojaNota').textContent = 'Editar nota';
-  document.getElementById('notaTitulo').value = nota.titulo;
-  document.getElementById('notaTexto').value = nota.texto;
-  document.getElementById('hojaNota').classList.add('activa');
-  document.getElementById('fabNotas').classList.add('oculto');
-}
-function cerrarFormularioNota(silencioso){
-  document.getElementById('hojaNota').classList.remove('activa');
-  document.getElementById('fabNotas').classList.remove('oculto');
-}
-function guardarNota(){
-  const titulo = document.getElementById('notaTitulo').value.trim();
-  const texto = document.getElementById('notaTexto').value.trim();
-  if(!titulo && !texto){
-    mostrarToast('Escribe algo antes de guardar');
-    return;
-  }
-  const notas = obtenerNotas();
-  if(notaEditandoId){
-    const idx = notas.findIndex(n => n.id === notaEditandoId);
-    if(idx > -1){
-      notas[idx].titulo = titulo || 'Sin título';
-      notas[idx].texto = texto;
-      notas[idx].fecha = Date.now();
-    }
-  } else {
-    notas.push({
-      id: 'n' + Date.now() + Math.random().toString(16).slice(2),
-      titulo: titulo || 'Sin título',
-      texto: texto,
-      fecha: Date.now()
-    });
-  }
-  guardarNotasEnStorage(notas);
-  cerrarFormularioNota();
-  renderizarNotas();
-  mostrarToast('Nota guardada');
-}
-function borrarNota(id){
-  const notas = obtenerNotas().filter(n => n.id !== id);
-  guardarNotasEnStorage(notas);
-  renderizarNotas();
-  mostrarToast('Nota eliminada');
 }
 
 // =========================================================
@@ -3824,7 +3043,6 @@ let facMesVisto = new Date();
 let facEditandoId = null;
 let facEliminarId = null;
 let facTimeoutGuardado = null;
-let facDiaSeleccionado = null;
 
 function facCargar(){
   try{ facturas = JSON.parse(localStorage.getItem(FAC_LLAVE)) || []; }
@@ -3939,6 +3157,7 @@ function facTarjetaHTML(r){
   const claseVencida = r.estado === 'vencida' ? ' vencida' : '';
   const btnPagarTexto = r.estado === 'pagada' ? '↺ Deshacer' : '✓ Pagar';
   const claseBtnPagar = r.estado === 'pagada' ? '' : 'accion-pagar';
+  const notaHTML = f.nota ? '<div class="nota-factura">📝 ' + escaparHTML(f.nota.length > 60 ? f.nota.slice(0, 60) + '…' : f.nota) + '</div>' : '';
 
   return '<div class="tarjeta-factura' + claseVencida + '">' +
     selloHTML +
@@ -3950,6 +3169,7 @@ function facTarjetaHTML(r){
       '</div>' +
       '<div class="monto-factura">' + simFormatMoneda(r.valor) + '</div>' +
     '</div>' +
+    notaHTML +
     '<span class="pill-estado ' + r.estado + '">' + pillTexto + '</span>' +
     '<div class="fila-acciones-factura">' +
       '<button class="' + claseBtnPagar + '" onclick="facTogglePagada(\'' + f.id + '\')">' + btnPagarTexto + '</button>' +
@@ -3976,46 +3196,13 @@ function facTogglePagada(id){
   facRenderizar();
 }
 
-function facPoblarGridDias(){
-  const cont = document.getElementById('facGridDias');
-  cont.innerHTML = '';
-  for(let i = 1; i <= 31; i++){
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'dia-calendario' + (i === facDiaSeleccionado ? ' activo' : '');
-    b.textContent = i;
-    b.addEventListener('click', () => facElegirDia(i));
-    cont.appendChild(b);
-  }
-  for(let i = 0; i < 4; i++){
-    const vacia = document.createElement('div');
-    vacia.className = 'dia-calendario vacia';
-    cont.appendChild(vacia);
-  }
-}
-function facElegirDia(n){
-  facDiaSeleccionado = n;
-  document.getElementById('facDiaTexto').textContent = 'Día ' + n;
-  facPoblarGridDias();
-  document.getElementById('facPanelDia').classList.remove('abierto');
-}
-document.getElementById('facBtnDia').addEventListener('click', () => {
-  const panel = document.getElementById('facPanelDia');
-  panel.classList.toggle('abierto');
-});
-document.addEventListener('click', (e) => {
-  const dentroDia = e.target.closest('#facBtnDia, #facPanelDia');
-  if(!dentroDia) document.getElementById('facPanelDia').classList.remove('abierto');
-});
-
 function facAbrirAgregar(){
   facEditandoId = null;
-  facDiaSeleccionado = null;
   document.getElementById('facTituloForm').textContent = 'Nueva factura';
   document.getElementById('facNombre').value = '';
   document.getElementById('facValor').value = '';
-  document.getElementById('facDiaTexto').textContent = 'Elegir día';
-  facPoblarGridDias();
+  document.getElementById('facNota').value = '';
+  document.getElementById('facFecha').value = '';
   document.getElementById('facHojaForm').classList.add('activa');
   document.getElementById('facFab').classList.add('oculto');
 }
@@ -4023,30 +3210,33 @@ function facAbrirEditar(id){
   const f = facturas.find(x => x.id === id);
   if(!f) return;
   facEditandoId = id;
-  facDiaSeleccionado = f.diaVencimiento;
   const key = facMesKey(facMesVisto);
   const valorActual = facValorMes(f, key);
   document.getElementById('facTituloForm').textContent = 'Editar factura';
   document.getElementById('facNombre').value = f.nombre;
   document.getElementById('facValor').value = valorActual ? simFormatMiles(valorActual) : '';
-  document.getElementById('facDiaTexto').textContent = 'Día ' + f.diaVencimiento;
-  facPoblarGridDias();
+  document.getElementById('facNota').value = f.nota || '';
+  const anio = facMesVisto.getFullYear();
+  const mes = facMesVisto.getMonth();
+  const diaClamp = Math.min(f.diaVencimiento, facUltimoDiaMes(anio, mes));
+  document.getElementById('facFecha').value = anio + '-' + String(mes + 1).padStart(2, '0') + '-' + String(diaClamp).padStart(2, '0');
   document.getElementById('facHojaForm').classList.add('activa');
   document.getElementById('facFab').classList.add('oculto');
 }
 function facCerrarForm(silencioso){
   document.getElementById('facHojaForm').classList.remove('activa');
-  document.getElementById('facPanelDia').classList.remove('abierto');
   document.getElementById('facFab').classList.remove('oculto');
 }
 function facGuardarForm(){
   const nombre = document.getElementById('facNombre').value.trim();
   const valorDigitos = document.getElementById('facValor').value.replace(/\D/g, '');
   const valor = parseInt(valorDigitos, 10) || 0;
-  const dia = facDiaSeleccionado;
+  const nota = document.getElementById('facNota').value.trim();
+  const fechaValor = document.getElementById('facFecha').value;
+  const dia = fechaValor ? new Date(fechaValor + 'T00:00:00').getDate() : null;
 
   if(!nombre){ mostrarToast('El nombre es obligatorio'); return; }
-  if(!dia){ mostrarToast('Elige un día de vencimiento'); return; }
+  if(!dia){ mostrarToast('Elige la fecha de vencimiento'); return; }
 
   const key = facMesKey(facMesVisto);
   if(facEditandoId){
@@ -4054,6 +3244,7 @@ function facGuardarForm(){
     if(f){
       f.nombre = nombre;
       f.diaVencimiento = dia;
+      f.nota = nota;
       const registro = f.historial[key] || { valor: 0, pagada: false, fechaPago: null };
       registro.valor = valor;
       f.historial[key] = registro;
@@ -4063,6 +3254,7 @@ function facGuardarForm(){
       id: 'f' + Date.now() + Math.random().toString(16).slice(2),
       nombre: nombre,
       diaVencimiento: dia,
+      nota: nota,
       historial: {}
     };
     nueva.historial[key] = { valor: valor, pagada: false, fechaPago: null };
@@ -4122,6 +3314,11 @@ const SALDOS_PALETA = ['#D6336C','#FFCD00','#ED1C24','#3B6DF0','#1F8A5F','#7C5CF
 let bancos = [];
 let saldosTimeoutGuardado = null;
 
+function escaparHTML(str){
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
 function escaparAtributo(str){
   return escaparHTML(str).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
@@ -4716,604 +3913,6 @@ function rgEliminarEvaluacion(id){
 rgCargar();
 
 // =========================================================
-// Generador de Pagaré — documento de respaldo legal por préstamo
-// =========================================================
-const PG_LLAVE = 'pagaresPrestaYa_v1';
-const PG_FOLIO_LLAVE = 'pagaresPrestaYa_folio_v1';
-const PG_FOLIO_PYS_LLAVE = 'pagaresPrestaYa_folioPazYSalvo_v1';
-const PG_PLANTILLA_LLAVE = 'pagarePlantillaTexto_v1';
-const PG_PLANTILLA_PAZ_LLAVE = 'pagarePlantillaTextoPaz_v1';
-
-const PG_PLANTILLA_PAGARE_DEFECTO =
-'PAGARÉ N.° {folio}\n\n' +
-'Lugar y fecha de expedición: {lugar}, {fecha}.\n\n' +
-'Yo, {nombre}{clausulaCedula}{clausulaDireccion}, mayor de edad, declaro que debo y me obligo a pagar incondicionalmente a la orden de {acreedor}, o a quien represente sus derechos, la suma de {montoLetras} ({monto}) moneda corriente, correspondiente a un préstamo recibido a satisfacción en la fecha de expedición de este documento.\n\n' +
-'Esta obligación será pagada en {cuotas} cuota(s) de forma {frecuencia}, por un valor aproximado de {valorCuota} cada una{clausulaPrimeraCuota}, hasta la cancelación total de la deuda.\n\n' +
-'Sobre los saldos en mora se reconocerán intereses moratorios a la tasa máxima permitida por la ley. El incumplimiento en el pago de una sola cuota dará derecho al acreedor a declarar vencido el plazo y exigir el pago total de la obligación, junto con los intereses causados y los gastos de cobranza en que se incurra.\n\n' +
-'{clausulaCodeudor}Para constancia se firma en {lugar}, a los {fecha}.\n\n\n' +
-'_____________________________\n' +
-'Firma del deudor\n' +
-'{nombre}{clausulaFirmaCedula}\n' +
-'{bloqueFirmaCodeudor}';
-
-const PG_PLANTILLA_PAZ_DEFECTO =
-'CONSTANCIA DE PAZ Y SALVO N.° {folio}\n\n' +
-'Lugar y fecha de expedición: {lugar}, {fecha}.\n\n' +
-'{acreedor} hace constar que el(la) señor(a) {nombre}{clausulaCedula}{clausulaDireccion}, se encuentra A PAZ Y SALVO por concepto del préstamo{clausulaPagareRef}, por un valor cancelado de {montoLetras} ({monto}) moneda corriente, pagado en su totalidad a la fecha de expedición de este documento.\n\n' +
-'En consecuencia, no existe ninguna obligación pendiente entre las partes derivada de dicho préstamo.\n\n' +
-'{clausulaNota}Se expide la presente constancia en {lugar}, a los {fecha}.\n\n\n' +
-'_____________________________\n' +
-'{acreedor}\n' +
-'Constancia de Paz y Salvo';
-
-function pgObtenerPlantilla(tipo){
-  const llave = tipo === 'pazysalvo' ? PG_PLANTILLA_PAZ_LLAVE : PG_PLANTILLA_LLAVE;
-  const defecto = tipo === 'pazysalvo' ? PG_PLANTILLA_PAZ_DEFECTO : PG_PLANTILLA_PAGARE_DEFECTO;
-  const guardada = localStorage.getItem(llave);
-  return guardada || defecto;
-}
-function pgGuardarPlantilla(tipo, texto){
-  const llave = tipo === 'pazysalvo' ? PG_PLANTILLA_PAZ_LLAVE : PG_PLANTILLA_LLAVE;
-  localStorage.setItem(llave, texto);
-}
-function pgRestaurarPlantilla(tipo){
-  const llave = tipo === 'pazysalvo' ? PG_PLANTILLA_PAZ_LLAVE : PG_PLANTILLA_LLAVE;
-  localStorage.removeItem(llave);
-}
-let pgPlantillaTipoEditando = null;
-function pgAbrirEditarPlantilla(tipo){
-  pgPlantillaTipoEditando = tipo;
-  document.getElementById('pgEditarPlantillaTitulo').textContent = tipo === 'pazysalvo' ? 'Personalizar texto del paz y salvo' : 'Personalizar texto del pagaré';
-  document.getElementById('pgPlantillaTexto').value = pgObtenerPlantilla(tipo);
-  document.getElementById('pgHojaEditarPlantilla').classList.add('activa');
-}
-function pgCerrarEditarPlantilla(silencioso){
-  document.getElementById('pgHojaEditarPlantilla').classList.remove('activa');
-}
-let pgPagares = [];
-let pgBusqueda = '';
-let pgClienteActivoId = null;
-let pgFrecuenciaSeleccionada = '';
-let pgTextoActual = '';
-
-function pgCargar(){
-  try{ pgPagares = JSON.parse(localStorage.getItem(PG_LLAVE)) || []; }catch(e){ pgPagares = []; }
-  pgPagares.forEach(p => { if(!p.tipo) p.tipo = 'pagare'; });
-}
-function pgGuardarStorage(){
-  localStorage.setItem(PG_LLAVE, JSON.stringify(pgPagares));
-}
-function pgSiguienteFolio(){
-  let n = parseInt(localStorage.getItem(PG_FOLIO_LLAVE), 10);
-  if(!n || n < 1) n = 0;
-  n += 1;
-  localStorage.setItem(PG_FOLIO_LLAVE, String(n));
-  return String(n).padStart(4, '0');
-}
-function pgSiguienteFolioPaz(){
-  let n = parseInt(localStorage.getItem(PG_FOLIO_PYS_LLAVE), 10);
-  if(!n || n < 1) n = 0;
-  n += 1;
-  localStorage.setItem(PG_FOLIO_PYS_LLAVE, String(n));
-  return String(n).padStart(4, '0');
-}
-function pgFormatoTipo(tipo){
-  return tipo === 'pazysalvo' ? 'Paz y Salvo' : 'Pagaré';
-}
-function pgHistorialCliente(clienteId){
-  return pgPagares.filter(p => p.clienteId === clienteId).sort((a, b) => b.fecha.localeCompare(a.fecha));
-}
-function pgFechaHoyISO(){
-  const d = new Date();
-  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-}
-function pgFechaLarga(iso){
-  const d = new Date(iso + 'T00:00:00');
-  const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
-  return d.getDate() + ' de ' + meses[d.getMonth()] + ' de ' + d.getFullYear();
-}
-function pgFechaCorta(iso){
-  const d = new Date(iso + 'T00:00:00');
-  const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear();
-}
-
-// ---------- Número a letras (pesos) ----------
-const PG_UNI = ['', 'uno', 'dos', 'tres', 'cuatro', 'cinco', 'seis', 'siete', 'ocho', 'nueve'];
-const PG_ESPECIALES = ['diez', 'once', 'doce', 'trece', 'catorce', 'quince', 'dieciséis', 'diecisiete', 'dieciocho', 'diecinueve'];
-const PG_DECENAS = ['', '', 'veinte', 'treinta', 'cuarenta', 'cincuenta', 'sesenta', 'setenta', 'ochenta', 'noventa'];
-const PG_CENTENAS = ['', 'ciento', 'doscientos', 'trescientos', 'cuatrocientos', 'quinientos', 'seiscientos', 'setecientos', 'ochocientos', 'novecientos'];
-function pgConvertirDecenas(n){
-  if(n < 10) return PG_UNI[n];
-  if(n < 20) return PG_ESPECIALES[n - 10];
-  const d = Math.floor(n / 10), u = n % 10;
-  if(d === 2) return u === 0 ? 'veinte' : 'veinti' + PG_UNI[u];
-  return PG_DECENAS[d] + (u > 0 ? ' y ' + PG_UNI[u] : '');
-}
-function pgConvertirCentenas(n){
-  if(n === 0) return '';
-  if(n === 100) return 'cien';
-  const c = Math.floor(n / 100), resto = n % 100;
-  let texto = '';
-  if(c > 0) texto += PG_CENTENAS[c];
-  if(resto > 0) texto += (texto ? ' ' : '') + pgConvertirDecenas(resto);
-  return texto;
-}
-function pgApocopar(texto){
-  if(!texto) return texto;
-  texto = texto.replace(/veintiuno$/, 'veintiún');
-  texto = texto.replace(/(^|\s)uno$/, '$1un');
-  return texto;
-}
-function pgNumeroALetras(numero){
-  numero = Math.floor(Math.abs(numero));
-  if(numero === 0) return 'cero';
-  if(numero > 999999999) return numero.toLocaleString('es-CO');
-  const millones = Math.floor(numero / 1000000);
-  const miles = Math.floor((numero % 1000000) / 1000);
-  const cientos = numero % 1000;
-  let partes = [];
-  if(millones > 0) partes.push(millones === 1 ? 'un millón' : pgApocopar(pgConvertirCentenas(millones)) + ' millones');
-  if(miles > 0) partes.push(miles === 1 ? 'mil' : pgApocopar(pgConvertirCentenas(miles)) + ' mil');
-  if(cientos > 0) partes.push(pgApocopar(pgConvertirCentenas(cientos)));
-  return partes.join(' ').trim();
-}
-
-// ---------- Texto del pagaré ----------
-function pgConstruirTexto(d){
-  const fechaTexto = pgFechaLarga(d.fechaISO);
-  const montoLetras = capitalizar(pgNumeroALetras(d.monto)) + ' pesos';
-  const montoNumero = simFormatMoneda(d.monto);
-  const valorCuota = simFormatMoneda(Math.round(d.monto / d.cuotas));
-  const frecMap = { Diario: 'diaria', Semanal: 'semanal', Quincenal: 'quincenal', Mensual: 'mensual' };
-  const frecuenciaTexto = frecMap[d.frecuencia] || d.frecuencia.toLowerCase();
-
-  const clausulaCedula = d.cliente.cedula ? ', identificado(a) con cédula de ciudadanía N.° ' + d.cliente.cedula : '';
-  const clausulaDireccion = d.cliente.direccion ? ', con domicilio en ' + d.cliente.direccion : '';
-  const clausulaPrimeraCuota = d.fechaPrimeraCuotaISO ? ', iniciando el ' + pgFechaLarga(d.fechaPrimeraCuotaISO) : '';
-  const clausulaCodeudor = d.codeudorNombre
-    ? 'Codeudor(a): ' + d.codeudorNombre + (d.codeudorCedula ? ', identificado(a) con cédula de ciudadanía N.° ' + d.codeudorCedula : '') + ', quien se obliga solidariamente al pago de esta obligación en las mismas condiciones que el deudor principal.\n\n'
-    : '';
-  const clausulaFirmaCedula = d.cliente.cedula ? ' · C.C. ' + d.cliente.cedula : '';
-  const bloqueFirmaCodeudor = d.codeudorNombre
-    ? '\n_____________________________\nFirma del codeudor\n' + d.codeudorNombre + (d.codeudorCedula ? ' · C.C. ' + d.codeudorCedula : '')
-    : '';
-
-  return pgObtenerPlantilla('pagare')
-    .replace(/\{folio\}/g, d.folio)
-    .replace(/\{lugar\}/g, d.lugar)
-    .replace(/\{fecha\}/g, fechaTexto)
-    .replace(/\{nombre\}/g, d.cliente.nombre)
-    .replace(/\{clausulaCedula\}/g, clausulaCedula)
-    .replace(/\{clausulaDireccion\}/g, clausulaDireccion)
-    .replace(/\{acreedor\}/g, d.acreedor)
-    .replace(/\{montoLetras\}/g, montoLetras)
-    .replace(/\{monto\}/g, montoNumero)
-    .replace(/\{cuotas\}/g, d.cuotas)
-    .replace(/\{frecuencia\}/g, frecuenciaTexto)
-    .replace(/\{valorCuota\}/g, valorCuota)
-    .replace(/\{clausulaPrimeraCuota\}/g, clausulaPrimeraCuota)
-    .replace(/\{clausulaCodeudor\}/g, clausulaCodeudor)
-    .replace(/\{clausulaFirmaCedula\}/g, clausulaFirmaCedula)
-    .replace(/\{bloqueFirmaCodeudor\}/g, bloqueFirmaCodeudor);
-}
-function pgConstruirTextoPazYSalvo(d){
-  const fechaTexto = pgFechaLarga(d.fechaISO);
-  const montoLetras = capitalizar(pgNumeroALetras(d.monto)) + ' pesos';
-  const montoNumero = simFormatMoneda(d.monto);
-
-  const clausulaCedula = d.cliente.cedula ? ', identificado(a) con cédula de ciudadanía N.° ' + d.cliente.cedula : '';
-  const clausulaDireccion = d.cliente.direccion ? ', con domicilio en ' + d.cliente.direccion : '';
-  const clausulaPagareRef = d.pagareRef ? ' correspondiente al pagaré N.° ' + d.pagareRef : '';
-  const clausulaNota = d.nota ? d.nota + '\n\n' : '';
-
-  return pgObtenerPlantilla('pazysalvo')
-    .replace(/\{folio\}/g, d.folio)
-    .replace(/\{lugar\}/g, d.lugar)
-    .replace(/\{fecha\}/g, fechaTexto)
-    .replace(/\{nombre\}/g, d.cliente.nombre)
-    .replace(/\{clausulaCedula\}/g, clausulaCedula)
-    .replace(/\{clausulaDireccion\}/g, clausulaDireccion)
-    .replace(/\{acreedor\}/g, d.acreedor)
-    .replace(/\{montoLetras\}/g, montoLetras)
-    .replace(/\{monto\}/g, montoNumero)
-    .replace(/\{clausulaPagareRef\}/g, clausulaPagareRef)
-    .replace(/\{clausulaNota\}/g, clausulaNota);
-}
-
-function pgAbrirModulo(){
-  pgBusqueda = '';
-  document.getElementById('pgBuscador').value = '';
-  pgRenderResumen();
-  pgRenderLista();
-}
-function pgRenderResumen(){
-  const clientesConDoc = new Set(pgPagares.map(p => p.clienteId)).size;
-  const totalPagares = pgPagares.filter(p => p.tipo === 'pagare').length;
-  const totalPazYSalvo = pgPagares.filter(p => p.tipo === 'pazysalvo').length;
-  const montoTotal = pgPagares.filter(p => p.tipo === 'pagare').reduce((s, p) => s + (p.monto || 0), 0);
-  document.getElementById('pgStatPagares').textContent = totalPagares;
-  document.getElementById('pgStatPazYSalvo').textContent = totalPazYSalvo;
-  document.getElementById('pgStatClientes').textContent = clientesConDoc;
-  document.getElementById('pgStatMonto').textContent = simFormatMoneda(montoTotal);
-}
-function pgRenderLista(){
-  const filtro = pgBusqueda.trim().toLowerCase();
-  const lista = rcClientes.filter(c => !filtro || c.nombre.toLowerCase().indexOf(filtro) !== -1);
-  const listaEl = document.getElementById('pgLista');
-  const vacioEl = document.getElementById('pgEstadoVacio');
-  const vacioTexto = document.getElementById('pgEstadoVacioTexto');
-
-  if(rcClientes.length === 0){
-    listaEl.innerHTML = '';
-    vacioTexto.textContent = 'Registra un cliente en "Registro de Clientes" para poder generarle un documento.';
-    vacioEl.style.display = 'block';
-    return;
-  }
-  if(lista.length === 0){
-    listaEl.innerHTML = '';
-    vacioTexto.textContent = 'Sin resultados para tu búsqueda.';
-    vacioEl.style.display = 'block';
-    return;
-  }
-  vacioEl.style.display = 'none';
-  listaEl.innerHTML = lista.map(c => {
-    const hist = pgHistorialCliente(c.id);
-    const subtitulo = hist.length === 0
-      ? 'Sin documentos generados'
-      : hist.length + ' documento' + (hist.length === 1 ? '' : 's') + ' · Último: ' + pgFormatoTipo(hist[0].tipo) + ' N.° ' + hist[0].folio;
-    return '<div class="item-lista" data-id="' + c.id + '">' +
-      '<div class="avatar-circulo">' + rcInicial(c.nombre) + '</div>' +
-      '<div class="item-info">' +
-        '<p class="titulo">' + escaparHTML(c.nombre) + '</p>' +
-        '<p class="subtitulo">' + escaparHTML(subtitulo) + '</p>' +
-      '</div>' +
-      '<svg class="chevron-item" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>' +
-    '</div>';
-  }).join('');
-}
-document.getElementById('pgBuscador').addEventListener('input', (e) => { pgBusqueda = e.target.value; pgRenderLista(); });
-document.getElementById('pgLista').addEventListener('click', (e) => {
-  const card = e.target.closest('.item-lista');
-  if(!card) return;
-  pgAbrirHoja(card.getAttribute('data-id'));
-});
-
-// ---------- Selector de tipo de documento ----------
-function pgAbrirHoja(clienteId){
-  const c = rcClientes.find(x => x.id === clienteId);
-  if(!c) return;
-  pgClienteActivoId = clienteId;
-  document.getElementById('pgElegirTipoNombre').textContent = c.nombre;
-  pgRenderHistorialElegir();
-  document.getElementById('pgHojaElegirTipo').classList.add('activa');
-}
-function pgCerrarElegirTipo(silencioso){
-  document.getElementById('pgHojaElegirTipo').classList.remove('activa');
-}
-function pgRenderHistorialElegir(){
-  const hist = pgHistorialCliente(pgClienteActivoId);
-  const cont = document.getElementById('pgHistorialLista');
-  if(hist.length === 0){
-    cont.innerHTML = '<p style="font-size:12.5px; color:var(--muted); margin:4px 0 0;">Aún no hay documentos generados para este cliente.</p>';
-    return;
-  }
-  cont.innerHTML = hist.map(p => {
-    return '<div class="fila-historial-pagare">' +
-      '<div>' +
-        '<span class="fecha-historial">' + pgFormatoTipo(p.tipo) + ' N.° ' + p.folio + ' · ' + pgFechaCorta(p.fecha) + '</span>' +
-        '<span style="font-size:12.5px; font-weight:700; color:var(--ink);">' + simFormatMoneda(p.monto) + '</span>' +
-      '</div>' +
-      '<div style="display:flex; gap:4px;">' +
-        '<button class="btn-eliminar-historial" onclick="pgVerDesdeHistorial(\'' + p.id + '\')" aria-label="Ver documento">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>' +
-        '</button>' +
-        '<button class="btn-eliminar-historial" onclick="pgEliminarPagare(\'' + p.id + '\')" aria-label="Eliminar documento">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>' +
-        '</button>' +
-      '</div>' +
-    '</div>';
-  }).join('');
-}
-function pgVerDesdeHistorial(id){
-  const p = pgPagares.find(x => x.id === id);
-  if(!p) return;
-  pgAbrirPreview(p);
-}
-function pgEliminarPagare(id){
-  pgPagares = pgPagares.filter(p => p.id !== id);
-  pgGuardarStorage();
-  pgRenderHistorialElegir();
-  pgRenderResumen();
-  pgRenderLista();
-  mostrarToast('Documento eliminado');
-}
-
-// ---------- Formulario: Pagaré ----------
-function pgAbrirFormPagare(){
-  document.getElementById('pgHojaElegirTipo').classList.remove('activa');
-  const c = rcClientes.find(x => x.id === pgClienteActivoId);
-  if(!c) return;
-  pgFrecuenciaSeleccionada = '';
-  document.getElementById('pgHojaNombre').textContent = 'Nuevo pagaré — ' + c.nombre;
-  document.getElementById('pgLugar').value = '';
-  document.getElementById('pgFecha').value = pgFechaHoyISO();
-  document.getElementById('pgAcreedor').value = 'PrestaYa';
-  document.getElementById('pgMonto').value = '';
-  document.getElementById('pgCuotas').value = '';
-  document.getElementById('pgFechaPrimeraCuota').value = '';
-  document.getElementById('pgCodeudorNombre').value = '';
-  document.getElementById('pgCodeudorCedula').value = '';
-  document.querySelectorAll('#pgListaFrecuencias .opcion-frecuencia').forEach(b => b.classList.remove('activa'));
-  document.getElementById('pgHojaGenerar').classList.add('activa');
-}
-function pgCerrarHoja(silencioso){
-  document.getElementById('pgHojaGenerar').classList.remove('activa');
-}
-function pgSeleccionarFrecuencia(valor, btn){
-  pgFrecuenciaSeleccionada = valor;
-  document.querySelectorAll('#pgListaFrecuencias .opcion-frecuencia').forEach(b => b.classList.remove('activa'));
-  btn.classList.add('activa');
-}
-
-document.getElementById('pgBtnGenerar').addEventListener('click', () => {
-  const c = rcClientes.find(x => x.id === pgClienteActivoId);
-  if(!c) return;
-  const lugar = document.getElementById('pgLugar').value.trim();
-  const fecha = document.getElementById('pgFecha').value;
-  const acreedor = document.getElementById('pgAcreedor').value.trim() || 'PrestaYa';
-  const monto = parseInt(document.getElementById('pgMonto').value.replace(/\D/g, ''), 10) || 0;
-  const cuotas = parseInt(document.getElementById('pgCuotas').value, 10) || 0;
-  const fechaPrimeraCuota = document.getElementById('pgFechaPrimeraCuota').value;
-  const codeudorNombre = document.getElementById('pgCodeudorNombre').value.trim();
-  const codeudorCedula = document.getElementById('pgCodeudorCedula').value.trim();
-
-  if(!lugar){ mostrarToast('Ingresa el lugar de expedición'); return; }
-  if(!fecha){ mostrarToast('Selecciona la fecha de expedición'); return; }
-  if(monto <= 0){ mostrarToast('Ingresa el monto del préstamo'); return; }
-  if(cuotas <= 0){ mostrarToast('Ingresa el número de cuotas'); return; }
-  if(!pgFrecuenciaSeleccionada){ mostrarToast('Selecciona la frecuencia de pago'); return; }
-
-  const folio = pgSiguienteFolio();
-  const texto = pgConstruirTexto({
-    folio: folio, lugar: lugar, fechaISO: fecha, acreedor: acreedor,
-    cliente: { nombre: c.nombre, cedula: c.cedula, direccion: c.direccion },
-    monto: monto, cuotas: cuotas, frecuencia: pgFrecuenciaSeleccionada,
-    fechaPrimeraCuotaISO: fechaPrimeraCuota, codeudorNombre: codeudorNombre, codeudorCedula: codeudorCedula
-  });
-
-  const registro = {
-    id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-    tipo: 'pagare', folio: folio, clienteId: pgClienteActivoId, fecha: fecha, monto: monto, texto: texto
-  };
-  pgPagares.unshift(registro);
-  pgGuardarStorage();
-  pgCerrarHoja();
-  pgRenderResumen();
-  pgRenderLista();
-  pgAbrirPreview(registro);
-  mostrarToast('Pagaré N.° ' + folio + ' generado');
-});
-
-// ---------- Formulario: Paz y Salvo ----------
-function pgAbrirFormPazYSalvo(){
-  document.getElementById('pgHojaElegirTipo').classList.remove('activa');
-  const c = rcClientes.find(x => x.id === pgClienteActivoId);
-  if(!c) return;
-  document.getElementById('pgPazHojaNombre').textContent = 'Nuevo paz y salvo — ' + c.nombre;
-  document.getElementById('pgPazLugar').value = '';
-  document.getElementById('pgPazFecha').value = pgFechaHoyISO();
-  document.getElementById('pgPazAcreedor').value = 'PrestaYa';
-  const ultimoPagare = pgHistorialCliente(pgClienteActivoId).find(p => p.tipo === 'pagare');
-  document.getElementById('pgPazMonto').value = ultimoPagare ? simFormatMiles(ultimoPagare.monto) : '';
-  document.getElementById('pgPazRef').value = ultimoPagare ? ultimoPagare.folio : '';
-  document.getElementById('pgPazNota').value = '';
-  document.getElementById('pgHojaPazYSalvo').classList.add('activa');
-}
-function pgCerrarFormPaz(silencioso){
-  document.getElementById('pgHojaPazYSalvo').classList.remove('activa');
-}
-
-document.getElementById('pgBtnGenerarPaz').addEventListener('click', () => {
-  const c = rcClientes.find(x => x.id === pgClienteActivoId);
-  if(!c) return;
-  const lugar = document.getElementById('pgPazLugar').value.trim();
-  const fecha = document.getElementById('pgPazFecha').value;
-  const acreedor = document.getElementById('pgPazAcreedor').value.trim() || 'PrestaYa';
-  const monto = parseInt(document.getElementById('pgPazMonto').value.replace(/\D/g, ''), 10) || 0;
-  const pagareRef = document.getElementById('pgPazRef').value.trim();
-  const nota = document.getElementById('pgPazNota').value.trim();
-
-  if(!lugar){ mostrarToast('Ingresa el lugar de expedición'); return; }
-  if(!fecha){ mostrarToast('Selecciona la fecha de expedición'); return; }
-  if(monto <= 0){ mostrarToast('Ingresa el monto cancelado'); return; }
-
-  const folio = pgSiguienteFolioPaz();
-  const texto = pgConstruirTextoPazYSalvo({
-    folio: folio, lugar: lugar, fechaISO: fecha, acreedor: acreedor,
-    cliente: { nombre: c.nombre, cedula: c.cedula, direccion: c.direccion },
-    monto: monto, pagareRef: pagareRef, nota: nota
-  });
-
-  const registro = {
-    id: 'z' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-    tipo: 'pazysalvo', folio: folio, clienteId: pgClienteActivoId, fecha: fecha, monto: monto, texto: texto
-  };
-  pgPagares.unshift(registro);
-  pgGuardarStorage();
-  pgCerrarFormPaz();
-  pgRenderResumen();
-  pgRenderLista();
-  pgAbrirPreview(registro);
-  mostrarToast('Paz y salvo N.° ' + folio + ' generado');
-});
-
-// ---------- Vista previa (compartida por ambos tipos) ----------
-let pgRegistroActual = null;
-let pgBlobActual = null;
-function pgAbrirPreview(registro){
-  pgRegistroActual = registro;
-  pgTextoActual = registro.texto;
-  document.getElementById('pgPreviewTitulo').textContent = pgFormatoTipo(registro.tipo) + ' N.° ' + registro.folio;
-  document.getElementById('pgPreviewTexto').textContent = registro.texto;
-  document.getElementById('pgHojaPreview').classList.add('activa');
-}
-function pgCerrarPreview(silencioso){
-  document.getElementById('pgHojaPreview').classList.remove('activa');
-}
-async function pgCompartir(){
-  if(!pgTextoActual) return;
-  if(navigator.share){
-    try{ await navigator.share({ text: pgTextoActual, title: 'Documento PrestaYa' }); return; }catch(e){ return; }
-  }
-  pgCopiarTexto();
-}
-async function pgCopiarTexto(){
-  if(!pgTextoActual) return;
-  try{
-    await navigator.clipboard.writeText(pgTextoActual);
-    mostrarToast('Texto copiado al portapapeles');
-  }catch(e){
-    mostrarToast('No se pudo copiar automáticamente');
-  }
-}
-
-// ---------- Compartir como imagen (tarjeta dibujada por canvas, esquinas
-// redondeadas con fondo transparente — mismo método que Mensajes Rápidos) ----------
-async function pgGenerarImagen(registro){
-  const esPaz = registro.tipo === 'pazysalvo';
-  const colorAccento = esPaz ? '#008F53' : '#8B5E34';
-  const colorSuave = esPaz ? '#D9F0E6' : '#F1E7DA';
-  const icono = esPaz ? '✅' : '📄';
-  const etiqueta = esPaz ? 'PAZ Y SALVO' : 'PAGARÉ';
-
-  const escala = 3;
-  const ancho = 340;
-  const padding = 22;
-
-  const medidor = document.createElement('canvas').getContext('2d');
-  medidor.font = '12.5px Georgia, serif';
-  const anchoMaxTexto = ancho - padding * 2;
-
-  // Se respetan los saltos de línea/párrafos ya existentes en el texto, y
-  // dentro de cada párrafo se envuelve para que quepa en el ancho de la tarjeta.
-  const parrafos = registro.texto.split('\n');
-  const lineas = [];
-  parrafos.forEach(p => {
-    if(p.trim() === ''){ lineas.push(''); return; }
-    lineas.push(...simEnvolverTexto(medidor, p, anchoMaxTexto));
-  });
-
-  const altoLinea = 16;
-  const altoInsignia = 56;
-  const altoTexto = lineas.length * altoLinea + 8;
-  const altoFooter = 26;
-  const alto = padding * 2 + altoInsignia + altoTexto + altoFooter;
-
-  const canvas = document.createElement('canvas');
-  canvas.width = ancho * escala;
-  canvas.height = alto * escala;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(escala, escala);
-
-  simTrazarRectRedondeado(ctx, 0, 0, ancho, alto, 20);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fill();
-  ctx.save();
-  ctx.clip();
-
-  let y = padding;
-  const radioInsignia = 22;
-  ctx.beginPath();
-  ctx.arc(padding + radioInsignia, y + radioInsignia, radioInsignia, 0, Math.PI * 2);
-  ctx.fillStyle = colorSuave;
-  ctx.fill();
-  ctx.font = '20px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(icono, padding + radioInsignia, y + radioInsignia + 1);
-
-  const xTexto = padding + radioInsignia * 2 + 12;
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillStyle = '#16213E';
-  ctx.font = '800 15px -apple-system, sans-serif';
-  ctx.fillText('PrestaYa', xTexto, y + 20);
-  ctx.fillStyle = colorAccento;
-  ctx.font = '700 9.5px -apple-system, sans-serif';
-  ctx.fillText(etiqueta + ' N.° ' + registro.folio, xTexto, y + 34);
-
-  y += altoInsignia;
-
-  ctx.fillStyle = '#16213E';
-  ctx.font = '12.5px Georgia, serif';
-  lineas.forEach((linea, i) => {
-    if(linea) ctx.fillText(linea, padding, y + 12 + i * altoLinea);
-  });
-  y += altoTexto;
-
-  ctx.strokeStyle = '#E4E1DA';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(padding, y);
-  ctx.lineTo(ancho - padding, y);
-  ctx.stroke();
-  ctx.fillStyle = '#6B7280';
-  ctx.font = '600 10px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('PrestaYa · préstamos de bajo monto', ancho / 2, y + 19);
-
-  ctx.restore();
-
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), 'image/png');
-  });
-}
-async function pgAbrirPreviewImagen(){
-  if(!pgRegistroActual) return;
-  const blob = await pgGenerarImagen(pgRegistroActual);
-  pgBlobActual = blob;
-  document.getElementById('pgImgPreview').src = URL.createObjectURL(blob);
-  document.getElementById('pgHojaPreviewImagen').classList.add('activa');
-}
-function pgCerrarPreviewImagen(silencioso){
-  document.getElementById('pgHojaPreviewImagen').classList.remove('activa');
-}
-async function pgCompartirImagen(){
-  if(!pgBlobActual) return;
-  const archivo = new File([pgBlobActual], 'documento-prestaya.png', { type: 'image/png' });
-  if(navigator.canShare && navigator.canShare({ files: [archivo] })){
-    try{ await navigator.share({ files: [archivo], title: 'Documento PrestaYa' }); return; }catch(e){ return; }
-  }
-  const url = URL.createObjectURL(pgBlobActual);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'documento-prestaya.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  mostrarToast('Imagen descargada');
-}
-document.getElementById('pgBtnCerrarPreviewImagen').addEventListener('click', () => pgCerrarPreviewImagen());
-document.getElementById('pgBtnCompartirPreviewImagen').addEventListener('click', pgCompartirImagen);
-
-document.getElementById('pgBtnGuardarPlantilla').addEventListener('click', () => {
-  const texto = document.getElementById('pgPlantillaTexto').value;
-  if(!texto.trim()){ mostrarToast('El texto no puede quedar vacío'); return; }
-  pgGuardarPlantilla(pgPlantillaTipoEditando, texto);
-  pgCerrarEditarPlantilla();
-  mostrarToast('Plantilla guardada');
-});
-document.getElementById('pgBtnRestaurarPlantilla').addEventListener('click', () => {
-  pgRestaurarPlantilla(pgPlantillaTipoEditando);
-  document.getElementById('pgPlantillaTexto').value = pgObtenerPlantilla(pgPlantillaTipoEditando);
-  mostrarToast('Se restauró el texto original');
-});
-
-pgCargar();
-
-// =========================================================
 // Recibos de Pago — tarjeta visual de seguimiento de crédito por cliente,
 // con categoría automática de puntualidad. Se comparte como texto (no imagen,
 // para no depender de librerías externas y seguir funcionando sin conexión).
@@ -5857,836 +4456,6 @@ function fcAbrirModulo(){
   FC_CAMPOS.forEach(f => document.getElementById(f.id).classList.remove('error'));
   fcConsentBox.classList.remove('error', 'checked');
 }
-
-// =========================================================
-// Mensajes Rápidos — plantillas de WhatsApp por cliente, con datos
-// sugeridos automáticamente desde Recibos de Pago cuando existen, y opción
-// de compartir como texto o como tarjeta de imagen (dibujada por canvas,
-// esquinas redondeadas con fondo transparente — mismo método ya usado en
-// Simulador de Crédito, sin depender de ninguna librería externa).
-// =========================================================
-const MJ_LLAVE_PLANTILLAS = 'mensajesPlantillas_v1';
-const MJ_PLANTILLAS_DEFECTO = [
-  {
-    id: 'recordatorio', titulo: 'Recordatorio amistoso', descripcion: 'Antes de que venza la cuota',
-    icono: '🔔', color: '#002D62', colorSuave: '#E3E9F5', usaMonto: true, usaFecha: true,
-    textoPlantilla: 'Hola {nombre}, este es un recordatorio de que tu cuota de {monto} vence el {fecha}. ¡Gracias por tu puntualidad! 😊'
-  },
-  {
-    id: 'mora', titulo: 'Aviso de mora', descripcion: 'Cuota vencida sin reportar',
-    icono: '⚠️', color: '#C0432F', colorSuave: '#F8E4E0', usaMonto: true, usaFecha: true,
-    textoPlantilla: 'Hola {nombre}, notamos que tu cuota de {monto} venció el {fecha} y aún no la hemos recibido. Por favor comunícate con nosotros para ponerte al día.'
-  },
-  {
-    id: 'confirmacion', titulo: 'Confirmación de pago', descripcion: 'Cuota recibida',
-    icono: '✅', color: '#008F53', colorSuave: '#D9F0E6', usaMonto: true, usaFecha: true,
-    textoPlantilla: 'Hola {nombre}, confirmamos que recibimos tu pago de {monto} el {fecha}. ¡Gracias por tu pago a tiempo!'
-  },
-  {
-    id: 'felicitacion', titulo: 'Felicitación', descripcion: 'Crédito pagado en su totalidad',
-    icono: '🎉', color: '#C9971F', colorSuave: '#F3E7CC', usaMonto: false, usaFecha: false,
-    textoPlantilla: '¡Felicitaciones {nombre}! 🎉 Has completado el pago total de tu crédito con PrestaYa. Gracias por tu confianza y cumplimiento.'
-  }
-];
-const MJ_PALETA = [
-  { color: '#002D62', suave: '#E3E9F5' },
-  { color: '#C0432F', suave: '#F8E4E0' },
-  { color: '#008F53', suave: '#D9F0E6' },
-  { color: '#C9971F', suave: '#F3E7CC' },
-  { color: '#2E90D9', suave: '#DCEEFB' },
-  { color: '#7C5CFA', suave: '#E7E1FE' }
-];
-
-let mjPlantillas = [];
-function mjCargarPlantillas(){
-  try{
-    const guardado = JSON.parse(localStorage.getItem(MJ_LLAVE_PLANTILLAS));
-    mjPlantillas = (Array.isArray(guardado) && guardado.length > 0) ? guardado : JSON.parse(JSON.stringify(MJ_PLANTILLAS_DEFECTO));
-  }catch(e){
-    mjPlantillas = JSON.parse(JSON.stringify(MJ_PLANTILLAS_DEFECTO));
-  }
-}
-function mjGuardarPlantillas(){
-  localStorage.setItem(MJ_LLAVE_PLANTILLAS, JSON.stringify(mjPlantillas));
-}
-function mjPlantillaTexto(plantilla, datos){
-  return plantilla.textoPlantilla
-    .replace(/\{nombre\}/g, datos.nombre)
-    .replace(/\{monto\}/g, datos.monto)
-    .replace(/\{fecha\}/g, datos.fecha);
-}
-
-let mjBusqueda = '';
-let mjClienteActivoId = null;
-let mjPlantillaActiva = null;
-let mjTextoActual = '';
-let mjBlobActual = null;
-
-function mjAbrirModulo(){
-  mjBusqueda = '';
-  document.getElementById('mjBuscador').value = '';
-  mjRenderLista();
-}
-function mjRenderLista(){
-  const filtro = mjBusqueda.trim().toLowerCase();
-  const lista = rcClientes.filter(c => !filtro || c.nombre.toLowerCase().indexOf(filtro) !== -1);
-  const listaEl = document.getElementById('mjLista');
-  const vacioEl = document.getElementById('mjEstadoVacio');
-  const vacioTexto = document.getElementById('mjEstadoVacioTexto');
-
-  if(rcClientes.length === 0){
-    listaEl.innerHTML = '';
-    vacioTexto.textContent = 'Registra un cliente en "Registro de Clientes" para poder enviarle un mensaje.';
-    vacioEl.style.display = 'block';
-    return;
-  }
-  if(lista.length === 0){
-    listaEl.innerHTML = '';
-    vacioTexto.textContent = 'Sin resultados para tu búsqueda.';
-    vacioEl.style.display = 'block';
-    return;
-  }
-  vacioEl.style.display = 'none';
-  listaEl.innerHTML = lista.map(c =>
-    '<div class="item-lista" data-id="' + c.id + '">' +
-      '<div class="avatar-circulo">' + rcInicial(c.nombre) + '</div>' +
-      '<div class="item-info">' +
-        '<p class="titulo">' + escaparHTML(c.nombre) + '</p>' +
-        '<p class="subtitulo">Toca para elegir un mensaje</p>' +
-      '</div>' +
-      '<svg class="chevron-item" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>' +
-    '</div>'
-  ).join('');
-}
-document.getElementById('mjBuscador').addEventListener('input', (e) => { mjBusqueda = e.target.value; mjRenderLista(); });
-document.getElementById('mjLista').addEventListener('click', (e) => {
-  const card = e.target.closest('.item-lista');
-  if(!card) return;
-  mjAbrirPlantillas(card.getAttribute('data-id'));
-});
-
-// ---------- Selector de plantilla ----------
-function mjAbrirPlantillas(clienteId){
-  const c = rcClientes.find(x => x.id === clienteId);
-  if(!c) return;
-  mjClienteActivoId = clienteId;
-  document.getElementById('mjPlantillasNombre').textContent = c.nombre;
-  if(mjPlantillas.length === 0){
-    document.getElementById('mjListaPlantillas').innerHTML = '<p style="font-size:12.5px; color:var(--muted); margin:4px 0;">Aún no tienes plantillas. Créalas desde "Editar plantillas de mensajes".</p>';
-  } else {
-    document.getElementById('mjListaPlantillas').innerHTML = mjPlantillas.map(p =>
-      '<button type="button" class="mj-plantilla-btn" onclick="mjAbrirEditor(\'' + p.id + '\')">' +
-        '<span class="mj-plantilla-icono" style="background:' + p.colorSuave + '">' + p.icono + '</span>' +
-        '<span class="mj-plantilla-info">' +
-          '<p class="titulo">' + escaparHTML(p.titulo) + '</p>' +
-          '<p class="subtitulo">' + escaparHTML(p.descripcion) + '</p>' +
-        '</span>' +
-      '</button>'
-    ).join('');
-  }
-  document.getElementById('mjHojaPlantillas').classList.add('activa');
-}
-function mjCerrarPlantillas(silencioso){
-  document.getElementById('mjHojaPlantillas').classList.remove('activa');
-}
-
-// ---------- Gestión de plantillas (crear / editar / eliminar) ----------
-function mjAbrirGestionPlantillas(){
-  mjRenderGestionPlantillas();
-  document.getElementById('mjHojaGestionPlantillas').classList.add('activa');
-}
-function mjCerrarGestionPlantillas(silencioso){
-  document.getElementById('mjHojaGestionPlantillas').classList.remove('activa');
-}
-function mjRenderGestionPlantillas(){
-  const cont = document.getElementById('mjListaGestionPlantillas');
-  if(mjPlantillas.length === 0){
-    cont.innerHTML = '<p style="font-size:12.5px; color:var(--muted); margin:4px 0;">No tienes plantillas. Crea la primera con el botón de arriba.</p>';
-    return;
-  }
-  cont.innerHTML = mjPlantillas.map(p =>
-    '<div class="mj-plantilla-btn" style="cursor:pointer;" onclick="mjAbrirEditarPlantilla(\'' + p.id + '\')">' +
-      '<span class="mj-plantilla-icono" style="background:' + p.colorSuave + '">' + p.icono + '</span>' +
-      '<span class="mj-plantilla-info">' +
-        '<p class="titulo">' + escaparHTML(p.titulo) + '</p>' +
-        '<p class="subtitulo">' + escaparHTML(p.descripcion) + '</p>' +
-      '</span>' +
-      '<button type="button" class="btn-eliminar-historial" onclick="event.stopPropagation(); mjEliminarPlantilla(\'' + p.id + '\')" aria-label="Eliminar plantilla">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>' +
-      '</button>' +
-    '</div>'
-  ).join('');
-}
-function mjEliminarPlantilla(id){
-  mjPlantillas = mjPlantillas.filter(p => p.id !== id);
-  mjGuardarPlantillas();
-  mjRenderGestionPlantillas();
-  mostrarToast('Plantilla eliminada');
-}
-document.getElementById('mjBtnGestionPlantillas').addEventListener('click', mjAbrirGestionPlantillas);
-
-// ---------- Crear / editar una plantilla ----------
-let mjPlantillaEditandoId = null;
-let mjColorSeleccionado = MJ_PALETA[0].color;
-function mjRenderSwatches(){
-  document.getElementById('mjFilaSwatches').innerHTML = MJ_PALETA.map(p =>
-    '<button type="button" class="mj-swatch' + (p.color === mjColorSeleccionado ? ' selected' : '') + '" style="background:' + p.color + '" data-color="' + p.color + '" onclick="mjSeleccionarColorPlantilla(\'' + p.color + '\')" aria-label="Elegir color"></button>'
-  ).join('');
-}
-function mjSeleccionarColorPlantilla(color){
-  mjColorSeleccionado = color;
-  document.querySelectorAll('.mj-swatch').forEach(el => el.classList.toggle('selected', el.dataset.color === color));
-}
-function mjAbrirNuevaPlantilla(){
-  mjPlantillaEditandoId = null;
-  document.getElementById('mjEditarPlantillaTitulo2').textContent = 'Nueva plantilla';
-  document.getElementById('mjPTitulo').value = '';
-  document.getElementById('mjPDescripcion').value = '';
-  document.getElementById('mjPIcono').value = '💬';
-  mjColorSeleccionado = MJ_PALETA[0].color;
-  mjRenderSwatches();
-  document.getElementById('mjPUsaMonto').checked = true;
-  document.getElementById('mjPUsaFecha').checked = true;
-  document.getElementById('mjPTexto').value = '';
-  document.getElementById('mjBtnEliminarPlantilla').style.display = 'none';
-  document.getElementById('mjHojaGestionPlantillas').classList.remove('activa');
-  document.getElementById('mjHojaEditarPlantilla2').classList.add('activa');
-}
-function mjAbrirEditarPlantilla(id){
-  const p = mjPlantillas.find(x => x.id === id);
-  if(!p) return;
-  mjPlantillaEditandoId = id;
-  document.getElementById('mjEditarPlantillaTitulo2').textContent = 'Editar plantilla';
-  document.getElementById('mjPTitulo').value = p.titulo;
-  document.getElementById('mjPDescripcion').value = p.descripcion;
-  document.getElementById('mjPIcono').value = p.icono;
-  mjColorSeleccionado = p.color;
-  mjRenderSwatches();
-  document.getElementById('mjPUsaMonto').checked = !!p.usaMonto;
-  document.getElementById('mjPUsaFecha').checked = !!p.usaFecha;
-  document.getElementById('mjPTexto').value = p.textoPlantilla;
-  document.getElementById('mjBtnEliminarPlantilla').style.display = '';
-  document.getElementById('mjHojaGestionPlantillas').classList.remove('activa');
-  document.getElementById('mjHojaEditarPlantilla2').classList.add('activa');
-}
-function mjCerrarEditarPlantilla2(silencioso){
-  document.getElementById('mjHojaEditarPlantilla2').classList.remove('activa');
-}
-document.getElementById('mjBtnGuardarPlantilla').addEventListener('click', () => {
-  const titulo = document.getElementById('mjPTitulo').value.trim();
-  const descripcion = document.getElementById('mjPDescripcion').value.trim();
-  const icono = document.getElementById('mjPIcono').value.trim() || '💬';
-  const texto = document.getElementById('mjPTexto').value.trim();
-  const usaMonto = document.getElementById('mjPUsaMonto').checked;
-  const usaFecha = document.getElementById('mjPUsaFecha').checked;
-
-  if(!titulo){ mostrarToast('Ponle un título a la plantilla'); return; }
-  if(!texto){ mostrarToast('Escribe el mensaje de la plantilla'); return; }
-
-  const paletaObj = MJ_PALETA.find(p => p.color === mjColorSeleccionado) || MJ_PALETA[0];
-
-  if(mjPlantillaEditandoId){
-    const p = mjPlantillas.find(x => x.id === mjPlantillaEditandoId);
-    if(p){
-      p.titulo = titulo; p.descripcion = descripcion; p.icono = icono;
-      p.color = paletaObj.color; p.colorSuave = paletaObj.suave;
-      p.usaMonto = usaMonto; p.usaFecha = usaFecha; p.textoPlantilla = texto;
-    }
-  } else {
-    mjPlantillas.push({
-      id: 'm' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-      titulo: titulo, descripcion: descripcion, icono: icono,
-      color: paletaObj.color, colorSuave: paletaObj.suave,
-      usaMonto: usaMonto, usaFecha: usaFecha, textoPlantilla: texto
-    });
-  }
-  mjGuardarPlantillas();
-  mjCerrarEditarPlantilla2();
-  mjRenderGestionPlantillas();
-  mostrarToast('Plantilla guardada');
-});
-document.getElementById('mjBtnEliminarPlantilla').addEventListener('click', () => {
-  if(mjPlantillaEditandoId) mjEliminarPlantilla(mjPlantillaEditandoId);
-  mjCerrarEditarPlantilla2();
-});
-
-// ---------- Sugerencia automática de monto/fecha desde Recibos de Pago ----------
-function mjSugerirDatos(clienteId, plantilla){
-  const hoy = new Date();
-  let monto = 0;
-  let fecha = hoy.getFullYear() + '-' + String(hoy.getMonth() + 1).padStart(2, '0') + '-' + String(hoy.getDate()).padStart(2, '0');
-
-  const hist = typeof rbHistorialCliente === 'function' ? rbHistorialCliente(clienteId) : [];
-  const ultimo = hist.length ? hist[0] : null;
-  if(ultimo){
-    monto = ultimo.valorCuota || 0;
-    if(plantilla.id !== 'confirmacion'){
-      const dias = RB_DIAS_POR_FRECUENCIA[ultimo.frecuencia] || 15;
-      const inicio = new Date(ultimo.fechaCredito + 'T00:00:00');
-      const objetivo = new Date(inicio.getTime() + dias * (ultimo.cuotaActual + 1) * 86400000);
-      fecha = objetivo.getFullYear() + '-' + String(objetivo.getMonth() + 1).padStart(2, '0') + '-' + String(objetivo.getDate()).padStart(2, '0');
-    }
-  }
-  return { monto, fecha };
-}
-
-// ---------- Editor + vista previa de texto ----------
-function mjAbrirEditor(plantillaId){
-  const plantilla = mjPlantillas.find(p => p.id === plantillaId);
-  if(!plantilla) return;
-  mjPlantillaActiva = plantilla;
-  document.getElementById('mjHojaPlantillas').classList.remove('activa');
-
-  document.getElementById('mjEditorTitulo').textContent = plantilla.titulo;
-  document.getElementById('mjCampoMonto').style.display = plantilla.usaMonto ? '' : 'none';
-  document.getElementById('mjCampoFecha').style.display = plantilla.usaFecha ? '' : 'none';
-
-  const c = rcClientes.find(x => x.id === mjClienteActivoId);
-  document.getElementById('mjNombreCliente').value = c ? c.nombre : '';
-
-  const sugerido = mjSugerirDatos(mjClienteActivoId, plantilla);
-  document.getElementById('mjMonto').value = sugerido.monto ? simFormatMiles(sugerido.monto) : '';
-  document.getElementById('mjFecha').value = sugerido.fecha;
-
-  mjActualizarPreview();
-  document.getElementById('mjHojaEditor').classList.add('activa');
-}
-function mjCerrarEditor(silencioso){
-  document.getElementById('mjHojaEditor').classList.remove('activa');
-}
-function mjActualizarPreview(){
-  const c = rcClientes.find(x => x.id === mjClienteActivoId);
-  if(!c || !mjPlantillaActiva) return;
-  const nombreValor = document.getElementById('mjNombreCliente').value.trim() || c.nombre;
-  const montoValor = parseInt((document.getElementById('mjMonto').value || '').replace(/\D/g, ''), 10) || 0;
-  const fechaValor = document.getElementById('mjFecha').value;
-  const datos = {
-    nombre: nombreValor,
-    monto: montoValor > 0 ? simFormatMoneda(montoValor) : '[monto]',
-    fecha: fechaValor ? pgFechaLarga(fechaValor) : '[fecha]'
-  };
-  mjTextoActual = mjPlantillaTexto(mjPlantillaActiva, datos);
-  document.getElementById('mjPreviewTexto').textContent = mjTextoActual;
-}
-document.getElementById('mjNombreCliente').addEventListener('input', mjActualizarPreview);
-document.getElementById('mjMonto').addEventListener('input', mjActualizarPreview);
-document.getElementById('mjFecha').addEventListener('change', mjActualizarPreview);
-
-// ---------- Compartir como texto ----------
-document.getElementById('mjBtnCompartirTexto').addEventListener('click', async () => {
-  if(!mjTextoActual) return;
-  if(navigator.share){
-    try{ await navigator.share({ text: mjTextoActual, title: 'Mensaje PrestaYa' }); return; }catch(e){ return; }
-  }
-  try{
-    await navigator.clipboard.writeText(mjTextoActual);
-    mostrarToast('Texto copiado al portapapeles');
-  }catch(e){
-    mostrarToast('No se pudo copiar automáticamente');
-  }
-});
-
-// ---------- Compartir como imagen (tarjeta dibujada por canvas) ----------
-async function mjGenerarImagen(){
-  const c = rcClientes.find(x => x.id === mjClienteActivoId);
-  const nombreMostrado = document.getElementById('mjNombreCliente').value.trim() || (c ? c.nombre : '');
-  const plantilla = mjPlantillaActiva;
-  const escala = 4;
-  const ancho = 340;
-  const padding = 22;
-
-  const medidor = document.createElement('canvas').getContext('2d');
-  medidor.font = '13px -apple-system, sans-serif';
-  const anchoMaxTexto = ancho - padding * 2;
-  const lineas = simEnvolverTexto(medidor, mjTextoActual, anchoMaxTexto);
-  const altoLinea = 19;
-
-  const altoInsignia = 56;
-  const altoNombre = 30;
-  const altoDivisor = 18;
-  const altoTexto = lineas.length * altoLinea + 4;
-  const altoFooter = 30;
-  const alto = padding * 2 + altoInsignia + altoNombre + altoDivisor + altoTexto + altoFooter;
-
-  const canvas = document.createElement('canvas');
-  canvas.width = ancho * escala;
-  canvas.height = alto * escala;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(escala, escala);
-
-  // Tarjeta blanca con esquinas redondeadas; fuera de ese trazo el canvas
-  // queda transparente porque nunca se pinta (PNG con alpha real).
-  simTrazarRectRedondeado(ctx, 0, 0, ancho, alto, 22);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fill();
-  ctx.save();
-  ctx.clip();
-
-  let y = padding;
-
-  const radioInsignia = 22;
-  ctx.beginPath();
-  ctx.arc(padding + radioInsignia, y + radioInsignia, radioInsignia, 0, Math.PI * 2);
-  ctx.fillStyle = plantilla.colorSuave;
-  ctx.fill();
-  ctx.font = '22px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(plantilla.icono, padding + radioInsignia, y + radioInsignia + 1);
-
-  const xTexto = padding + radioInsignia * 2 + 12;
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillStyle = '#002D62';
-  ctx.font = '800 15px -apple-system, sans-serif';
-  ctx.fillText('PrestaYa', xTexto, y + 20);
-  ctx.fillStyle = plantilla.color;
-  ctx.font = '700 9.5px -apple-system, sans-serif';
-  ctx.fillText(plantilla.titulo.toUpperCase(), xTexto, y + 34);
-
-  y += altoInsignia;
-
-  ctx.fillStyle = '#1E2530';
-  ctx.font = '800 18px -apple-system, sans-serif';
-  ctx.fillText(nombreMostrado, padding, y + 18);
-  y += altoNombre;
-
-  ctx.strokeStyle = '#E9ECF3';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(padding, y);
-  ctx.lineTo(ancho - padding, y);
-  ctx.stroke();
-  y += altoDivisor;
-
-  ctx.fillStyle = '#20262F';
-  ctx.font = '13px -apple-system, sans-serif';
-  lineas.forEach((linea, i) => {
-    ctx.fillText(linea, padding, y + 13 + i * altoLinea);
-  });
-  y += altoTexto;
-
-  ctx.strokeStyle = '#E9ECF3';
-  ctx.beginPath();
-  ctx.moveTo(padding, y);
-  ctx.lineTo(ancho - padding, y);
-  ctx.stroke();
-  ctx.fillStyle = '#98A2B3';
-  ctx.font = '600 10px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('PrestaYa · préstamos de bajo monto', ancho / 2, y + 19);
-
-  ctx.restore();
-
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), 'image/png');
-  });
-}
-async function mjAbrirPreviewImagen(){
-  const blob = await mjGenerarImagen();
-  mjBlobActual = blob;
-  document.getElementById('mjImgPreview').src = URL.createObjectURL(blob);
-  document.getElementById('mjHojaPreviewImagen').classList.add('activa');
-}
-function mjCerrarPreviewImagen(silencioso){
-  document.getElementById('mjHojaPreviewImagen').classList.remove('activa');
-}
-async function mjCompartirImagen(){
-  if(!mjBlobActual) return;
-  const archivo = new File([mjBlobActual], 'mensaje-prestaya.png', { type: 'image/png' });
-  if(navigator.canShare && navigator.canShare({ files: [archivo] })){
-    try{ await navigator.share({ files: [archivo], title: 'Mensaje PrestaYa' }); return; }catch(e){ return; }
-  }
-  const url = URL.createObjectURL(mjBlobActual);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'mensaje-prestaya.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  mostrarToast('Imagen descargada');
-}
-document.getElementById('mjBtnCompartirImagen').addEventListener('click', mjAbrirPreviewImagen);
-document.getElementById('mjBtnCerrarPreviewImagen').addEventListener('click', () => mjCerrarPreviewImagen());
-document.getElementById('mjBtnCompartirPreviewImagen').addEventListener('click', mjCompartirImagen);
-
-mjCargarPlantillas();
-
-// =========================================================
-// Tarjetas Personalizadas — plantillas de mensaje totalmente independientes
-// (no dependen de Registro de Clientes; todos los datos se escriben a mano).
-// Comparten el mismo motor de imagen que Mensajes Rápidos (canvas, esquinas
-// redondeadas con fondo transparente, sin librerías externas), mismos
-// swatches de color (MJ_PALETA) y mismos estilos de fila/ajustes (.mj-*).
-// =========================================================
-const TP_LLAVE_PLANTILLAS = 'tarjetasPlantillas_v1';
-const TP_PLANTILLAS_DEFECTO = [
-  {
-    id: 'recordatorio', titulo: 'Recordatorio amistoso', descripcion: 'Antes de que venza la cuota',
-    icono: '🔔', color: '#002D62', colorSuave: '#E3E9F5',
-    usaNombre: true, usaMonto: true, usaFecha: true, usaDetalle: false,
-    textoPlantilla: 'Hola {nombre}, este es un recordatorio de que tu cuota de {monto} vence el {fecha}. ¡Gracias por tu puntualidad! 😊'
-  },
-  {
-    id: 'mora', titulo: 'Aviso de mora', descripcion: 'Cuota vencida sin reportar',
-    icono: '⚠️', color: '#C0432F', colorSuave: '#F8E4E0',
-    usaNombre: true, usaMonto: true, usaFecha: true, usaDetalle: false,
-    textoPlantilla: 'Hola {nombre}, notamos que tu cuota de {monto} venció el {fecha} y aún no la hemos recibido. Por favor comunícate con nosotros para ponerte al día.'
-  },
-  {
-    id: 'confirmacion', titulo: 'Confirmación de pago', descripcion: 'Cuota recibida',
-    icono: '✅', color: '#008F53', colorSuave: '#D9F0E6',
-    usaNombre: true, usaMonto: true, usaFecha: true, usaDetalle: false,
-    textoPlantilla: 'Hola {nombre}, confirmamos que recibimos tu pago de {monto} el {fecha}. ¡Gracias por tu pago a tiempo!'
-  },
-  {
-    id: 'felicitacion', titulo: 'Felicitación', descripcion: 'Crédito pagado en su totalidad',
-    icono: '🎉', color: '#C9971F', colorSuave: '#F3E7CC',
-    usaNombre: true, usaMonto: false, usaFecha: false, usaDetalle: false,
-    textoPlantilla: '¡Felicitaciones {nombre}! 🎉 Has completado el pago total de tu crédito con PrestaYa. Gracias por tu confianza y cumplimiento.'
-  }
-];
-
-let tpPlantillas = [];
-function tpCargarPlantillas(){
-  try{
-    const guardado = JSON.parse(localStorage.getItem(TP_LLAVE_PLANTILLAS));
-    tpPlantillas = (Array.isArray(guardado) && guardado.length > 0) ? guardado : JSON.parse(JSON.stringify(TP_PLANTILLAS_DEFECTO));
-  }catch(e){
-    tpPlantillas = JSON.parse(JSON.stringify(TP_PLANTILLAS_DEFECTO));
-  }
-}
-function tpGuardarPlantillas(){
-  localStorage.setItem(TP_LLAVE_PLANTILLAS, JSON.stringify(tpPlantillas));
-}
-function tpPlantillaTexto(plantilla, datos){
-  return plantilla.textoPlantilla
-    .replace(/\{nombre\}/g, datos.nombre || '')
-    .replace(/\{monto\}/g, datos.monto || '')
-    .replace(/\{fecha\}/g, datos.fecha || '')
-    .replace(/\{detalle\}/g, datos.detalle || '');
-}
-
-let tpPlantillaActiva = null;
-let tpTextoActual = '';
-let tpBlobActual = null;
-
-// ---------- Pantalla principal: lista de plantillas ----------
-function tpAbrirModulo(){
-  tpRenderLista();
-}
-function tpRenderLista(){
-  const listaEl = document.getElementById('tpLista');
-  const vacioEl = document.getElementById('tpEstadoVacio');
-  if(tpPlantillas.length === 0){
-    listaEl.innerHTML = '';
-    vacioEl.style.display = 'block';
-    return;
-  }
-  vacioEl.style.display = 'none';
-  listaEl.innerHTML = tpPlantillas.map(p =>
-    '<div class="mj-plantilla-btn" style="cursor:pointer;" onclick="tpAbrirComponer(\'' + p.id + '\')">' +
-      '<span class="mj-plantilla-icono" style="background:' + p.colorSuave + '">' + p.icono + '</span>' +
-      '<span class="mj-plantilla-info">' +
-        '<p class="titulo">' + escaparHTML(p.titulo) + '</p>' +
-        '<p class="subtitulo">' + escaparHTML(p.descripcion) + '</p>' +
-      '</span>' +
-      '<button type="button" class="btn-eliminar-historial" onclick="event.stopPropagation(); tpAbrirEditarPlantilla(\'' + p.id + '\')" aria-label="Editar plantilla">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>' +
-      '</button>' +
-      '<button type="button" class="btn-eliminar-historial" onclick="event.stopPropagation(); tpEliminarPlantilla(\'' + p.id + '\')" aria-label="Eliminar plantilla">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>' +
-      '</button>' +
-    '</div>'
-  ).join('');
-}
-function tpEliminarPlantilla(id){
-  tpPlantillas = tpPlantillas.filter(p => p.id !== id);
-  tpGuardarPlantillas();
-  tpRenderLista();
-  mostrarToast('Plantilla eliminada');
-}
-
-// ---------- Crear / editar una plantilla ----------
-let tpPlantillaEditandoId = null;
-let tpColorSeleccionado = MJ_PALETA[0].color;
-function tpRenderSwatches(){
-  document.getElementById('tpFilaSwatches').innerHTML = MJ_PALETA.map(p =>
-    '<button type="button" class="mj-swatch' + (p.color === tpColorSeleccionado ? ' selected' : '') + '" style="background:' + p.color + '" data-color="' + p.color + '" onclick="tpSeleccionarColorPlantilla(\'' + p.color + '\')" aria-label="Elegir color"></button>'
-  ).join('');
-}
-function tpSeleccionarColorPlantilla(color){
-  tpColorSeleccionado = color;
-  document.querySelectorAll('#tpFilaSwatches .mj-swatch').forEach(el => el.classList.toggle('selected', el.dataset.color === color));
-}
-document.getElementById('tpBtnNuevaPlantilla').addEventListener('click', () => {
-  tpPlantillaEditandoId = null;
-  document.getElementById('tpEditarPlantillaTitulo').textContent = 'Nueva plantilla';
-  document.getElementById('tpPTitulo').value = '';
-  document.getElementById('tpPDescripcion').value = '';
-  document.getElementById('tpPIcono').value = '💬';
-  tpColorSeleccionado = MJ_PALETA[0].color;
-  tpRenderSwatches();
-  document.getElementById('tpPUsaNombre').checked = true;
-  document.getElementById('tpPUsaMonto').checked = true;
-  document.getElementById('tpPUsaFecha').checked = true;
-  document.getElementById('tpPUsaDetalle').checked = false;
-  document.getElementById('tpPTexto').value = '';
-  document.getElementById('tpBtnEliminarPlantilla').style.display = 'none';
-  document.getElementById('tpHojaEditarPlantilla').classList.add('activa');
-});
-function tpAbrirEditarPlantilla(id){
-  const p = tpPlantillas.find(x => x.id === id);
-  if(!p) return;
-  tpPlantillaEditandoId = id;
-  document.getElementById('tpEditarPlantillaTitulo').textContent = 'Editar plantilla';
-  document.getElementById('tpPTitulo').value = p.titulo;
-  document.getElementById('tpPDescripcion').value = p.descripcion;
-  document.getElementById('tpPIcono').value = p.icono;
-  tpColorSeleccionado = p.color;
-  tpRenderSwatches();
-  document.getElementById('tpPUsaNombre').checked = !!p.usaNombre;
-  document.getElementById('tpPUsaMonto').checked = !!p.usaMonto;
-  document.getElementById('tpPUsaFecha').checked = !!p.usaFecha;
-  document.getElementById('tpPUsaDetalle').checked = !!p.usaDetalle;
-  document.getElementById('tpPTexto').value = p.textoPlantilla;
-  document.getElementById('tpBtnEliminarPlantilla').style.display = '';
-  document.getElementById('tpHojaEditarPlantilla').classList.add('activa');
-}
-function tpCerrarEditarPlantilla(silencioso){
-  document.getElementById('tpHojaEditarPlantilla').classList.remove('activa');
-}
-document.getElementById('tpBtnGuardarPlantilla').addEventListener('click', () => {
-  const titulo = document.getElementById('tpPTitulo').value.trim();
-  const descripcion = document.getElementById('tpPDescripcion').value.trim();
-  const icono = document.getElementById('tpPIcono').value.trim() || '💬';
-  const texto = document.getElementById('tpPTexto').value.trim();
-  const usaNombre = document.getElementById('tpPUsaNombre').checked;
-  const usaMonto = document.getElementById('tpPUsaMonto').checked;
-  const usaFecha = document.getElementById('tpPUsaFecha').checked;
-  const usaDetalle = document.getElementById('tpPUsaDetalle').checked;
-
-  if(!titulo){ mostrarToast('Ponle un título a la plantilla'); return; }
-  if(!texto){ mostrarToast('Escribe el mensaje de la plantilla'); return; }
-
-  const paletaObj = MJ_PALETA.find(p => p.color === tpColorSeleccionado) || MJ_PALETA[0];
-
-  if(tpPlantillaEditandoId){
-    const p = tpPlantillas.find(x => x.id === tpPlantillaEditandoId);
-    if(p){
-      p.titulo = titulo; p.descripcion = descripcion; p.icono = icono;
-      p.color = paletaObj.color; p.colorSuave = paletaObj.suave;
-      p.usaNombre = usaNombre; p.usaMonto = usaMonto; p.usaFecha = usaFecha; p.usaDetalle = usaDetalle;
-      p.textoPlantilla = texto;
-    }
-  } else {
-    tpPlantillas.push({
-      id: 't' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-      titulo: titulo, descripcion: descripcion, icono: icono,
-      color: paletaObj.color, colorSuave: paletaObj.suave,
-      usaNombre: usaNombre, usaMonto: usaMonto, usaFecha: usaFecha, usaDetalle: usaDetalle,
-      textoPlantilla: texto
-    });
-  }
-  tpGuardarPlantillas();
-  tpCerrarEditarPlantilla();
-  tpRenderLista();
-  mostrarToast('Plantilla guardada');
-});
-document.getElementById('tpBtnEliminarPlantilla').addEventListener('click', () => {
-  if(tpPlantillaEditandoId) tpEliminarPlantilla(tpPlantillaEditandoId);
-  tpCerrarEditarPlantilla();
-});
-
-// ---------- Componer (llenar los datos a mano) ----------
-function tpAbrirComponer(plantillaId){
-  const plantilla = tpPlantillas.find(p => p.id === plantillaId);
-  if(!plantilla) return;
-  tpPlantillaActiva = plantilla;
-
-  document.getElementById('tpComponerTitulo').textContent = plantilla.titulo;
-  document.getElementById('tpCampoNombre').style.display = plantilla.usaNombre ? '' : 'none';
-  document.getElementById('tpCampoMonto').style.display = plantilla.usaMonto ? '' : 'none';
-  document.getElementById('tpCampoFecha').style.display = plantilla.usaFecha ? '' : 'none';
-  document.getElementById('tpCampoDetalle').style.display = plantilla.usaDetalle ? '' : 'none';
-
-  document.getElementById('tpNombre').value = '';
-  document.getElementById('tpMonto').value = '';
-  document.getElementById('tpFecha').value = tpFechaHoyISO();
-  document.getElementById('tpDetalle').value = '';
-
-  tpActualizarPreview();
-  document.getElementById('tpHojaComponer').classList.add('activa');
-}
-function tpCerrarComponer(silencioso){
-  document.getElementById('tpHojaComponer').classList.remove('activa');
-}
-function tpFechaHoyISO(){
-  const d = new Date();
-  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
-}
-function tpActualizarPreview(){
-  if(!tpPlantillaActiva) return;
-  const nombreValor = document.getElementById('tpNombre').value.trim();
-  const montoValor = parseInt((document.getElementById('tpMonto').value || '').replace(/\D/g, ''), 10) || 0;
-  const fechaValor = document.getElementById('tpFecha').value;
-  const detalleValor = document.getElementById('tpDetalle').value.trim();
-  const datos = {
-    nombre: nombreValor || '[nombre]',
-    monto: montoValor > 0 ? simFormatMoneda(montoValor) : '[monto]',
-    fecha: fechaValor ? pgFechaLarga(fechaValor) : '[fecha]',
-    detalle: detalleValor || '[detalle]'
-  };
-  tpTextoActual = tpPlantillaTexto(tpPlantillaActiva, datos);
-  document.getElementById('tpPreviewTexto').textContent = tpTextoActual;
-}
-document.getElementById('tpNombre').addEventListener('input', tpActualizarPreview);
-document.getElementById('tpMonto').addEventListener('input', tpActualizarPreview);
-document.getElementById('tpFecha').addEventListener('change', tpActualizarPreview);
-document.getElementById('tpDetalle').addEventListener('input', tpActualizarPreview);
-
-// ---------- Compartir como texto ----------
-document.getElementById('tpBtnCompartirTexto').addEventListener('click', async () => {
-  if(!tpTextoActual) return;
-  if(navigator.share){
-    try{ await navigator.share({ text: tpTextoActual, title: 'Tarjeta PrestaYa' }); return; }catch(e){ return; }
-  }
-  try{
-    await navigator.clipboard.writeText(tpTextoActual);
-    mostrarToast('Texto copiado al portapapeles');
-  }catch(e){
-    mostrarToast('No se pudo copiar automáticamente');
-  }
-});
-
-// ---------- Compartir como imagen (tarjeta dibujada por canvas, 4K real de
-// ancho, esquinas redondeadas con fondo transparente, sin margen extra
-// alrededor de la tarjeta) ----------
-async function tpGenerarImagen(){
-  const plantilla = tpPlantillaActiva;
-  const nombreMostrado = document.getElementById('tpNombre').value.trim() || '—';
-  const escala = 8;
-  const ancho = 480; // 480 * 8 = 3840px de ancho real (4K)
-  const padding = 30;
-
-  const medidor = document.createElement('canvas').getContext('2d');
-  medidor.font = '18px -apple-system, sans-serif';
-  const anchoMaxTexto = ancho - padding * 2;
-  const lineas = simEnvolverTexto(medidor, tpTextoActual, anchoMaxTexto);
-
-  const altoLinea = 26;
-  const altoInsignia = 100;
-  const altoTexto = lineas.length * altoLinea + 8;
-  const altoFooter = 36;
-  const alto = padding * 2 + altoInsignia + altoTexto + altoFooter;
-
-  const canvas = document.createElement('canvas');
-  canvas.width = ancho * escala;
-  canvas.height = alto * escala;
-  const ctx = canvas.getContext('2d');
-  ctx.scale(escala, escala);
-
-  // Tarjeta con esquinas redondeadas; fuera de ese trazo el canvas nunca se
-  // pinta, así que el PNG queda con transparencia real en las 4 esquinas y
-  // sin ningún margen sobrante (el lienzo mide exactamente lo que mide la tarjeta).
-  simTrazarRectRedondeado(ctx, 0, 0, ancho, alto, 28);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fill();
-  ctx.save();
-  ctx.clip();
-
-  let y = padding;
-  const radioInsignia = 30;
-  ctx.beginPath();
-  ctx.arc(padding + radioInsignia, y + radioInsignia, radioInsignia, 0, Math.PI * 2);
-  ctx.fillStyle = plantilla.colorSuave;
-  ctx.fill();
-  ctx.font = '28px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText(plantilla.icono, padding + radioInsignia, y + radioInsignia + 1);
-
-  const xTexto = padding + radioInsignia * 2 + 16;
-  ctx.textAlign = 'left';
-  ctx.textBaseline = 'alphabetic';
-  ctx.fillStyle = '#002D62';
-  ctx.font = '800 20px -apple-system, sans-serif';
-  ctx.fillText('PrestaYa', xTexto, y + 27);
-  ctx.fillStyle = plantilla.color;
-  ctx.font = '700 12.5px -apple-system, sans-serif';
-  ctx.fillText(plantilla.titulo.toUpperCase(), xTexto, y + 46);
-
-  y += altoInsignia;
-
-  if(plantilla.usaNombre){
-    ctx.fillStyle = '#1E2530';
-    ctx.font = '800 24px -apple-system, sans-serif';
-    ctx.fillText(nombreMostrado, padding, y);
-    y += 8;
-  }
-
-  ctx.strokeStyle = '#E9ECF3';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  ctx.moveTo(padding, y + 8);
-  ctx.lineTo(ancho - padding, y + 8);
-  ctx.stroke();
-  y += 24;
-
-  ctx.fillStyle = '#20262F';
-  ctx.font = '18px -apple-system, sans-serif';
-  lineas.forEach((linea, i) => {
-    ctx.fillText(linea, padding, y + 18 + i * altoLinea);
-  });
-  y += altoTexto;
-
-  ctx.strokeStyle = '#E9ECF3';
-  ctx.beginPath();
-  ctx.moveTo(padding, y);
-  ctx.lineTo(ancho - padding, y);
-  ctx.stroke();
-  ctx.fillStyle = '#98A2B3';
-  ctx.font = '600 13px -apple-system, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.fillText('PrestaYa · préstamos de bajo monto', ancho / 2, y + 26);
-
-  ctx.restore();
-
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), 'image/png');
-  });
-}
-async function tpAbrirPreviewImagen(){
-  const blob = await tpGenerarImagen();
-  tpBlobActual = blob;
-  document.getElementById('tpImgPreview').src = URL.createObjectURL(blob);
-  document.getElementById('tpHojaPreviewImagen').classList.add('activa');
-}
-function tpCerrarPreviewImagen(silencioso){
-  document.getElementById('tpHojaPreviewImagen').classList.remove('activa');
-}
-async function tpCompartirImagen(){
-  if(!tpBlobActual) return;
-  const archivo = new File([tpBlobActual], 'tarjeta-prestaya.png', { type: 'image/png' });
-  if(navigator.canShare && navigator.canShare({ files: [archivo] })){
-    try{ await navigator.share({ files: [archivo], title: 'Tarjeta PrestaYa' }); return; }catch(e){ return; }
-  }
-  const url = URL.createObjectURL(tpBlobActual);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'tarjeta-prestaya.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  setTimeout(() => URL.revokeObjectURL(url), 1000);
-  mostrarToast('Imagen descargada');
-}
-document.getElementById('tpBtnCompartirImagen').addEventListener('click', tpAbrirPreviewImagen);
-document.getElementById('tpBtnCerrarPreviewImagen').addEventListener('click', () => tpCerrarPreviewImagen());
-document.getElementById('tpBtnCompartirPreviewImagen').addEventListener('click', tpCompartirImagen);
-
-tpCargarPlantillas();
 
 // =========================================================
 // Documentos — pega, nombra y guarda cualquier texto, con negrita y tamaños

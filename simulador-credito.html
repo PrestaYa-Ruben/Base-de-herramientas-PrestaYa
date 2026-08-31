@@ -132,7 +132,7 @@
       <div class="font-display font-bold text-2xl leading-none">
         <span class="text-white">Presta</span><span class="text-green-light">Ya</span>
       </div>
-      <p class="text-[11px] sm:text-xs text-white/60 mt-1">Préstamos de bajo monto, sin vueltas</p>
+      <p class="text-[11px] sm:text-xs text-white/60 mt-1">Solución a sus necesidades al instante</p>
     </div>
     <div class="hidden sm:flex items-center gap-2 bg-white/10 rounded-full px-3 py-1.5 text-xs text-white/80">
       <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
@@ -157,7 +157,7 @@
         <label for="montoRange" class="text-sm font-medium text-slate-600">¿Cuánto necesitas?</label>
         <span id="montoDisplay" class="font-display font-bold text-navy text-xl">$150.000</span>
       </div>
-      <input type="range" id="montoRange" min="100000" max="1000000" step="10000" value="150000" aria-describedby="montoMinMax">
+      <input type="range" id="montoRange" min="100000" max="1000000" step="10000" value="300000" aria-describedby="montoMinMax">
       <div id="montoMinMax" class="flex justify-between text-xs text-slate-400 mt-1.5">
         <span id="montoMinLabel">$100.000</span>
         <span id="montoMaxLabel">$1.000.000</span>
@@ -168,8 +168,8 @@
     <div class="mb-6">
       <p class="text-sm font-medium text-slate-600 mb-2">Frecuencia de pago</p>
       <div class="grid grid-cols-2 gap-2" role="group" aria-label="Frecuencia de pago">
-        <button type="button" class="seg-btn py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 transition" data-modalidad="semanal" aria-pressed="true" onclick="setModalidad('semanal')">Semanal</button>
-        <button type="button" class="seg-btn py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 transition" data-modalidad="quincenal" aria-pressed="false" onclick="setModalidad('quincenal')">Quincenal</button>
+        <button type="button" class="seg-btn py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 transition" data-modalidad="semanal" aria-pressed="false" onclick="setModalidad('semanal')">Semanal</button>
+        <button type="button" class="seg-btn py-2.5 rounded-xl text-sm font-semibold bg-slate-100 text-slate-600 transition" data-modalidad="quincenal" aria-pressed="true" onclick="setModalidad('quincenal')">Quincenal</button>
       </div>
     </div>
 
@@ -416,9 +416,9 @@ CONFIG.plazos = profileConfig.plazos;
    ESTADO
    ========================================================================= */
 const state = {
-  monto: 150000,
-  modalidad: 'semanal',
-  plazo: CONFIG.plazos[0],
+  monto: 300000,
+  modalidad: 'quincenal',
+  plazo: 3,
   cuota: 0,
   totalPagar: 0,
 };
