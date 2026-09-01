@@ -604,6 +604,12 @@
   .rb-value-input:focus{outline:none; background:var(--rb-gris-50); border-color:var(--rb-verde-2);}
 
   .rb-nombre-cliente{font-size:18px; font-weight:700; color:var(--rb-azul); padding:3px 0;}
+  .rb-nombre-cliente-input{
+    font-size:18px; font-weight:700; color:var(--rb-azul); padding:3px 0; width:100%;
+    border:none; border-bottom:1.5px dashed transparent; background:transparent; font-family:var(--font);
+  }
+  .rb-nombre-cliente-input::placeholder{color:var(--rb-gris-400); font-weight:600;}
+  .rb-nombre-cliente-input:focus{outline:none; border-bottom-color:var(--rb-verde-2);}
 
   .rb-cuotas-value{display:flex; align-items:center; gap:5px;}
   .rb-cuota-picker-wrap{position:relative;}
@@ -636,32 +642,6 @@
   .rb-progress-meta .rb-pct{color:var(--rb-verde); font-weight:700;}
 
   .rb-footer{margin-top:14px; padding-top:10px; border-top:1px solid var(--rb-gris-100); text-align:center; font-size:9.5px; color:var(--rb-gris-400); font-weight:500;}
-
-  .rb-resumen-card{
-    background:#fff; border-radius:16px; padding:18px 18px 20px; margin-top:14px;
-    box-shadow:0 12px 28px -16px rgba(0,45,98,.22), 0 3px 8px rgba(0,0,0,.04);
-  }
-  .rb-resumen-top{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;}
-  .rb-resumen-codigo{font-size:10.5px; font-weight:700; letter-spacing:.4px; color:var(--rb-gris-400);}
-  .rb-resumen-estado{font-size:10px; font-weight:700; color:#fff; background:var(--rb-verde); padding:4px 11px; border-radius:999px;}
-  .rb-resumen-estado.pagado{background:var(--rb-azul);}
-  .rb-resumen-monto{font-size:24px; font-weight:800; color:var(--rb-azul); margin-bottom:4px;}
-  .rb-resumen-divider{height:1px; background:var(--rb-gris-100); margin:12px 0;}
-  .rb-resumen-row{display:flex; justify-content:space-between; align-items:center; padding:5px 0;}
-  .rb-resumen-label{font-size:12px; color:var(--rb-gris-600);}
-  .rb-resumen-value{font-size:13px; font-weight:700; color:var(--rb-gris-800);}
-  .rb-resumen-saldo{color:var(--rb-azul); font-size:14.5px;}
-  .rb-resumen-progreso-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;}
-  .rb-resumen-progreso-texto{font-size:12px; color:var(--rb-gris-600); font-weight:600;}
-  .rb-resumen-progress-track{width:100%; height:8px; background:var(--rb-gris-100); border-radius:999px; overflow:hidden;}
-  .rb-resumen-progress-fill{height:100%; width:0%; background:linear-gradient(90deg,var(--rb-verde),var(--rb-verde-2)); border-radius:999px; transition:width .5s ease;}
-
-  .rb-categoria{
-    display:inline-block; border:1.5px solid; background:transparent; font-family:var(--font); font-size:8px;
-    font-weight:800; letter-spacing:.2px; padding:2px 7px; border-radius:999px; margin-top:4px;
-  }
-
-  .pill-recibo{display:inline-block; font-size:10px; font-weight:700; padding:3px 9px; border-radius:999px; color:#fff; flex-shrink:0;}
 
   /* ---------- Módulo: Formulario de Cliente ---------- */
   .fc-card{
@@ -729,21 +709,6 @@
 
   @media (max-width:380px){
     .fc-field-row{flex-direction:column; gap:0;}
-  }
-
-  /* ---------- Filas de opciones reutilizables (usadas por Simulador Automático) ---------- */
-  .mj-plantilla-btn{
-    display:flex; align-items:center; gap:12px; width:100%; text-align:left;
-    background:var(--card); border:1px solid var(--border); border-radius:var(--radius-sm);
-    padding:12px 14px; margin-bottom:10px;
-  }
-  .mj-plantilla-icono{width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:19px; flex-shrink:0;}
-  .mj-plantilla-info{min-width:0;}
-  .mj-plantilla-info .titulo{font-size:13.5px; font-weight:700; color:var(--ink); margin:0;}
-  .mj-plantilla-info .subtitulo{font-size:11.5px; color:var(--muted); margin:2px 0 0;}
-  .mj-preview-texto{
-    white-space:pre-wrap; font-size:13px; line-height:1.6; color:var(--ink); background:var(--bg);
-    border:1px solid var(--border); border-radius:var(--radius-sm); padding:14px;
   }
 
   /* ---------- Módulo: Documentos ---------- */
@@ -949,22 +914,6 @@
       </div>
       <h3>Documentos</h3>
       <p>Pega, guarda y comparte cualquier texto</p>
-    </button>
-
-    <!-- Módulo: Simulador Automático -->
-    <button class="tarjeta-modulo" data-modulo="simauto" style="--tab-color:#1D6FA5; --tab-soft:#DCEBF3" onclick="manejarTarjetaClick('simauto', event)">
-      <span class="cinta"></span>
-      <span class="manija-arrastre">
-        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
-      </span>
-      <span class="manija-eliminar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
-      </span>
-      <div class="icono-modulo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-      </div>
-      <h3>Simulador Automático</h3>
-      <p>Envía el enlace correcto a cada cliente</p>
     </button>
 
     <!-- Espacio reservado para la próxima herramienta -->
@@ -1489,15 +1438,20 @@
       </div>
     </div>
 
+    <button type="button" class="btn btn-primario" id="rbBtnNuevo" style="width:100%; justify-content:center; margin-bottom:14px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+      Nuevo recibo
+    </button>
+
     <div class="buscador">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" id="rbBuscador" placeholder="Buscar cliente...">
+      <input type="text" id="rbBuscador" placeholder="Buscar por nombre...">
     </div>
 
     <div id="rbLista"></div>
     <div class="estado-vacio" id="rbEstadoVacio" style="display:none;">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h12a1 1 0 0 1 1 1v18l-2.5-1.5L14 21l-2.5-1.5L9 21l-2.5-1.5L4 21V3a1 1 0 0 1 1-1Z"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>
-      <p id="rbEstadoVacioTexto">Sin resultados para tu búsqueda.</p>
+      <p id="rbEstadoVacioTexto">Aún no tienes recibos. Crea el primero con el botón de arriba.</p>
     </div>
 
   </div>
@@ -1659,81 +1613,6 @@
 
   </div>
 </section>
-
-<!-- ================= MÓDULO: SIMULADOR AUTOMÁTICO ================= -->
-<section class="pantalla-modulo" id="pantallaSimauto">
-  <div class="modulo-header">
-    <button class="btn-icono" onclick="cerrarModulo('simauto')" aria-label="Volver">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-    </button>
-    <h2>Simulador Automático</h2>
-  </div>
-  <div class="modulo-contenido">
-
-    <p class="panel-sub" style="margin-top:0;">Elige un cliente, escoge el perfil que le corresponde y arma el enlace del simulador con un toque, listo para enviarle por WhatsApp.</p>
-
-    <div class="panel">
-      <p class="panel-titulo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.59 13.51l6.83 3.98"/><path d="M15.41 6.51l-6.82 3.98"/></svg>
-        Compartir con cualquier contacto
-      </p>
-      <p class="panel-sub">Elige el perfil correcto y se abre el menú para compartir por WhatsApp (o donde quieras), dejándote escoger a cualquier contacto — sin necesidad de tenerlo registrado en Central.</p>
-      <div id="saListaPerfilesGeneral"></div>
-    </div>
-
-    <div class="buscador">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-      <input type="text" id="saBuscador" placeholder="Buscar cliente...">
-    </div>
-
-    <div id="saLista"></div>
-    <div class="estado-vacio" id="saEstadoVacio" style="display:none;">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
-      <p id="saEstadoVacioTexto">Sin resultados para tu búsqueda.</p>
-    </div>
-
-  </div>
-</section>
-
-<!-- Hoja: elegir perfil para el cliente -->
-<div class="hoja-fondo" id="saHojaElegir" onclick="if(event.target===this) saCerrarElegir()">
-  <div class="hoja">
-    <div class="hoja-manija"></div>
-    <h3 id="saElegirNombre">Cliente</h3>
-    <p class="panel-sub" style="margin-top:-8px;">¿Qué perfil de simulador le corresponde?</p>
-    <div id="saListaPerfiles"></div>
-
-    <div id="saHistorialWrap" style="margin-top:18px;">
-      <div class="seccion-titulo" style="margin:0 0 8px 2px;">Enlaces enviados antes</div>
-      <div id="saHistorialLista"></div>
-    </div>
-
-    <button class="btn btn-secundario" style="width:100%; margin-top:14px;" onclick="saCerrarElegir()">Cerrar</button>
-  </div>
-</div>
-
-<!-- Hoja: enlace listo para enviar -->
-<div class="hoja-fondo" id="saHojaEnviar" onclick="if(event.target===this) saCerrarEnviar()">
-  <div class="hoja">
-    <div class="hoja-manija"></div>
-    <h3 id="saEnviarTitulo">Enlace listo</h3>
-
-    <div class="campo">
-      <label>Enlace generado</label>
-      <input type="text" id="saLinkGenerado" readonly style="font-size:12.5px;">
-    </div>
-    <div class="campo">
-      <label>Mensaje que se enviará</label>
-      <div class="mj-preview-texto" id="saMensajePreview"></div>
-    </div>
-
-    <div class="fila-botones">
-      <button class="btn-cancelar" id="saBtnCopiarLink">Copiar enlace</button>
-      <button class="btn-guardar" id="saBtnEnviarWhatsapp">Enviar por WhatsApp</button>
-    </div>
-    <button class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="saCerrarEnviar()">Cerrar</button>
-  </div>
-</div>
 
 <!-- Hoja: editor de documento -->
 <div class="hoja-fondo" id="docHojaEditor" onclick="if(event.target===this) docCerrarEditor()">
@@ -1897,24 +1776,6 @@
 </div>
 
 <!-- Hoja: elegir/listar recibos de un cliente -->
-<div class="hoja-fondo" id="rbHojaElegir" onclick="if(event.target===this) rbCerrarElegir()">
-  <div class="hoja">
-    <div class="hoja-manija"></div>
-    <h3 id="rbElegirNombre">Cliente</h3>
-    <button class="btn btn-primario" style="width:100%; justify-content:center;" onclick="rbAbrirNuevo()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
-      Nuevo recibo
-    </button>
-
-    <div id="rbHistorialWrap" style="margin-top:18px;">
-      <div class="seccion-titulo" style="margin:0 0 8px 2px;">Recibos de este cliente</div>
-      <div id="rbHistorialLista"></div>
-    </div>
-
-    <button class="btn btn-secundario" style="width:100%; margin-top:14px;" onclick="rbCerrarElegir()">Cerrar</button>
-  </div>
-</div>
-
 <!-- Hoja: editor de recibo -->
 <div class="hoja-fondo" id="rbHojaEditor" onclick="if(event.target===this) rbCerrarEditor()">
   <div class="hoja" style="max-height:94vh; background:var(--bg);">
@@ -1935,8 +1796,7 @@
 
       <div class="rb-body">
         <div class="rb-section-title">Cliente</div>
-        <div class="rb-nombre-cliente" id="rbNombreCliente">—</div>
-        <span class="rb-categoria" id="rbCategoria" data-value="">SIN CATEGORÍA</span>
+        <input type="text" class="rb-nombre-cliente-input" id="rbNombreCliente" placeholder="Nombre del cliente">
 
         <div class="rb-section-title">Información del préstamo</div>
 
@@ -1995,28 +1855,11 @@
       </div>
     </div>
 
-    <div class="rb-resumen-card">
-      <div class="rb-resumen-top">
-        <span class="rb-resumen-codigo" id="rbResumenCodigo">—</span>
-        <span class="rb-resumen-estado" id="rbResumenEstado">Activo</span>
-      </div>
-      <div class="rb-resumen-monto" id="rbResumenMonto">$0</div>
-      <div class="rb-resumen-divider"></div>
-      <div class="rb-resumen-row"><span class="rb-resumen-label">Fecha inicio</span><span class="rb-resumen-value" id="rbResumenFecha">—</span></div>
-      <div class="rb-resumen-row"><span class="rb-resumen-label">Cuota</span><span class="rb-resumen-value" id="rbResumenCuota">—</span></div>
-      <div class="rb-resumen-row"><span class="rb-resumen-label">Saldo pendiente</span><span class="rb-resumen-value rb-resumen-saldo" id="rbResumenSaldo">$0</span></div>
-      <div class="rb-resumen-divider"></div>
-      <div class="rb-resumen-progreso-header">
-        <span class="rb-resumen-label">Progreso</span>
-        <span class="rb-resumen-progreso-texto" id="rbResumenProgresoTexto">0 / 0 cuotas</span>
-      </div>
-      <div class="rb-resumen-progress-track"><div class="rb-resumen-progress-fill" id="rbResumenProgressFill"></div></div>
-    </div>
-
     <div class="fila-botones" style="margin-top:16px;">
       <button class="btn-cancelar" id="rbBtnCompartir">Compartir</button>
       <button class="btn-guardar" id="rbBtnGuardar">✓ Guardar</button>
     </div>
+    <button class="btn btn-secundario" style="width:100%; margin-top:10px;" id="rbBtnEliminar">Eliminar recibo</button>
     <button class="btn btn-secundario" style="width:100%; margin-top:10px;" onclick="rbCerrarEditor()">Cerrar</button>
   </div>
 </div>
@@ -2055,7 +1898,6 @@ function abrirModulo(nombre){
   if(nombre === 'recibos') rbAbrirModulo();
   if(nombre === 'formcliente') fcAbrirModulo();
   if(nombre === 'documentos') docAbrirModulo();
-  if(nombre === 'simauto') saAbrirModulo();
 }
 function cerrarModulo(nombre){
   document.getElementById('pantalla' + capitalizar(nombre)).classList.remove('activa');
@@ -2270,8 +2112,6 @@ window.addEventListener('popstate', () => {
   rbCerrarEditor(true);
   docCerrarEditor(true);
   docCerrarPreviewImagen(true);
-  saCerrarElegir(true);
-  saCerrarEnviar(true);
 });
 
 // ---------- Toast ----------
@@ -2299,8 +2139,7 @@ const RESPALDO_LLAVES = [
   'central_topes_v1',
   'evaluacionesRiesgo_v1',
   'recibosPrestaYa_v1',
-  'documentosPrestaYa_v1',
-  'simuladorAutomaticoEnvios_v1'
+  'documentosPrestaYa_v1'
 ];
 
 function respaldoFechaArchivo(){
@@ -3104,7 +2943,9 @@ function facRenderizar(){
     const fechaVenc = facFechaVencimiento(f, facMesVisto);
     const estado = facEstadoFactura(f, key, fechaVenc);
     const valor = facValorMes(f, key);
-    return { factura: f, fechaVenc: fechaVenc, estado: estado, valor: valor };
+    const registroMes = f.historial[key];
+    const fechaPago = registroMes ? registroMes.fechaPago : null;
+    return { factura: f, fechaVenc: fechaVenc, estado: estado, valor: valor, fechaPago: fechaPago };
   });
 
   const prioridad = { vencida: 0, pendiente: 1, pagada: 2 };
@@ -3150,7 +2991,7 @@ function facTarjetaHTML(r){
   } else if(r.estado === 'pendiente'){
     sub = '<span class="sub-factura">Vence: ' + facFormatFechaCorta(r.fechaVenc) + '</span>';
   } else {
-    sub = '<span class="sub-factura">Pagado</span>';
+    sub = '<span class="sub-factura">Pagado el ' + (r.fechaPago ? facFormatFechaCorta(new Date(r.fechaPago)) : '—') + '</span>';
   }
   const pillTexto = r.estado === 'vencida' ? 'VENCIDO' : (r.estado === 'pendiente' ? 'PENDIENTE' : 'PAGADO');
   const selloHTML = r.estado === 'pagada' ? '<div class="sello-pagado-factura">Pagado</div>' : '';
@@ -3913,21 +3754,20 @@ function rgEliminarEvaluacion(id){
 rgCargar();
 
 // =========================================================
-// Recibos de Pago — tarjeta visual de seguimiento de crédito por cliente,
-// con categoría automática de puntualidad. Se comparte como texto (no imagen,
-// para no depender de librerías externas y seguir funcionando sin conexión).
+// Recibos de Pago — tarjeta visual de seguimiento de crédito, totalmente
+// independiente (nombre del cliente a mano, sin ligar a Registro de
+// Clientes). Se comparte como texto (no imagen, para no depender de
+// librerías externas y seguir funcionando sin conexión).
 // =========================================================
 const RB_LLAVE = 'recibosPrestaYa_v1';
 const RB_MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const RB_MESES_ABR = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-const RB_CATEGORIA_COLORES = { '':'#98A2B3', excelente:'#008F53', muybueno:'#4CAF50', bueno:'#84CC16', aceptable:'#F59E0B', malo:'#DC2626' };
-const RB_CATEGORIA_ETIQUETAS = { '':'SIN CATEGORÍA', excelente:'CLIENTE EXCELENTE', muybueno:'CLIENTE MUY BUENO', bueno:'CLIENTE BUENO', aceptable:'CLIENTE ACEPTABLE', malo:'CLIENTE MALO' };
 const RB_DIAS_POR_FRECUENCIA = { Diario:1, Semanal:7, Quincenal:15, Mensual:30 };
 
 let rbRecibos = [];
 let rbBusqueda = '';
-let rbClienteActivoId = null;
 let rbReciboActivoId = null; // null = se está creando uno nuevo
+let rbFolioActual = '';
 
 const rbCuotaActualBtnEl = document.getElementById('rbCuotaActualBtn');
 const rbTotalCuotasBtnEl = document.getElementById('rbTotalCuotasBtn');
@@ -3939,29 +3779,17 @@ const rbProgressPctEl = document.getElementById('rbProgressPct');
 const rbStampEl = document.getElementById('rbStamp');
 const rbCardTitleEl = document.getElementById('rbCardTitle');
 const rbNombreClienteEl = document.getElementById('rbNombreCliente');
-const rbCategoriaEl = document.getElementById('rbCategoria');
 const rbFechaCreditoEl = document.getElementById('rbFechaCredito');
 const rbFechaCreditoDisplayEl = document.getElementById('rbFechaCreditoDisplay');
 const rbFrecuenciaEl = document.getElementById('rbFrecuencia');
 const rbValorCuotaEl = document.getElementById('rbValorCuota');
 const rbTotalPrestadoEl = document.getElementById('rbTotalPrestado');
-const rbResumenCodigoEl = document.getElementById('rbResumenCodigo');
-const rbResumenEstadoEl = document.getElementById('rbResumenEstado');
-const rbResumenMontoEl = document.getElementById('rbResumenMonto');
-const rbResumenFechaEl = document.getElementById('rbResumenFecha');
-const rbResumenCuotaEl = document.getElementById('rbResumenCuota');
-const rbResumenSaldoEl = document.getElementById('rbResumenSaldo');
-const rbResumenProgresoTextoEl = document.getElementById('rbResumenProgresoTexto');
-const rbResumenProgressFillEl = document.getElementById('rbResumenProgressFill');
 
 function rbCargar(){
   try{ rbRecibos = JSON.parse(localStorage.getItem(RB_LLAVE)) || []; }catch(e){ rbRecibos = []; }
 }
 function rbGuardarStorage(){
   localStorage.setItem(RB_LLAVE, JSON.stringify(rbRecibos));
-}
-function rbHistorialCliente(clienteId){
-  return rbRecibos.filter(r => r.clienteId === clienteId).sort((a, b) => (b.fechaGuardado || '').localeCompare(a.fechaGuardado || ''));
 }
 function rbFechaHoyISO(){
   const d = new Date();
@@ -3989,41 +3817,6 @@ function rbGenerarFolio(nombre, fechaISO, valorCuota){
 // ---------- Categoría automática según puntualidad ----------
 // Compara cuántas cuotas debería llevar pagadas a la fecha (según fecha del
 // crédito y frecuencia) contra las cuotas realmente pagadas.
-function rbCalcularCategoria(fechaCreditoISO, frecuencia, totalCuotas, cuotaActual){
-  if(totalCuotas <= 0 || !fechaCreditoISO) return '';
-  const dias = RB_DIAS_POR_FRECUENCIA[frecuencia] || 15;
-  const inicio = new Date(fechaCreditoISO + 'T00:00:00');
-  const hoy = new Date();
-  hoy.setHours(0, 0, 0, 0);
-  const diasTranscurridos = Math.floor((hoy - inicio) / 86400000);
-  if(diasTranscurridos < 0) return '';
-  let cuotasEsperadas = Math.floor(diasTranscurridos / dias);
-  cuotasEsperadas = Math.max(0, Math.min(cuotasEsperadas, totalCuotas));
-  const atraso = cuotasEsperadas - cuotaActual;
-  if(atraso <= 0) return 'excelente';
-  if(atraso === 1) return 'muybueno';
-  if(atraso === 2) return 'bueno';
-  if(atraso === 3) return 'aceptable';
-  return 'malo';
-}
-function rbActualizarCategoria(){
-  const total = rbGetCuotaValue(rbTotalCuotasBtnEl);
-  const actual = rbGetCuotaValue(rbCuotaActualBtnEl);
-  const valor = rbCalcularCategoria(rbFechaCreditoEl.value, rbFrecuenciaEl.value, total, actual);
-  rbCategoriaEl.dataset.value = valor;
-  rbCategoriaEl.textContent = RB_CATEGORIA_ETIQUETAS[valor];
-  const color = RB_CATEGORIA_COLORES[valor] || RB_CATEGORIA_COLORES[''];
-  if(valor){
-    rbCategoriaEl.style.color = color;
-    rbCategoriaEl.style.borderColor = color;
-    rbCategoriaEl.style.background = color + '18';
-  } else {
-    rbCategoriaEl.style.color = 'var(--rb-gris-600)';
-    rbCategoriaEl.style.borderColor = 'var(--rb-gris-300)';
-    rbCategoriaEl.style.background = 'var(--rb-gris-100)';
-  }
-}
-
 // ---------- Selector de cuotas (0-12) ----------
 function rbGetCuotaValue(btn){
   const n = parseInt(btn.dataset.value, 10);
@@ -4095,37 +3888,12 @@ function rbRecalc(){
   rbProgressLabelEl.textContent = 'Cuota ' + actual + ' de ' + total;
   rbCardTitleEl.textContent = actual >= 1 ? 'Recibo de pago' : 'Plan de pago';
   if(total > 0 && actual >= total){ rbStampEl.classList.add('show'); } else { rbStampEl.classList.remove('show'); }
-  rbActualizarCategoria();
-  rbActualizarResumen();
-}
-function rbActualizarResumen(){
-  const total = rbGetCuotaValue(rbTotalCuotasBtnEl);
-  const actual = rbGetCuotaValue(rbCuotaActualBtnEl);
-  const vCuota = parseInt((rbValorCuotaEl.value || '').replace(/\D/g, ''), 10) || 0;
-  const tPrestado = parseInt((rbTotalPrestadoEl.value || '').replace(/\D/g, ''), 10) || 0;
-
-  const completo = total > 0 && actual >= total;
-  rbResumenEstadoEl.textContent = completo ? 'Pagado' : 'Activo';
-  rbResumenEstadoEl.classList.toggle('pagado', completo);
-
-  rbResumenMontoEl.textContent = simFormatMoneda(tPrestado);
-  rbResumenFechaEl.textContent = rbFormatFechaEs(rbFechaCreditoEl.value);
-  rbResumenCuotaEl.textContent = simFormatMoneda(vCuota) + ' / ' + rbFrecuenciaEl.value;
-
-  const saldo = Math.max(tPrestado - (vCuota * actual), 0);
-  rbResumenSaldoEl.textContent = simFormatMoneda(saldo);
-
-  rbResumenProgresoTextoEl.textContent = actual + ' / ' + total + ' cuotas';
-  const pct2 = total > 0 ? Math.min(100, (actual / total) * 100) : 0;
-  rbResumenProgressFillEl.style.width = pct2 + '%';
 }
 function rbUpdateFechaDisplay(){
   rbFechaCreditoDisplayEl.textContent = rbFormatFechaEs(rbFechaCreditoEl.value);
 }
 rbFechaCreditoEl.addEventListener('change', () => { rbUpdateFechaDisplay(); rbRecalc(); });
 rbFrecuenciaEl.addEventListener('change', rbRecalc);
-rbValorCuotaEl.addEventListener('input', rbActualizarResumen);
-rbTotalPrestadoEl.addEventListener('input', rbActualizarResumen);
 
 // ---------- Pantalla principal: lista de clientes ----------
 function rbAbrirModulo(){
@@ -4135,26 +3903,26 @@ function rbAbrirModulo(){
   rbRenderLista();
 }
 function rbRenderResumen(){
-  const clientesConRecibo = new Set(rbRecibos.map(r => r.clienteId)).size;
+  const nombresUnicos = new Set(rbRecibos.map(r => (r.nombreCliente || '').trim().toLowerCase()).filter(n => n));
   let activos = 0, pagados = 0;
   rbRecibos.forEach(r => {
     if(r.totalCuotas > 0 && r.cuotaActual >= r.totalCuotas) pagados++; else activos++;
   });
   document.getElementById('rbStatTotal').textContent = rbRecibos.length;
-  document.getElementById('rbStatClientes').textContent = clientesConRecibo;
+  document.getElementById('rbStatClientes').textContent = nombresUnicos.size;
   document.getElementById('rbStatActivos').textContent = activos;
   document.getElementById('rbStatPagados').textContent = pagados;
 }
 function rbRenderLista(){
   const filtro = rbBusqueda.trim().toLowerCase();
-  const lista = rcClientes.filter(c => !filtro || c.nombre.toLowerCase().indexOf(filtro) !== -1);
+  const lista = rbRecibos.filter(r => !filtro || (r.nombreCliente || '').toLowerCase().indexOf(filtro) !== -1);
   const listaEl = document.getElementById('rbLista');
   const vacioEl = document.getElementById('rbEstadoVacio');
   const vacioTexto = document.getElementById('rbEstadoVacioTexto');
 
-  if(rcClientes.length === 0){
+  if(rbRecibos.length === 0){
     listaEl.innerHTML = '';
-    vacioTexto.textContent = 'Registra un cliente en "Registro de Clientes" para poder crearle un recibo.';
+    vacioTexto.textContent = 'Aún no tienes recibos. Crea el primero con el botón de arriba.';
     vacioEl.style.display = 'block';
     return;
   }
@@ -4165,18 +3933,19 @@ function rbRenderLista(){
     return;
   }
   vacioEl.style.display = 'none';
-  listaEl.innerHTML = lista.map(c => {
-    const hist = rbHistorialCliente(c.id);
-    const subtitulo = hist.length === 0
-      ? 'Sin recibos generados'
-      : hist.length + ' recibo' + (hist.length === 1 ? '' : 's') + ' · Último: Cuota ' + hist[0].cuotaActual + ' de ' + hist[0].totalCuotas;
-    return '<div class="item-lista" data-id="' + c.id + '">' +
-      '<div class="avatar-circulo">' + rcInicial(c.nombre) + '</div>' +
+  listaEl.innerHTML = lista.map(r => {
+    const completo = r.totalCuotas > 0 && r.cuotaActual >= r.totalCuotas;
+    const nombreMostrado = r.nombreCliente && r.nombreCliente.trim() ? r.nombreCliente : 'Sin nombre';
+    return '<div class="item-lista" data-id="' + r.id + '">' +
+      '<div class="avatar-circulo">' + escaparHTML((nombreMostrado.trim().charAt(0) || '?').toUpperCase()) + '</div>' +
       '<div class="item-info">' +
-        '<p class="titulo">' + escaparHTML(c.nombre) + '</p>' +
-        '<p class="subtitulo">' + escaparHTML(subtitulo) + '</p>' +
+        '<p class="titulo">' + escaparHTML(nombreMostrado) + '</p>' +
+        '<p class="subtitulo">' + r.folio + ' · Cuota ' + r.cuotaActual + '/' + r.totalCuotas + '</p>' +
       '</div>' +
-      '<svg class="chevron-item" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>' +
+      (completo ? '<span class="pill-estado pagada">PAGADO</span>' : '') +
+      '<button class="btn-eliminar-historial" onclick="event.stopPropagation(); rbEliminarRecibo(\'' + r.id + '\')" aria-label="Eliminar recibo">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>' +
+      '</button>' +
     '</div>';
   }).join('');
 }
@@ -4184,52 +3953,12 @@ document.getElementById('rbBuscador').addEventListener('input', (e) => { rbBusqu
 document.getElementById('rbLista').addEventListener('click', (e) => {
   const card = e.target.closest('.item-lista');
   if(!card) return;
-  rbAbrirElegir(card.getAttribute('data-id'));
+  rbAbrirEditar(card.getAttribute('data-id'));
 });
-
-// ---------- Selector/historial de recibos de un cliente ----------
-function rbAbrirElegir(clienteId){
-  const c = rcClientes.find(x => x.id === clienteId);
-  if(!c) return;
-  rbClienteActivoId = clienteId;
-  document.getElementById('rbElegirNombre').textContent = c.nombre;
-  rbRenderHistorialElegir();
-  document.getElementById('rbHojaElegir').classList.add('activa');
-}
-function rbCerrarElegir(silencioso){
-  document.getElementById('rbHojaElegir').classList.remove('activa');
-}
-function rbRenderHistorialElegir(){
-  const hist = rbHistorialCliente(rbClienteActivoId);
-  const cont = document.getElementById('rbHistorialLista');
-  if(hist.length === 0){
-    cont.innerHTML = '<p style="font-size:12.5px; color:var(--muted); margin:4px 0 0;">Aún no hay recibos generados para este cliente.</p>';
-    return;
-  }
-  cont.innerHTML = hist.map(r => {
-    const categoriaValor = rbCalcularCategoria(r.fechaCredito, r.frecuencia, r.totalCuotas, r.cuotaActual);
-    const color = RB_CATEGORIA_COLORES[categoriaValor] || RB_CATEGORIA_COLORES[''];
-    const etiqueta = RB_CATEGORIA_ETIQUETAS[categoriaValor];
-    return '<div class="fila-historial-pagare">' +
-      '<div>' +
-        '<span class="fecha-historial">' + r.folio + ' · ' + rbFormatFechaCorta(r.fechaCredito) + '</span>' +
-        '<span class="pill-recibo" style="background:' + color + '">' + etiqueta + ' · Cuota ' + r.cuotaActual + '/' + r.totalCuotas + '</span>' +
-      '</div>' +
-      '<div style="display:flex; gap:4px;">' +
-        '<button class="btn-eliminar-historial" onclick="rbAbrirEditar(\'' + r.id + '\')" aria-label="Editar recibo">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7Z"/><circle cx="12" cy="12" r="3"/></svg>' +
-        '</button>' +
-        '<button class="btn-eliminar-historial" onclick="rbEliminarRecibo(\'' + r.id + '\')" aria-label="Eliminar recibo">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>' +
-        '</button>' +
-      '</div>' +
-    '</div>';
-  }).join('');
-}
+document.getElementById('rbBtnNuevo').addEventListener('click', rbAbrirNuevo);
 function rbEliminarRecibo(id){
   rbRecibos = rbRecibos.filter(r => r.id !== id);
   rbGuardarStorage();
-  rbRenderHistorialElegir();
   rbRenderResumen();
   rbRenderLista();
   mostrarToast('Recibo eliminado');
@@ -4237,12 +3966,9 @@ function rbEliminarRecibo(id){
 
 // ---------- Editor de recibo (nuevo / existente) ----------
 function rbAbrirNuevo(){
-  document.getElementById('rbHojaElegir').classList.remove('activa');
-  const c = rcClientes.find(x => x.id === rbClienteActivoId);
-  if(!c) return;
   rbReciboActivoId = null;
-  rbNombreClienteEl.textContent = c.nombre;
-  rbResumenCodigoEl.textContent = 'Se asigna al guardar';
+  rbNombreClienteEl.value = '';
+  rbFolioActual = 'Se asigna al guardar';
   rbFechaCreditoEl.value = rbFechaHoyISO();
   rbSetCuotaValue(rbCuotaActualBtnEl, 0);
   rbSetCuotaValue(rbTotalCuotasBtnEl, 0);
@@ -4251,17 +3977,15 @@ function rbAbrirNuevo(){
   rbTotalPrestadoEl.value = '';
   rbUpdateFechaDisplay();
   rbRecalc();
+  document.getElementById('rbBtnEliminar').style.display = 'none';
   document.getElementById('rbHojaEditor').classList.add('activa');
 }
 function rbAbrirEditar(id){
   const r = rbRecibos.find(x => x.id === id);
   if(!r) return;
-  document.getElementById('rbHojaElegir').classList.remove('activa');
   rbReciboActivoId = id;
-  rbClienteActivoId = r.clienteId;
-  const c = rcClientes.find(x => x.id === r.clienteId);
-  rbNombreClienteEl.textContent = c ? c.nombre : '—';
-  rbResumenCodigoEl.textContent = r.folio;
+  rbNombreClienteEl.value = r.nombreCliente || '';
+  rbFolioActual = r.folio;
   rbFechaCreditoEl.value = r.fechaCredito || '';
   rbSetCuotaValue(rbCuotaActualBtnEl, r.cuotaActual || 0);
   rbSetCuotaValue(rbTotalCuotasBtnEl, r.totalCuotas || 0);
@@ -4270,21 +3994,27 @@ function rbAbrirEditar(id){
   rbTotalPrestadoEl.value = r.totalPrestado ? simFormatMiles(r.totalPrestado) : '';
   rbUpdateFechaDisplay();
   rbRecalc();
+  document.getElementById('rbBtnEliminar').style.display = '';
   document.getElementById('rbHojaEditor').classList.add('activa');
 }
 function rbCerrarEditor(silencioso){
   document.getElementById('rbHojaEditor').classList.remove('activa');
 }
+document.getElementById('rbBtnEliminar').addEventListener('click', () => {
+  if(!rbReciboActivoId) return;
+  rbEliminarRecibo(rbReciboActivoId);
+  rbCerrarEditor();
+});
 
 document.getElementById('rbBtnGuardar').addEventListener('click', () => {
-  const c = rcClientes.find(x => x.id === rbClienteActivoId);
-  if(!c) return;
+  const nombreCliente = rbNombreClienteEl.value.trim();
   const fechaCredito = rbFechaCreditoEl.value;
   const { actual, total } = rbClampCuotas();
   const frecuencia = rbFrecuenciaEl.value;
   const valorCuota = parseInt((rbValorCuotaEl.value || '').replace(/\D/g, ''), 10) || 0;
   const totalPrestado = parseInt((rbTotalPrestadoEl.value || '').replace(/\D/g, ''), 10) || 0;
 
+  if(!nombreCliente){ mostrarToast('Escribe el nombre del cliente'); return; }
   if(!fechaCredito){ mostrarToast('Selecciona la fecha del crédito'); return; }
   if(total <= 0){ mostrarToast('Ingresa el número total de cuotas'); return; }
   if(totalPrestado <= 0){ mostrarToast('Ingresa el total prestado'); return; }
@@ -4294,6 +4024,7 @@ document.getElementById('rbBtnGuardar').addEventListener('click', () => {
   if(rbReciboActivoId){
     const r = rbRecibos.find(x => x.id === rbReciboActivoId);
     if(r){
+      r.nombreCliente = nombreCliente;
       r.fechaCredito = fechaCredito; r.cuotaActual = actual; r.totalCuotas = total;
       r.frecuencia = frecuencia; r.valorCuota = valorCuota; r.totalPrestado = totalPrestado;
       r.fechaGuardado = ahora;
@@ -4301,15 +4032,16 @@ document.getElementById('rbBtnGuardar').addEventListener('click', () => {
   } else {
     const nuevo = {
       id: 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-      clienteId: rbClienteActivoId,
-      folio: rbGenerarFolio(c.nombre, fechaCredito, valorCuota),
+      nombreCliente: nombreCliente,
+      folio: rbGenerarFolio(nombreCliente, fechaCredito, valorCuota),
       fechaCredito: fechaCredito, cuotaActual: actual, totalCuotas: total,
       frecuencia: frecuencia, valorCuota: valorCuota, totalPrestado: totalPrestado,
       fechaGuardado: ahora
     };
     rbRecibos.unshift(nuevo);
     rbReciboActivoId = nuevo.id;
-    rbResumenCodigoEl.textContent = nuevo.folio;
+    rbFolioActual = nuevo.folio;
+    document.getElementById('rbBtnEliminar').style.display = '';
   }
   rbGuardarStorage();
   rbRenderResumen();
@@ -4323,13 +4055,12 @@ document.getElementById('rbBtnGuardar').addEventListener('click', () => {
 
 // ---------- Compartir como texto ----------
 function rbTextoResumen(){
-  const c = rcClientes.find(x => x.id === rbClienteActivoId);
-  const nombre = c ? c.nombre : '';
+  const nombre = rbNombreClienteEl.value.trim();
   const { actual, total } = rbClampCuotas();
   const vCuota = parseInt((rbValorCuotaEl.value || '').replace(/\D/g, ''), 10) || 0;
   const tPrestado = parseInt((rbTotalPrestadoEl.value || '').replace(/\D/g, ''), 10) || 0;
   const saldo = Math.max(tPrestado - (vCuota * actual), 0);
-  const folio = rbResumenCodigoEl.textContent;
+  const folio = rbFolioActual;
   const completo = total > 0 && actual >= total;
 
   return 'PLAN DE PAGO · PrestaYa\n' + folio + '\n\n' +
@@ -4802,241 +4533,6 @@ document.getElementById('docBtnCerrarPreviewImagen').addEventListener('click', (
 document.getElementById('docBtnCompartirPreviewImagen').addEventListener('click', docCompartirImagen);
 
 docCargar();
-
-// =========================================================
-// Simulador Automático — arma el enlace del simulador de crédito externo
-// (simulador-credito.html, alojado junto a Central) con el parámetro
-// ?perfil= correcto para cada cliente, y lo envía por WhatsApp directamente
-// al número del CLIENTE (no al del negocio, a diferencia de "Formulario de
-// Cliente"). Guarda un historial liviano de qué perfil se le envió a quién.
-// =========================================================
-const SA_LLAVE = 'simuladorAutomaticoEnvios_v1';
-const SA_ARCHIVO = 'simulador-credito.html';
-const SA_PERFILES = [
-  { id: 'nuevo', icono: '🌱', titulo: 'Cliente Nuevo', colorSuave: '#D9F0E6',
-    montoMax: 400000, cuotasMax: 8, formulario: 'Completo (incluye Barrio y Ciudad)' },
-  { id: 'estandar', icono: '📈', titulo: 'Estándar', colorSuave: '#DCEBF3',
-    montoMax: 1000000, cuotasMax: 10, formulario: 'Reducido (Nombre, Cédula, Celular, Dirección)' },
-  { id: 'alto', icono: '💎', titulo: 'Monto Alto', colorSuave: '#F3E7CC',
-    montoMax: 2500000, cuotasMax: 10, formulario: 'Reducido (igual que Estándar)' }
-];
-
-let saEnvios = [];
-let saBusqueda = '';
-let saClienteActivoId = null;
-let saPerfilActivo = null;
-let saLinkActual = '';
-let saMensajeActual = '';
-
-function saCargar(){
-  try{ saEnvios = JSON.parse(localStorage.getItem(SA_LLAVE)) || []; }catch(e){ saEnvios = []; }
-}
-function saGuardarStorage(){
-  localStorage.setItem(SA_LLAVE, JSON.stringify(saEnvios));
-}
-function saHistorialCliente(clienteId){
-  return saEnvios.filter(e => e.clienteId === clienteId).sort((a, b) => b.fecha.localeCompare(a.fecha));
-}
-function saFormatoFecha(iso){
-  const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  const d = new Date(iso);
-  return d.getDate() + ' ' + meses[d.getMonth()] + ' ' + d.getFullYear();
-}
-function saPerfilPorId(id){
-  return SA_PERFILES.find(p => p.id === id);
-}
-// Números colombianos típicos vienen guardados a 10 dígitos (sin indicativo);
-// wa.me necesita el indicativo de país pegado adelante, sin "+".
-function saAjustarNumeroWhatsApp(numero){
-  const limpio = (numero || '').replace(/\D/g, '');
-  if(!limpio) return '';
-  if(limpio.length === 10) return '57' + limpio;
-  return limpio;
-}
-
-// ---------- Pantalla principal: lista de clientes ----------
-function saAbrirModulo(){
-  saBusqueda = '';
-  document.getElementById('saBuscador').value = '';
-  saRenderPerfilesGeneral();
-  saRenderLista();
-}
-function saRenderLista(){
-  const filtro = saBusqueda.trim().toLowerCase();
-  const lista = rcClientes.filter(c => !filtro || c.nombre.toLowerCase().indexOf(filtro) !== -1);
-  const listaEl = document.getElementById('saLista');
-  const vacioEl = document.getElementById('saEstadoVacio');
-  const vacioTexto = document.getElementById('saEstadoVacioTexto');
-
-  if(rcClientes.length === 0){
-    listaEl.innerHTML = '';
-    vacioTexto.textContent = 'Registra un cliente en "Registro de Clientes" para poder enviarle el simulador.';
-    vacioEl.style.display = 'block';
-    return;
-  }
-  if(lista.length === 0){
-    listaEl.innerHTML = '';
-    vacioTexto.textContent = 'Sin resultados para tu búsqueda.';
-    vacioEl.style.display = 'block';
-    return;
-  }
-  vacioEl.style.display = 'none';
-  listaEl.innerHTML = lista.map(c => {
-    const hist = saHistorialCliente(c.id);
-    let subtitulo;
-    if(hist.length === 0){
-      subtitulo = 'Sin envíos todavía';
-    } else {
-      const p = saPerfilPorId(hist[0].perfil);
-      subtitulo = 'Último: ' + (p ? p.titulo : hist[0].perfil) + ' · ' + saFormatoFecha(hist[0].fecha);
-    }
-    return '<div class="item-lista" data-id="' + c.id + '">' +
-      '<div class="avatar-circulo">' + rcInicial(c.nombre) + '</div>' +
-      '<div class="item-info">' +
-        '<p class="titulo">' + escaparHTML(c.nombre) + '</p>' +
-        '<p class="subtitulo">' + escaparHTML(subtitulo) + '</p>' +
-      '</div>' +
-      '<svg class="chevron-item" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>' +
-    '</div>';
-  }).join('');
-}
-document.getElementById('saBuscador').addEventListener('input', (e) => { saBusqueda = e.target.value; saRenderLista(); });
-document.getElementById('saLista').addEventListener('click', (e) => {
-  const card = e.target.closest('.item-lista');
-  if(!card) return;
-  saAbrirElegir(card.getAttribute('data-id'));
-});
-
-// ---------- Elegir perfil para el cliente ----------
-function saAbrirElegir(clienteId){
-  const c = rcClientes.find(x => x.id === clienteId);
-  if(!c) return;
-  saClienteActivoId = clienteId;
-  document.getElementById('saElegirNombre').textContent = c.nombre;
-  document.getElementById('saListaPerfiles').innerHTML = SA_PERFILES.map(p =>
-    '<button type="button" class="mj-plantilla-btn" onclick="saElegirPerfil(\'' + p.id + '\')">' +
-      '<span class="mj-plantilla-icono" style="background:' + p.colorSuave + '">' + p.icono + '</span>' +
-      '<span class="mj-plantilla-info">' +
-        '<p class="titulo">' + p.titulo + '</p>' +
-        '<p class="subtitulo">Hasta ' + simFormatMoneda(p.montoMax) + ' · ' + p.cuotasMax + ' cuotas · ' + p.formulario + '</p>' +
-      '</span>' +
-    '</button>'
-  ).join('');
-  saRenderHistorialElegir();
-  document.getElementById('saHojaElegir').classList.add('activa');
-}
-function saCerrarElegir(silencioso){
-  document.getElementById('saHojaElegir').classList.remove('activa');
-}
-function saRenderHistorialElegir(){
-  const hist = saHistorialCliente(saClienteActivoId);
-  const cont = document.getElementById('saHistorialLista');
-  if(hist.length === 0){
-    cont.innerHTML = '<p style="font-size:12.5px; color:var(--muted); margin:4px 0 0;">Aún no le has enviado ningún enlace a este cliente.</p>';
-    return;
-  }
-  cont.innerHTML = hist.map(e => {
-    const p = saPerfilPorId(e.perfil);
-    return '<div class="fila-historial-pagare">' +
-      '<div><span class="fecha-historial">' + (p ? p.titulo : e.perfil) + ' · ' + saFormatoFecha(e.fecha) + '</span></div>' +
-      '<button class="btn-eliminar-historial" onclick="saEliminarEnvio(\'' + e.id + '\')" aria-label="Eliminar del historial">' +
-        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>' +
-      '</button>' +
-    '</div>';
-  }).join('');
-}
-function saEliminarEnvio(id){
-  saEnvios = saEnvios.filter(e => e.id !== id);
-  saGuardarStorage();
-  saRenderHistorialElegir();
-  saRenderLista();
-  mostrarToast('Registro eliminado del historial');
-}
-
-// ---------- Armar el enlace + enviar por WhatsApp ----------
-function saElegirPerfil(perfilId){
-  const perfil = saPerfilPorId(perfilId);
-  const c = rcClientes.find(x => x.id === saClienteActivoId);
-  if(!perfil || !c) return;
-  saPerfilActivo = perfil;
-
-  const base = new URL(SA_ARCHIVO, location.href).href;
-  saLinkActual = base + '?perfil=' + perfil.id;
-  saMensajeActual = 'Hola ' + c.nombre + ', aquí puedes simular tu crédito con PrestaYa y solicitarlo directamente: ' + saLinkActual;
-
-  document.getElementById('saHojaElegir').classList.remove('activa');
-  document.getElementById('saEnviarTitulo').textContent = perfil.titulo + ' — ' + c.nombre;
-  document.getElementById('saLinkGenerado').value = saLinkActual;
-  document.getElementById('saMensajePreview').textContent = saMensajeActual;
-  document.getElementById('saHojaEnviar').classList.add('activa');
-}
-function saCerrarEnviar(silencioso){
-  document.getElementById('saHojaEnviar').classList.remove('activa');
-}
-document.getElementById('saBtnCopiarLink').addEventListener('click', async () => {
-  try{
-    await navigator.clipboard.writeText(saLinkActual);
-    mostrarToast('Enlace copiado al portapapeles');
-  }catch(e){
-    mostrarToast('No se pudo copiar automáticamente');
-  }
-});
-document.getElementById('saBtnEnviarWhatsapp').addEventListener('click', () => {
-  const c = rcClientes.find(x => x.id === saClienteActivoId);
-  if(!c) return;
-  const numero = saAjustarNumeroWhatsApp(c.whatsapp || c.telefono);
-  if(!numero){
-    mostrarToast('Este cliente no tiene un número de celular registrado');
-    return;
-  }
-  const registro = {
-    id: 's' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-    clienteId: saClienteActivoId,
-    perfil: saPerfilActivo.id,
-    fecha: new Date().toISOString()
-  };
-  saEnvios.unshift(registro);
-  saGuardarStorage();
-  window.open('https://wa.me/' + numero + '?text=' + encodeURIComponent(saMensajeActual), '_blank');
-  saCerrarEnviar();
-  saRenderLista();
-  mostrarToast('Abriendo WhatsApp...');
-});
-
-// ---------- Compartir con cualquier contacto (sin cliente registrado) ----------
-function saRenderPerfilesGeneral(){
-  document.getElementById('saListaPerfilesGeneral').innerHTML = SA_PERFILES.map(p =>
-    '<button type="button" class="mj-plantilla-btn" onclick="saCompartirGeneral(\'' + p.id + '\')">' +
-      '<span class="mj-plantilla-icono" style="background:' + p.colorSuave + '">' + p.icono + '</span>' +
-      '<span class="mj-plantilla-info">' +
-        '<p class="titulo">' + p.titulo + '</p>' +
-        '<p class="subtitulo">Hasta ' + simFormatMoneda(p.montoMax) + ' · ' + p.cuotasMax + ' cuotas · ' + p.formulario + '</p>' +
-      '</span>' +
-    '</button>'
-  ).join('');
-}
-async function saCompartirGeneral(perfilId){
-  const perfil = saPerfilPorId(perfilId);
-  if(!perfil) return;
-  const base = new URL(SA_ARCHIVO, location.href).href;
-  const link = base + '?perfil=' + perfil.id;
-  const mensaje = 'Hola, aquí puedes simular tu crédito con PrestaYa y solicitarlo directamente: ' + link;
-
-  if(navigator.share){
-    try{
-      await navigator.share({ title: 'Simulador PrestaYa — ' + perfil.titulo, text: mensaje });
-      return;
-    }catch(e){ return; }
-  }
-  try{
-    await navigator.clipboard.writeText(mensaje);
-    mostrarToast('Mensaje copiado al portapapeles');
-  }catch(e){
-    mostrarToast('No se pudo copiar automáticamente');
-  }
-}
-
-saCargar();
 
 // =========================================================
 // Estado de conexión (funciona con internet, wifi, datos débiles o sin nada)
