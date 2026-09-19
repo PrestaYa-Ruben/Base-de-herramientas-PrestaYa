@@ -398,6 +398,8 @@
   .lista-frecuencia{display:flex; flex-direction:column; gap:6px;}
   .opcion-frecuencia{padding:10px 12px; border-radius:8px; background:var(--bg); font-size:13.5px; font-weight:600; border:1.5px solid transparent; text-align:left; color:var(--ink);}
   .opcion-frecuencia.activa{background:var(--accent-soft); border-color:var(--accent); color:var(--ink);}
+  .opcion-frecuencia-b{padding:10px 12px; border-radius:8px; background:var(--bg); font-size:13.5px; font-weight:600; border:1.5px solid transparent; text-align:left; color:var(--ink);}
+  .opcion-frecuencia-b.activa{background:var(--accent-soft); border-color:var(--accent); color:var(--ink);}
 
   .resultado-valor-label{font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; color:var(--muted); text-align:center;}
   .etiqueta-frecuencia-sim{
@@ -804,6 +806,22 @@
       <p>Calcula cuotas sin afectar tus datos reales</p>
     </button>
 
+    <!-- Módulo: Simulador Rápido (clon del Simulador de Crédito, sin frecuencia Mensual) -->
+    <button class="tarjeta-modulo" data-modulo="simulador2" style="--tab-color:#4C5FD5; --tab-soft:#E5E8FB" onclick="manejarTarjetaClick('simulador2', event)">
+      <span class="cinta"></span>
+      <span class="manija-arrastre">
+        <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+      </span>
+      <span class="manija-eliminar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+      </span>
+      <div class="icono-modulo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8"/><path d="M8 11h1"/><path d="M12 11h1"/><path d="M16 11h1"/><path d="M8 15h1"/><path d="M12 15h1"/><path d="M16 15h1"/><path d="M8 19h1"/><path d="M12 19h1"/></svg>
+      </div>
+      <h3>Simulador Rápido</h3>
+      <p>Igual, pero solo Semanal y Quincenal</p>
+    </button>
+
     <!-- Módulo: Control de Facturas -->
     <button class="tarjeta-modulo" data-modulo="facturas" style="--tab-color:#E08A3C; --tab-soft:#FBEEDF" onclick="manejarTarjetaClick('facturas', event)">
       <span class="cinta"></span>
@@ -1151,6 +1169,90 @@
     <div class="fila-btns">
       <button class="btn btn-secundario" id="simBtnCerrarPreview">Cerrar</button>
       <button class="btn btn-primario" id="simBtnCompartirPreview">Compartir</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= MÓDULO: SIMULADOR RÁPIDO (clon sin Mensual) ================= -->
+<section class="pantalla-modulo" id="pantallaSimulador2">
+  <div class="modulo-header">
+    <button class="btn-icono" onclick="cerrarModulo('simulador2')" aria-label="Volver">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <h2>Simulador Rápido</h2>
+  </div>
+  <div class="modulo-contenido">
+
+    <div class="panel tarjeta-recibo">
+      <div class="pildora-fila">
+        <div class="campo-pildora">
+          <label>% base</label>
+          <input type="text" id="sim2Porcentaje" class="pildora-input" value="10" inputmode="decimal">
+        </div>
+        <div class="campo-pildora">
+          <label>N.° de cuotas</label>
+          <button type="button" class="pildora-boton" id="sim2BtnCuotas">
+            <span id="sim2CuotasTexto">10</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="desplegable-inline" id="sim2PanelCuotas">
+            <div class="grid-cuotas" id="sim2GridCuotas"></div>
+          </div>
+        </div>
+      </div>
+      <div class="pildora-fila" style="margin-top:12px;">
+        <div class="campo-pildora">
+          <label>Frecuencia</label>
+          <button type="button" class="pildora-boton" id="sim2BtnFrecuencia">
+            <span id="sim2FrecuenciaTexto">Quincenal</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+          </button>
+          <div class="desplegable-inline" id="sim2PanelFrecuencia">
+            <div class="lista-frecuencia">
+              <button type="button" class="opcion-frecuencia-b" data-valor="Diario">Diario</button>
+              <button type="button" class="opcion-frecuencia-b" data-valor="Semanal">Semanal</button>
+              <button type="button" class="opcion-frecuencia-b" data-valor="Quincenal">Quincenal</button>
+            </div>
+          </div>
+        </div>
+        <div class="campo-pildora">
+          <label>Valor a simular</label>
+          <input type="text" id="sim2Valor" class="pildora-input" value="400.000" inputmode="numeric">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel tarjeta-recibo" id="sim2TarjetaResultado">
+      <div class="etiqueta-frecuencia-sim" id="sim2ResultadoLabel">Quincenal</div>
+      <div class="resultado-valor" id="sim2ResultadoValor">$400.000</div>
+      <div class="nota-simulador">Por favor, seleccione el número de cuotas que mejor se ajuste a su presupuesto. El pago puntual nos permite seguir ofreciéndole nuestro servicio.</div>
+      <table class="tabla-simulador">
+        <thead><tr><th>N.°</th><th>Cuota</th><th>Valor</th></tr></thead>
+        <tbody id="sim2TablaBody"></tbody>
+      </table>
+    </div>
+
+    <div class="tarjeta-recibo">
+      <button class="btn btn-primario" id="sim2BtnCompartir" style="width:100%;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.9 4"/><path d="m15.4 6.5-6.8 4"/></svg>
+        Compartir tabla
+      </button>
+    </div>
+
+  </div>
+</section>
+
+<!-- Hoja: vista previa del simulador rápido -->
+<div class="hoja-fondo" id="sim2OverlayPreview" onclick="if(event.target===this) sim2CerrarPreview()">
+  <div class="hoja">
+    <div class="hoja-manija"></div>
+    <h3>Vista previa</h3>
+    <div style="text-align:center; margin:6px 0 16px;">
+      <img id="sim2ImgPreview" style="max-width:100%; border-radius:14px; box-shadow:var(--shadow-lift);" alt="Tabla del simulador">
+    </div>
+    <div class="fila-btns">
+      <button class="btn btn-secundario" id="sim2BtnCerrarPreview">Cerrar</button>
+      <button class="btn btn-primario" id="sim2BtnCompartirPreview">Compartir</button>
     </div>
   </div>
 </div>
@@ -1891,6 +1993,7 @@ function abrirModulo(nombre){
   history.pushState({pantalla: nombre}, '');
   if(nombre === 'clientes') rcRenderLista();
   if(nombre === 'simulador') simInicializar();
+  if(nombre === 'simulador2') sim2Inicializar();
   if(nombre === 'facturas') facAbrirModulo();
   if(nombre === 'saldos') saldosRenderizar();
   if(nombre === 'topes') topesAbrirModulo();
@@ -2101,6 +2204,7 @@ window.addEventListener('popstate', () => {
   cerrarDetalleCliente(true);
   cancelarImportacionClientes(true);
   simCerrarPreview(true);
+  sim2CerrarPreview(true);
   facCerrarForm(true);
   facCancelarEliminar(true);
   cerrarConfirmarEliminarModulo(true);
@@ -2867,6 +2971,266 @@ async function simCompartirImagen(){
 document.getElementById('simBtnCompartir').addEventListener('click', simAbrirPreview);
 document.getElementById('simBtnCerrarPreview').addEventListener('click', () => simCerrarPreview());
 document.getElementById('simBtnCompartirPreview').addEventListener('click', simCompartirImagen);
+
+// =========================================================
+// MÓDULO: SIMULADOR RÁPIDO (clon del Simulador de Crédito, sin la
+// frecuencia Mensual). Reutiliza los helpers compartidos simFormatMiles,
+// simFormatMoneda, simEnvolverTexto y simTrazarRectRedondeado — todo lo
+// demás es independiente, con su propio estado y sus propios elementos.
+// =========================================================
+let sim2PorcentajeBase = 10;
+let sim2CuotasTotal = 10;
+let sim2Frecuencia = 'Quincenal';
+let sim2ValorSimulado = 400000;
+let sim2BlobActual = null;
+
+const SIM2_TAMANO_BLOQUE = { Diario: 30, Semanal: 4, Quincenal: 2 };
+
+function sim2PoblarGridCuotas(){
+  const cont = document.getElementById('sim2GridCuotas');
+  cont.innerHTML = '';
+  for(let i = 1; i <= 12; i++){
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'opcion-cuota' + (i === sim2CuotasTotal ? ' activa' : '');
+    b.textContent = i;
+    b.addEventListener('click', () => sim2ElegirCuotas(i));
+    cont.appendChild(b);
+  }
+}
+function sim2ElegirCuotas(n){
+  sim2CuotasTotal = n;
+  document.getElementById('sim2CuotasTexto').textContent = n;
+  sim2PoblarGridCuotas();
+  document.getElementById('sim2PanelCuotas').classList.remove('abierto');
+  sim2Recalcular();
+}
+function sim2ActualizarFrecuenciaUI(){
+  document.getElementById('sim2FrecuenciaTexto').textContent = sim2Frecuencia;
+  document.getElementById('sim2ResultadoLabel').textContent = sim2Frecuencia;
+  document.querySelectorAll('#sim2PanelFrecuencia .opcion-frecuencia-b').forEach(b => {
+    b.classList.toggle('activa', b.dataset.valor === sim2Frecuencia);
+  });
+}
+function sim2ElegirFrecuencia(f){
+  sim2Frecuencia = f;
+  sim2ActualizarFrecuenciaUI();
+  document.getElementById('sim2PanelFrecuencia').classList.remove('abierto');
+  sim2Recalcular();
+}
+
+document.getElementById('sim2BtnCuotas').addEventListener('click', () => {
+  const panel = document.getElementById('sim2PanelCuotas');
+  const abierta = panel.classList.contains('abierto');
+  document.getElementById('sim2PanelFrecuencia').classList.remove('abierto');
+  panel.classList.toggle('abierto', !abierta);
+});
+document.getElementById('sim2BtnFrecuencia').addEventListener('click', () => {
+  const panel = document.getElementById('sim2PanelFrecuencia');
+  const abierta = panel.classList.contains('abierto');
+  document.getElementById('sim2PanelCuotas').classList.remove('abierto');
+  panel.classList.toggle('abierto', !abierta);
+});
+document.querySelectorAll('#sim2PanelFrecuencia .opcion-frecuencia-b').forEach(b => {
+  b.addEventListener('click', () => sim2ElegirFrecuencia(b.dataset.valor));
+});
+document.addEventListener('click', (e) => {
+  const dentroCuotas = e.target.closest('#sim2BtnCuotas, #sim2PanelCuotas');
+  const dentroFrecuencia = e.target.closest('#sim2BtnFrecuencia, #sim2PanelFrecuencia');
+  if(!dentroCuotas) document.getElementById('sim2PanelCuotas').classList.remove('abierto');
+  if(!dentroFrecuencia) document.getElementById('sim2PanelFrecuencia').classList.remove('abierto');
+});
+
+document.getElementById('sim2Porcentaje').addEventListener('input', () => {
+  sim2PorcentajeBase = parseFloat(document.getElementById('sim2Porcentaje').value.replace(',', '.')) || 0;
+  sim2Recalcular();
+});
+document.getElementById('sim2Valor').addEventListener('input', (e) => {
+  const soloDigitos = e.target.value.replace(/\D/g, '');
+  sim2ValorSimulado = parseInt(soloDigitos, 10) || 0;
+  e.target.value = sim2ValorSimulado ? simFormatMiles(sim2ValorSimulado) : '';
+  sim2Recalcular();
+});
+
+function sim2CalcularCuotas(){
+  const tamanoBloque = SIM2_TAMANO_BLOQUE[sim2Frecuencia] || 1;
+  const filas = [];
+  for(let n = 1; n <= sim2CuotasTotal; n++){
+    const porcentajeBloque = Math.ceil(n / tamanoBloque) * sim2PorcentajeBase;
+    let cuota = (sim2ValorSimulado * (1 + porcentajeBloque / 100)) / n;
+    cuota = Math.round(cuota);
+    if(n >= 2){
+      cuota = Math.ceil(cuota / 1000) * 1000;
+    }
+    filas.push({ n: n, etiqueta: n === 1 ? 'Cuota de' : 'Cuotas de', valor: cuota });
+  }
+  return filas;
+}
+
+function sim2Recalcular(){
+  document.getElementById('sim2ResultadoValor').textContent = simFormatMoneda(sim2ValorSimulado);
+  const filas = sim2CalcularCuotas();
+  const tbody = document.getElementById('sim2TablaBody');
+  tbody.innerHTML = filas.map(f =>
+    '<tr><td>'+f.n+'</td><td>'+f.etiqueta+'</td><td>'+simFormatMoneda(f.valor)+'</td></tr>'
+  ).join('');
+}
+
+function sim2Inicializar(){
+  document.getElementById('sim2Porcentaje').value = sim2PorcentajeBase;
+  document.getElementById('sim2Valor').value = simFormatMiles(sim2ValorSimulado);
+  document.getElementById('sim2CuotasTexto').textContent = sim2CuotasTotal;
+  sim2PoblarGridCuotas();
+  sim2ActualizarFrecuenciaUI();
+  sim2Recalcular();
+}
+
+// ---------- Compartir como imagen ----------
+async function sim2GenerarImagen(){
+  const filas = sim2CalcularCuotas();
+  const escala = 4;
+  const ancho = 340;
+  const padding = 20;
+
+  const medidor = document.createElement('canvas').getContext('2d');
+  medidor.font = '12px -apple-system, sans-serif';
+  const notaTexto = 'Por favor, seleccione el número de cuotas que mejor se ajuste a su presupuesto. El pago puntual nos permite seguir ofreciéndole nuestro servicio.';
+  const notaAnchoMax = ancho - padding*2 - 24;
+  const notaLineas = simEnvolverTexto(medidor, notaTexto, notaAnchoMax);
+  const notaLineaAlto = 15;
+  const notaAltoCaja = 20 + notaLineas.length * notaLineaAlto;
+
+  const altoEncabezado = 66;
+  const altoTablaHeader = 28;
+  const altoFila = 26;
+  const alto = padding*2 + altoEncabezado + notaAltoCaja + 14 + altoTablaHeader + filas.length * altoFila + 6;
+
+  const canvas = document.createElement('canvas');
+  canvas.width = ancho * escala;
+  canvas.height = alto * escala;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(escala, escala);
+
+  simTrazarRectRedondeado(ctx, 0, 0, ancho, alto, 16);
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fill();
+  ctx.save();
+  ctx.clip();
+
+  let y = padding;
+
+  const etiquetaFrecuencia = sim2Frecuencia.toUpperCase();
+  ctx.font = '800 11.5px -apple-system, sans-serif';
+  const anchoTextoFrec = ctx.measureText(etiquetaFrecuencia).width;
+  const pildoraAncho = anchoTextoFrec + 32;
+  const pildoraAlto = 20;
+  simTrazarRectRedondeado(ctx, (ancho - pildoraAncho) / 2, y, pildoraAncho, pildoraAlto, pildoraAlto / 2);
+  ctx.fillStyle = '#F3E7CC';
+  ctx.fill();
+  ctx.strokeStyle = '#E8D6A8';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+  ctx.fillStyle = '#16213E';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(etiquetaFrecuencia, ancho / 2, y + pildoraAlto / 2 + 1);
+
+  ctx.fillStyle = '#16213E';
+  ctx.font = '800 26px -apple-system, sans-serif';
+  ctx.textBaseline = 'alphabetic';
+  ctx.fillText(simFormatMoneda(sim2ValorSimulado), ancho/2, y + pildoraAlto + 26);
+
+  y += altoEncabezado;
+
+  simTrazarRectRedondeado(ctx, padding, y, ancho - padding*2, notaAltoCaja, 6);
+  ctx.fillStyle = '#FBEEDF';
+  ctx.fill();
+  ctx.fillStyle = '#E08A3C';
+  ctx.fillRect(padding, y, 3, notaAltoCaja);
+
+  ctx.fillStyle = '#5C4522';
+  ctx.font = 'italic 11px -apple-system, sans-serif';
+  ctx.textAlign = 'left';
+  notaLineas.forEach((linea, i) => {
+    ctx.fillText(linea, padding + 12, y + 16 + i*notaLineaAlto);
+  });
+
+  y += notaAltoCaja + 14;
+
+  simTrazarRectRedondeado(ctx, padding, y, ancho - padding*2, altoTablaHeader, 6);
+  ctx.fillStyle = '#16213E';
+  ctx.fill();
+  ctx.fillStyle = '#FFFFFF';
+  ctx.font = '700 9.5px -apple-system, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('N.°', padding + 12, y + 18);
+  ctx.fillText('CUOTA', padding + 55, y + 18);
+  ctx.textAlign = 'right';
+  ctx.fillText('VALOR', ancho - padding - 12, y + 18);
+
+  y += altoTablaHeader;
+
+  filas.forEach((f) => {
+    ctx.strokeStyle = '#E4E1DA';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(padding, y + altoFila);
+    ctx.lineTo(ancho - padding, y + altoFila);
+    ctx.stroke();
+
+    ctx.fillStyle = '#16213E';
+    ctx.font = '600 12px -apple-system, sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(String(f.n), padding + 12, y + 17);
+    ctx.fillText(f.etiqueta, padding + 55, y + 17);
+
+    ctx.font = '700 12px -apple-system, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(simFormatMoneda(f.valor), ancho - padding - 12, y + 17);
+
+    y += altoFila;
+  });
+
+  ctx.restore();
+
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), 'image/png');
+  });
+}
+
+async function sim2AbrirPreview(){
+  const blob = await sim2GenerarImagen();
+  sim2BlobActual = blob;
+  document.getElementById('sim2ImgPreview').src = URL.createObjectURL(blob);
+  document.getElementById('sim2OverlayPreview').classList.add('activa');
+}
+function sim2CerrarPreview(silencioso){
+  document.getElementById('sim2OverlayPreview').classList.remove('activa');
+}
+async function sim2CompartirImagen(){
+  if(!sim2BlobActual) return;
+  const archivo = new File([sim2BlobActual], 'simulador-rapido.png', { type: 'image/png' });
+  if(navigator.canShare && navigator.canShare({ files: [archivo] })){
+    try{
+      await navigator.share({ files: [archivo], title: 'Simulador Rápido' });
+      return;
+    }catch(e){ /* el usuario canceló, no hacer nada */ return; }
+  }
+  const url = URL.createObjectURL(sim2BlobActual);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'simulador-rapido.png';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  mostrarToast('Imagen descargada');
+}
+
+document.getElementById('sim2BtnCompartir').addEventListener('click', sim2AbrirPreview);
+document.getElementById('sim2BtnCerrarPreview').addEventListener('click', () => sim2CerrarPreview());
+document.getElementById('sim2BtnCompartirPreview').addEventListener('click', sim2CompartirImagen);
+
 
 // =========================================================
 // MÓDULO: CONTROL DE FACTURAS
