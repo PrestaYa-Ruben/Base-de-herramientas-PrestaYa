@@ -24,12 +24,10 @@
     --muted:#6B7280;
     --success:#1F8A5F;
     --success-soft:#E1F3EA;
-    --success-vivid:#12B368;
     --danger:#C0432F;
     --danger-soft:#F8E4E0;
-    --danger-vivid:#E23B2E;
-    --pendiente:#2F6BFF;
-    --pendiente-soft:#EAF0FF;
+    --pendiente:#D9720A;
+    --pendiente-soft:#FCEBD9;
     --radius:16px;
     --radius-sm:10px;
     --shadow:0 2px 10px rgba(22,33,62,0.07);
@@ -437,15 +435,18 @@
   .stat-factura .etiqueta-stat{font-size:10px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.3px; display:flex; align-items:center; gap:6px;}
   .stat-factura .punto{width:8px; height:8px; border-radius:50%; flex-shrink:0;}
   .stat-factura .valor-stat{font-size:15px; font-weight:800; color:var(--ink); margin-top:6px;}
+  .stat-factura.pagados{border-color:var(--success); background:var(--success-soft);}
   .stat-factura.pagados .punto{background:var(--success);}
-  .stat-factura.pendientes .punto{background:var(--ink);}
+  .stat-factura.pendientes{border-color:var(--pendiente); background:var(--pendiente-soft);}
+  .stat-factura.pendientes .punto{background:var(--pendiente);}
+  .stat-factura.vencidos{border-color:var(--danger); background:var(--danger-soft);}
   .stat-factura.vencidos .punto{background:var(--danger);}
   .stat-factura.total .punto{background:#2F6BFF;}
 
   .tarjeta-factura{background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:14px; margin-bottom:12px; position:relative; overflow:hidden;}
-  .tarjeta-factura.pendiente{border:2px solid var(--pendiente); background:var(--pendiente-soft);}
-  .tarjeta-factura.vencida{border:2px solid var(--danger-vivid); background:var(--danger-soft);}
-  .tarjeta-factura.pagada{border:2px solid var(--success-vivid); background:var(--success-soft);}
+  .tarjeta-factura.pendiente{border:1.5px solid var(--pendiente); background:var(--pendiente-soft);}
+  .tarjeta-factura.vencida{border:1.5px solid var(--danger); background:var(--danger-soft);}
+  .tarjeta-factura.pagada{border:1.5px solid var(--success); background:var(--success-soft);}
   .fila-factura{display:flex; align-items:center; gap:12px;}
   .info-factura{flex:1; min-width:0;}
   .info-factura .nombre-factura{font-size:15px; font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
@@ -459,7 +460,7 @@
     font-size:11.5px; color:var(--muted); line-height:1.4; word-break:break-word;
   }
   .pill-estado.vencida{background:var(--danger-soft); color:var(--danger);}
-  .pill-estado.pendiente{background:#EAF0FF; color:#2F6BFF;}
+  .pill-estado.pendiente{background:var(--pendiente-soft); color:var(--pendiente);}
   .pill-estado.pagada{background:var(--success-soft); color:var(--success);}
   .fila-acciones-factura{display:flex; gap:8px; margin-top:12px;}
   .fila-acciones-factura button{flex:1; padding:9px; border-radius:8px; font-size:12px; font-weight:700; border:1px solid var(--border); background:var(--card); color:var(--ink);}
