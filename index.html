@@ -442,6 +442,7 @@
   .stat-factura.vencidos{border-color:var(--danger); background:var(--danger-soft);}
   .stat-factura.vencidos .punto{background:var(--danger);}
   .stat-factura.total .punto{background:#2F6BFF;}
+  .fac-presupuesto-titulo{font-size:14.5px; font-weight:700; color:var(--ink);}
 
   .tarjeta-factura{background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:14px; margin-bottom:12px; position:relative; overflow:hidden;}
   .tarjeta-factura.pendiente{border:1.5px solid var(--pendiente); background:var(--pendiente-soft);}
@@ -1316,6 +1317,33 @@
           <span class="contador" id="facContadorTotal">0</span>
           <div class="etiqueta-stat"><span class="punto"></span>Total del mes</div>
           <div class="valor-stat" id="facTotalMes">$0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <p class="panel-titulo" style="margin:0 0 12px;">Presupuesto del mes</p>
+      <div class="tarjeta-cuenta-tope" style="border:none; padding:0; margin-bottom:0;">
+        <div class="tarjeta-cuenta-tope-header">
+          <div class="anillo-tope">
+            <svg width="52" height="52" viewBox="0 0 52 52">
+              <circle cx="26" cy="26" r="20" fill="none" stroke="var(--border)" stroke-width="5"/>
+              <circle id="facAnilloProgreso" cx="26" cy="26" r="20" fill="none" stroke="var(--muted)" stroke-width="5" stroke-linecap="round" stroke-dasharray="125.66" stroke-dashoffset="125.66"/>
+            </svg>
+            <span class="porcentaje-texto" id="facPresupuestoPct">—</span>
+          </div>
+          <div class="info-cuenta-tope">
+            <div class="fac-presupuesto-titulo">Presupuesto vs. facturado</div>
+            <div class="estado-cuenta-tope" id="facPresupuestoEstado">Sin definir</div>
+          </div>
+        </div>
+        <div class="campo-tope-anual">
+          <label>Presupuesto</label>
+          <input type="text" id="facInputPresupuesto" inputmode="numeric" placeholder="$0" oninput="saldosFormatearInputSaldo(this)" onchange="facCambiarPresupuesto(this.value)">
+        </div>
+        <div class="resumen-tope">
+          <div class="item-resumen-tope"><div class="etiqueta-resumen">Facturado</div><div class="valor-resumen" id="facPresupuestoGastado">$0</div></div>
+          <div class="item-resumen-tope"><div class="etiqueta-resumen">Disponible</div><div class="valor-resumen" id="facPresupuestoDisponible">$0</div></div>
         </div>
       </div>
     </div>
@@ -2247,6 +2275,7 @@ const RESPALDO_LLAVES = [
   'central_modulos_ocultos',
   'registroClientes_v1',
   'central_facturas_v1',
+  'central_facturas_presupuesto_v1',
   'central_saldos_v1',
   'central_topes_v1',
   'evaluacionesRiesgo_v1',
@@ -3246,10 +3275,12 @@ document.getElementById('sim2BtnCompartirPreview').addEventListener('click', sim
 // Guarda su propio historial por mes; no lee ni modifica ningún otro módulo.
 // =========================================================
 const FAC_LLAVE = 'central_facturas_v1';
+const FAC_PRESUPUESTO_LLAVE = 'central_facturas_presupuesto_v1';
 const FAC_MESES = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const FAC_MESES_ABREV = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
 
 let facturas = [];
+let facPresupuestos = {};
 let facMesVisto = new Date();
 let facEditandoId = null;
 let facEliminarId = null;
@@ -3258,6 +3289,19 @@ let facTimeoutGuardado = null;
 function facCargar(){
   try{ facturas = JSON.parse(localStorage.getItem(FAC_LLAVE)) || []; }
   catch(e){ facturas = []; }
+  try{ facPresupuestos = JSON.parse(localStorage.getItem(FAC_PRESUPUESTO_LLAVE)) || {}; }
+  catch(e){ facPresupuestos = {}; }
+}
+function facGuardarPresupuestos(){
+  localStorage.setItem(FAC_PRESUPUESTO_LLAVE, JSON.stringify(facPresupuestos));
+}
+function facCambiarPresupuesto(valorTexto){
+  const key = facMesKey(facMesVisto);
+  const valor = parseInt(String(valorTexto).replace(/\D/g, ''), 10) || 0;
+  if(valor > 0) facPresupuestos[key] = valor;
+  else delete facPresupuestos[key];
+  facGuardarPresupuestos();
+  facRenderizar();
 }
 function facProgramarGuardado(){
   const indicador = document.getElementById('facEstadoGuardado');
@@ -3340,6 +3384,8 @@ function facRenderizar(){
   document.getElementById('facContadorTotal').textContent = filas.length;
   document.getElementById('facTotalMes').textContent = simFormatMoneda(totalMes);
 
+  facRenderPresupuesto(key, totalMes);
+
   const lista = document.getElementById('facLista');
   const vacio = document.getElementById('facEstadoVacio');
   if(filas.length === 0){
@@ -3349,6 +3395,51 @@ function facRenderizar(){
   }
   vacio.style.display = 'none';
   lista.innerHTML = filas.map(facTarjetaHTML).join('');
+}
+
+function facRenderPresupuesto(key, totalMes){
+  const presupuesto = facPresupuestos[key] || 0;
+  const input = document.getElementById('facInputPresupuesto');
+  if(input && document.activeElement !== input){
+    input.value = presupuesto > 0 ? simFormatMiles(presupuesto) : '';
+  }
+
+  const radio = 20, circ = 2 * Math.PI * radio;
+  const pct = presupuesto > 0 ? Math.min(100, Math.round(totalMes / presupuesto * 100)) : 0;
+  const offset = circ - (pct / 100 * circ);
+
+  let colorEstado = 'var(--muted)', textoEstado = 'Sin definir';
+  if(presupuesto > 0){
+    if(totalMes > presupuesto){ colorEstado = 'var(--danger)'; textoEstado = 'Presupuesto excedido'; }
+    else if((totalMes / presupuesto * 100) >= 80){ colorEstado = '#C77700'; textoEstado = 'Cerca del límite'; }
+    else { colorEstado = 'var(--success)'; textoEstado = 'Al día'; }
+  }
+
+  const circulo = document.getElementById('facAnilloProgreso');
+  if(circulo){
+    circulo.setAttribute('stroke-dasharray', circ);
+    circulo.setAttribute('stroke-dashoffset', presupuesto > 0 ? offset : circ);
+    circulo.setAttribute('stroke', colorEstado);
+  }
+  const pctTexto = document.getElementById('facPresupuestoPct');
+  if(pctTexto) pctTexto.textContent = presupuesto > 0 ? pct + '%' : '—';
+  const estadoTexto = document.getElementById('facPresupuestoEstado');
+  if(estadoTexto){ estadoTexto.textContent = textoEstado; estadoTexto.style.color = colorEstado; }
+
+  const gastadoEl = document.getElementById('facPresupuestoGastado');
+  if(gastadoEl) gastadoEl.textContent = simFormatMoneda(totalMes);
+
+  const disponible = presupuesto - totalMes;
+  const dispEl = document.getElementById('facPresupuestoDisponible');
+  if(dispEl){
+    if(presupuesto > 0){
+      dispEl.textContent = (disponible < 0 ? '-' : '') + simFormatMoneda(Math.abs(disponible));
+      dispEl.style.color = disponible < 0 ? 'var(--danger)' : 'var(--ink)';
+    } else {
+      dispEl.textContent = '—';
+      dispEl.style.color = 'var(--muted)';
+    }
+  }
 }
 
 function facTarjetaHTML(r){
