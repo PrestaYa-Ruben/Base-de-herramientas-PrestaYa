@@ -24,8 +24,12 @@
     --muted:#6B7280;
     --success:#1F8A5F;
     --success-soft:#E1F3EA;
+    --success-vivid:#12B368;
     --danger:#C0432F;
     --danger-soft:#F8E4E0;
+    --danger-vivid:#E23B2E;
+    --pendiente:#2F6BFF;
+    --pendiente-soft:#EAF0FF;
     --radius:16px;
     --radius-sm:10px;
     --shadow:0 2px 10px rgba(22,33,62,0.07);
@@ -439,7 +443,9 @@
   .stat-factura.total .punto{background:#2F6BFF;}
 
   .tarjeta-factura{background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:14px; margin-bottom:12px; position:relative; overflow:hidden;}
-  .tarjeta-factura.vencida{border-top:3px solid var(--danger);}
+  .tarjeta-factura.pendiente{border:2px solid var(--pendiente); background:var(--pendiente-soft);}
+  .tarjeta-factura.vencida{border:2px solid var(--danger-vivid); background:var(--danger-soft);}
+  .tarjeta-factura.pagada{border:2px solid var(--success-vivid); background:var(--success-soft);}
   .fila-factura{display:flex; align-items:center; gap:12px;}
   .info-factura{flex:1; min-width:0;}
   .info-factura .nombre-factura{font-size:15px; font-weight:700; color:var(--ink); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
@@ -3361,12 +3367,12 @@ function facTarjetaHTML(r){
   }
   const pillTexto = r.estado === 'vencida' ? 'VENCIDO' : (r.estado === 'pendiente' ? 'PENDIENTE' : 'PAGADO');
   const selloHTML = r.estado === 'pagada' ? '<div class="sello-pagado-factura">Pagado</div>' : '';
-  const claseVencida = r.estado === 'vencida' ? ' vencida' : '';
+  const claseEstadoTarjeta = ' ' + r.estado;
   const btnPagarTexto = r.estado === 'pagada' ? '↺ Deshacer' : '✓ Pagar';
   const claseBtnPagar = r.estado === 'pagada' ? '' : 'accion-pagar';
   const notaHTML = f.nota ? '<div class="nota-factura">📝 ' + escaparHTML(f.nota.length > 60 ? f.nota.slice(0, 60) + '…' : f.nota) + '</div>' : '';
 
-  return '<div class="tarjeta-factura' + claseVencida + '">' +
+  return '<div class="tarjeta-factura' + claseEstadoTarjeta + '">' +
     selloHTML +
     '<div class="fila-factura">' +
       '<div class="avatar-circulo" style="background:var(--accent-soft); color:var(--accent);">' + escaparHTML(inicial) + '</div>' +
