@@ -1333,7 +1333,7 @@
             <span class="porcentaje-texto" id="facPresupuestoPct">—</span>
           </div>
           <div class="info-cuenta-tope">
-            <div class="fac-presupuesto-titulo">Presupuesto vs. facturado</div>
+            <div class="fac-presupuesto-titulo">Presupuesto vs. pagado</div>
             <div class="estado-cuenta-tope" id="facPresupuestoEstado">Sin definir</div>
           </div>
         </div>
@@ -1342,7 +1342,7 @@
           <input type="text" id="facInputPresupuesto" inputmode="numeric" placeholder="$0" oninput="saldosFormatearInputSaldo(this)" onchange="facCambiarPresupuesto(this.value)">
         </div>
         <div class="resumen-tope">
-          <div class="item-resumen-tope"><div class="etiqueta-resumen">Facturado</div><div class="valor-resumen" id="facPresupuestoGastado">$0</div></div>
+          <div class="item-resumen-tope"><div class="etiqueta-resumen">Total Pagado</div><div class="valor-resumen" id="facPresupuestoGastado">$0</div></div>
           <div class="item-resumen-tope"><div class="etiqueta-resumen">Disponible</div><div class="valor-resumen" id="facPresupuestoDisponible">$0</div></div>
         </div>
       </div>
@@ -3384,7 +3384,7 @@ function facRenderizar(){
   document.getElementById('facContadorTotal').textContent = filas.length;
   document.getElementById('facTotalMes').textContent = simFormatMoneda(totalMes);
 
-  facRenderPresupuesto(key, totalMes);
+  facRenderPresupuesto(key, totalPagados);
 
   const lista = document.getElementById('facLista');
   const vacio = document.getElementById('facEstadoVacio');
@@ -3397,7 +3397,7 @@ function facRenderizar(){
   lista.innerHTML = filas.map(facTarjetaHTML).join('');
 }
 
-function facRenderPresupuesto(key, totalMes){
+function facRenderPresupuesto(key, totalPagado){
   const presupuesto = facPresupuestos[key] || 0;
   const input = document.getElementById('facInputPresupuesto');
   if(input && document.activeElement !== input){
@@ -3405,13 +3405,13 @@ function facRenderPresupuesto(key, totalMes){
   }
 
   const radio = 20, circ = 2 * Math.PI * radio;
-  const pct = presupuesto > 0 ? Math.min(100, Math.round(totalMes / presupuesto * 100)) : 0;
+  const pct = presupuesto > 0 ? Math.min(100, Math.round(totalPagado / presupuesto * 100)) : 0;
   const offset = circ - (pct / 100 * circ);
 
   let colorEstado = 'var(--muted)', textoEstado = 'Sin definir';
   if(presupuesto > 0){
-    if(totalMes > presupuesto){ colorEstado = 'var(--danger)'; textoEstado = 'Presupuesto excedido'; }
-    else if((totalMes / presupuesto * 100) >= 80){ colorEstado = '#C77700'; textoEstado = 'Cerca del límite'; }
+    if(totalPagado > presupuesto){ colorEstado = 'var(--danger)'; textoEstado = 'Presupuesto excedido'; }
+    else if((totalPagado / presupuesto * 100) >= 80){ colorEstado = '#C77700'; textoEstado = 'Cerca del límite'; }
     else { colorEstado = 'var(--success)'; textoEstado = 'Al día'; }
   }
 
@@ -3427,9 +3427,9 @@ function facRenderPresupuesto(key, totalMes){
   if(estadoTexto){ estadoTexto.textContent = textoEstado; estadoTexto.style.color = colorEstado; }
 
   const gastadoEl = document.getElementById('facPresupuestoGastado');
-  if(gastadoEl) gastadoEl.textContent = simFormatMoneda(totalMes);
+  if(gastadoEl) gastadoEl.textContent = simFormatMoneda(totalPagado);
 
-  const disponible = presupuesto - totalMes;
+  const disponible = presupuesto - totalPagado;
   const dispEl = document.getElementById('facPresupuestoDisponible');
   if(dispEl){
     if(presupuesto > 0){
