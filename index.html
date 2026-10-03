@@ -28,6 +28,8 @@
     --danger-soft:#F8E4E0;
     --pendiente:#D9720A;
     --pendiente-soft:#FCEBD9;
+    --pendiente-borde:rgba(217,114,10,0.3);
+    --pendiente-tenue:#FBF4EC;
     --radius:16px;
     --radius-sm:10px;
     --shadow:0 2px 10px rgba(22,33,62,0.07);
@@ -437,7 +439,7 @@
   .stat-factura .valor-stat{font-size:15px; font-weight:800; color:var(--ink); margin-top:6px;}
   .stat-factura.pagados{border-color:var(--success); background:var(--success-soft);}
   .stat-factura.pagados .punto{background:var(--success);}
-  .stat-factura.pendientes{border-color:var(--pendiente); background:var(--pendiente-soft);}
+  .stat-factura.pendientes{border-color:var(--pendiente-borde); background:var(--pendiente-tenue);}
   .stat-factura.pendientes .punto{background:var(--pendiente);}
   .stat-factura.vencidos{border-color:var(--danger); background:var(--danger-soft);}
   .stat-factura.vencidos .punto{background:var(--danger);}
@@ -445,7 +447,7 @@
   .fac-presupuesto-titulo{font-size:14.5px; font-weight:700; color:var(--ink);}
 
   .tarjeta-factura{background:var(--card); border:1.5px solid var(--border); border-radius:var(--radius-sm); padding:14px; margin-bottom:12px; position:relative; overflow:hidden;}
-  .tarjeta-factura.pendiente{border:1.5px solid var(--pendiente); background:var(--pendiente-soft);}
+  .tarjeta-factura.pendiente{border:1px solid var(--pendiente-borde); background:var(--pendiente-tenue);}
   .tarjeta-factura.vencida{border:1.5px solid var(--danger); background:var(--danger-soft);}
   .tarjeta-factura.pagada{border:1.5px solid var(--success); background:var(--success-soft);}
   .fila-factura{display:flex; align-items:center; gap:12px;}
