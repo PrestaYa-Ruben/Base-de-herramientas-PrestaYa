@@ -1703,6 +1703,14 @@
             <input type="text" id="fcEmpresa" placeholder="Ej. Almacenes Éxito">
           </div>
 
+          <div class="fc-field">
+            <label for="fcRecomendado">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Recomendado por <span style="font-weight:500; opacity:.7;">(opcional)</span>
+            </label>
+            <input type="text" id="fcRecomendado" placeholder="Nombre de quien lo recomendó">
+          </div>
+
           <label class="fc-consent" id="fcConsentBox" for="fcRecordatorio">
             <input type="checkbox" id="fcRecordatorio">
             <span class="fc-consent-text">Acepto recibir un mensaje de recordatorio 1 o 2 días antes del vencimiento de la cuota. <span class="fc-required-asterisk">*</span></span>
@@ -4625,6 +4633,7 @@ fcForm.addEventListener('submit', (e) => {
   const barrio = document.getElementById('fcBarrio').value.trim();
   const ciudad = document.getElementById('fcCiudad').value.trim();
   const empresa = document.getElementById('fcEmpresa').value.trim();
+  const recomendado = document.getElementById('fcRecomendado').value.trim();
 
   const mensaje =
     '*Nuevo registro de cliente - PrestaYa*\n\n' +
@@ -4635,7 +4644,8 @@ fcForm.addEventListener('submit', (e) => {
     '*Dirección:* ' + direccion + '\n' +
     '*Barrio:* ' + barrio + '\n' +
     '*Ciudad:* ' + ciudad + '\n' +
-    '*Empresa o lugar de trabajo:* ' + empresa + '\n\n' +
+    '*Empresa o lugar de trabajo:* ' + empresa + '\n' +
+    (recomendado ? '*Recomendado por:* ' + recomendado + '\n' : '') + '\n' +
     'Acepta recordatorio de pago 1-2 días antes del vencimiento: Sí';
 
   fcSuccessMsg.classList.add('show');
